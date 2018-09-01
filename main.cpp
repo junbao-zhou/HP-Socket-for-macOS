@@ -1,5 +1,6 @@
 #include <QCoreApplication>
-
+#include <iostream>
+#include "TcpPackClient.h"
 #include "TcpPackServer.h"
 
 class ServerImpl: public CTcpServerListener{
