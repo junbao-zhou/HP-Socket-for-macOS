@@ -31,8 +31,8 @@
 #define HP_VERSION_REVISE	1	// 修正版本号
 #define HP_VERSION_BUILD	2	// 构建编号
 
-//#define _SSL_DISABLED			// 禁用 SSL
-//#define _HTTP_DISABLED		// 禁用 HTTP
+#define _SSL_DISABLED			// 禁用 SSL
+#define _HTTP_DISABLED		// 禁用 HTTP
 
 /* 是否启用 SSL，如果定义了 _SSL_DISABLED 则禁用（默认：启用） */
 #if !defined(_SSL_DISABLED)

@@ -42,7 +42,9 @@ SOURCES += \
     helper.cpp \
     TcpClient.cpp \
     UdpServer.cpp \
-    UdpClient.cpp
+    UdpClient.cpp \
+    TcpPackClient.cpp \
+    MiscHelper.cpp
 
 DISTFILES += \
     TestCode.txt
@@ -85,4 +87,6 @@ HEADERS += \
     helper.h \
     TcpClient.h \
     UdpServer.h \
-    UdpClient.h
+    UdpClient.h \
+    TcpPackClient.h \
+    MiscHelper.h
