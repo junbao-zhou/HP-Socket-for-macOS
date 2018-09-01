@@ -44,6 +44,7 @@ SOURCES += \
     UdpServer.cpp \
     UdpClient.cpp \
     TcpPackServer.cpp \
+    TcpPackClient.cpp \
     MiscHelper.cpp
 
 DISTFILES += \
@@ -88,5 +89,6 @@ HEADERS += \
     TcpClient.h \
     UdpServer.h \
     UdpClient.h \
+    TcpPackClient.h \
     TcpPackServer.h \
     MiscHelper.h
