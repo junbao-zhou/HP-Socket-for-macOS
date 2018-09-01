@@ -24,6 +24,7 @@
 #include "TcpAgent.h"
 
 #include "./common/FileHelper.h"
+#include "./common/TItemPtr.h"
 
 BOOL CTcpAgent::Start(LPCTSTR lpszBindAddress, BOOL bAsyncConnect)
 {
@@ -32,6 +33,7 @@ BOOL CTcpAgent::Start(LPCTSTR lpszBindAddress, BOOL bAsyncConnect)
 
 	PrepareStart();
 
+    //bind地址可为空ParseBindAddress可无视，具体查看说明文档有关Agent的业务描述，此处主要CreateWorkerThreads
 	if(ParseBindAddress(lpszBindAddress))
 		if(CreateWorkerThreads())
 		{
@@ -334,13 +336,13 @@ int CTcpAgent::ConnectToServer(CONNID dwConnID, LPCTSTR lpszRemoteAddress, USHOR
 
 	if(m_bAsyncConnect)
 	{
-		VERIFY(::fcntl_SETFL(soClient, O_NOATIME | O_NONBLOCK | O_CLOEXEC));
+        VERIFY(::fcntl_SETFL(soClient, O_NONBLOCK | O_CLOEXEC));
 
 		int rc = ::connect(soClient, addr.Addr(), addr.AddrSize());
 
 		if(IS_NO_ERROR(rc) || IS_IO_PENDING_ERROR())
 		{
-			if(m_ioDispatcher.AddFD(pSocketObj->socket, EPOLLOUT | EPOLLONESHOT, pSocketObj))
+            if(m_ioDispatcher.CtlFD(pSocketObj->socket, EV_ADD | EV_ONESHOT | EV_ENABLE , EVFILT_WRITE, pSocketObj))
 				result = NO_ERROR;
 		}
 	}
@@ -348,7 +350,7 @@ int CTcpAgent::ConnectToServer(CONNID dwConnID, LPCTSTR lpszRemoteAddress, USHOR
 	{
 		if(::connect(soClient, addr.Addr(), addr.AddrSize()) != SOCKET_ERROR)
 		{
-			VERIFY(::fcntl_SETFL(soClient, O_NOATIME | O_NONBLOCK | O_CLOEXEC));
+            VERIFY(::fcntl_SETFL(soClient, O_NONBLOCK | O_CLOEXEC));
 
 			pSocketObj->SetConnected();
 
@@ -356,9 +358,9 @@ int CTcpAgent::ConnectToServer(CONNID dwConnID, LPCTSTR lpszRemoteAddress, USHOR
 				result = ENSURE_ERROR_CANCELLED;
 			else
 			{
-				UINT evts = (pSocketObj->IsPending() ? EPOLLOUT : 0) | (pSocketObj->IsPaused() ? 0 : EPOLLIN);
+                UINT evts = (pSocketObj->IsPending() ? EVFILT_WRITE : 0) | (pSocketObj->IsPaused() ? 0 : EVFILT_READ);
 
-				if(m_ioDispatcher.AddFD(pSocketObj->socket, evts | EPOLLRDHUP | EPOLLONESHOT, pSocketObj))
+                if(m_ioDispatcher.CtlFD(pSocketObj->socket, EV_ADD | EV_ONESHOT | EV_ENABLE ,evts, pSocketObj))
 					result = NO_ERROR;
 			}
 		}
@@ -841,10 +843,10 @@ VOID CTcpAgent::OnAfterProcessIo(PVOID pv, UINT events, BOOL rs)
 
 	if(TAgentSocketObj::IsValid(pSocketObj))
 	{
-		ASSERT(rs && !(events & (EPOLLERR | EPOLLHUP | EPOLLRDHUP)));
+        ASSERT(rs && !(events == EVFILT_EXCEPT));
 
-		UINT evts = (pSocketObj->IsPending() ? EPOLLOUT : 0) | (pSocketObj->IsPaused() ? 0 : EPOLLIN);
-		m_ioDispatcher.ModFD(pSocketObj->socket, evts | EPOLLRDHUP | EPOLLONESHOT, pSocketObj);
+        UINT evts = (pSocketObj->IsPending() ? EVFILT_WRITE : 0) | (pSocketObj->IsPaused() ? 0 : EVFILT_READ);
+        m_ioDispatcher.CtlFD(pSocketObj->socket, EV_ADD | EV_ENABLE | EV_ONESHOT, evts, pSocketObj);
 	}
 
 	pSocketObj->csIo.Unlock();
@@ -871,7 +873,7 @@ VOID CTcpAgent::HandleCmdSend(CONNID dwConnID)
 	TAgentSocketObj* pSocketObj = FindSocketObj(dwConnID);
 
 	if(TAgentSocketObj::IsValid(pSocketObj) && pSocketObj->IsPending())
-		m_ioDispatcher.ProcessIo(pSocketObj, EPOLLOUT);
+        m_ioDispatcher.ProcessIo(pSocketObj, EVFILT_WRITE, KEVENT_FLAG_NONE);
 }
 
 VOID CTcpAgent::HandleCmdUnpause(CONNID dwConnID)
@@ -879,7 +881,7 @@ VOID CTcpAgent::HandleCmdUnpause(CONNID dwConnID)
 	TAgentSocketObj* pSocketObj = FindSocketObj(dwConnID);
 
 	if(TAgentSocketObj::IsValid(pSocketObj) && !pSocketObj->IsPaused())
-		m_ioDispatcher.ProcessIo(pSocketObj, EPOLLIN);
+        m_ioDispatcher.ProcessIo(pSocketObj, EVFILT_READ, KEVENT_FLAG_NONE);
 }
 
 VOID CTcpAgent::HandleCmdDisconnect(CONNID dwConnID, BOOL bForce)
@@ -889,7 +891,7 @@ VOID CTcpAgent::HandleCmdDisconnect(CONNID dwConnID, BOOL bForce)
 	if(TAgentSocketObj::IsValid(pSocketObj))
 	{
 		if(bForce)
-			m_ioDispatcher.ProcessIo(pSocketObj, EPOLLHUP);
+            m_ioDispatcher.ProcessIo(pSocketObj, EVFILT_USER, KEVENT_FLAG_NONE);
 		else
 			::shutdown(pSocketObj->socket, SHUT_WR);
 	}
@@ -924,11 +926,11 @@ BOOL CTcpAgent::HandleClose(TAgentSocketObj* pSocketObj, EnSocketCloseFlag enFla
 {
 	EnSocketOperation enOperation = SO_CLOSE;
 
-	if(events & _EPOLL_HUNGUP_EVENTS)
+    if(events & EVFILT_USER)
 		enOperation = SO_CLOSE;
-	else if(events & EPOLLIN)
+    else if(events & EVFILT_READ)
 		enOperation = SO_RECEIVE;
-	else if(events & EPOLLOUT)
+    else if(events & EVFILT_WRITE)
 		enOperation = SO_SEND;
 
 	int iErrorCode = 0;
@@ -945,19 +947,19 @@ BOOL CTcpAgent::HandleConnect(TAgentSocketObj* pSocketObj, UINT events)
 {
 	int code = ::SSO_GetError(pSocketObj->socket);
 
-	if(!IS_NO_ERROR(code) || (events & _EPOLL_ERROR_EVENTS))
+    if(!IS_NO_ERROR(code) || (events & EVFILT_EXCEPT))
 	{
 		AddFreeSocketObj(pSocketObj, SCF_ERROR, SO_CONNECT, code);
 		return FALSE;
 	}
 
-	if(events & _EPOLL_HUNGUP_EVENTS)
+    if(events & EVFILT_USER)
 	{
 		AddFreeSocketObj(pSocketObj, SCF_CLOSE, SO_CONNECT, SE_OK);
 		return FALSE;
 	}
 
-	ASSERT(events & EPOLLOUT);
+    ASSERT(events & EVFILT_WRITE);
 
 	pSocketObj->SetConnected();
 
@@ -967,8 +969,8 @@ BOOL CTcpAgent::HandleConnect(TAgentSocketObj* pSocketObj, UINT events)
 		return FALSE;
 	}
 
-	UINT evts = (pSocketObj->IsPending() ? EPOLLOUT : 0) | (pSocketObj->IsPaused() ? 0 : EPOLLIN);
-	m_ioDispatcher.ModFD(pSocketObj->socket, evts | EPOLLRDHUP | EPOLLONESHOT, pSocketObj);
+    UINT evts = (pSocketObj->IsPending() ? EVFILT_WRITE : 0) | (pSocketObj->IsPaused() ? 0 : EVFILT_READ);
+    m_ioDispatcher.CtlFD(pSocketObj->socket, EV_ADD | EV_ENABLE | EV_ONESHOT , evts, pSocketObj);
 
 	return TRUE;
 }

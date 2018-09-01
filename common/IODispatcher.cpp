@@ -49,7 +49,6 @@ BOOL CIODispatcher::Start(IIOHandler* pHandler, int iWorkerMaxEvents, int iWorke
     //使用计数Event替代epoll中的EFD_SEMAPHORE
     m_evCmd = MessagePipe::Create();
     SET_NONBLOCK_CLOEXEC(m_evCmd->GetReadFd());
-//    SET_NONBLOCK_CLOEXEC(m_evCmd->GetWriteFd());
 
 	if(IS_INVALID_FD(m_evCmd->GetReadFd()))
 		goto START_ERROR;

@@ -5,7 +5,7 @@
 
 己知无法正常提供机制：
 
-1、TCP协议中设置Keep live 时间:`TCP_KEEPALIVE`、`TCP_KEEPINTVL`和`TCP_KEEPCNT`。
+1、TCP协议中设置Keep live 时间:`TCP_KEEPALIVE`、`TCP_KEEPINTVL`和`TCP_KEEPCNT`（[解决方法](http://www.voidcn.com/article/p-afuibcmg-bqk.html)）。
 
 2、对平台版本(macOS系统版本)有所要求，必需`10.12`之上的版本(包含)。
 
@@ -17,10 +17,24 @@ HP-Socket for macOS版本只是提供与其他平台上相同的回调接口，�
 
 `epoll` => `kqueue`
 
+`ONESHOT`=>`DISPATCH`
+
+```tex
+`DISPATCH`和epoll中的
+```
+
+
+
 组件:
 
 `MessagePipe.h`
 
 HP-Socket for macOS版本(改自HP-Socket for linux 5.3.2)。
 
-暂时只还原`TcpServer`、`TcpClient`、`UdpServer`和`UdpClient`。
+#### 支持
+
+- `TcpServer(Client)` 
+
+- `UdpServer(Client)`
+- `TcpPackServer(Client)`
+- `TcpAgent`

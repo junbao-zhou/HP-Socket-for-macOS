@@ -45,10 +45,13 @@ SOURCES += \
     UdpClient.cpp \
     TcpPackServer.cpp \
     TcpPackClient.cpp \
-    MiscHelper.cpp
+    MiscHelper.cpp \
+    TcpAgent.cpp
 
 DISTFILES += \
-    TestCode.txt
+    TestCode.txt \
+    README.md \
+    LICENSE
 
 HEADERS += \
     common/BufferPool.h \
@@ -91,4 +94,5 @@ HEADERS += \
     UdpClient.h \
     TcpPackClient.h \
     TcpPackServer.h \
-    MiscHelper.h
+    MiscHelper.h \
+    TcpAgent.h
