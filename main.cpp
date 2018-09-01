@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    if(!g_tcpPackClient.Start(nullptr, 9999, false)){
+    if(!g_tcpPackClient.Start("127.0.0.1", 9999, false)){
         printf("Start server error!");
         std::exit(0);
     }
