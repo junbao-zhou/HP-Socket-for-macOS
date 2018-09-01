@@ -53,5 +53,15 @@ int main(int argc, char *argv[])
         std::exit(0);
     }
 
+
+    while(true){
+        std::string strInput;
+        std::cin >> strInput;
+
+        if(!g_tcpPackClient.Send((const BYTE*)strInput.c_str(), strInput.size())){
+            printf("send data error! input data: %s\n", strInput.c_str());
+        }
+    }
+
     return a.exec();
 }
