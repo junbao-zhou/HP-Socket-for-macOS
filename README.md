@@ -23,4 +23,4 @@ HP-Socket for macOS版本只是提供与其他平台上相同的回调接口，�
 
 HP-Socket for macOS版本(改自HP-Socket for linux 5.3.2)。
 
-暂时只还原`TcpServer`、`TcpClient`、'UdpServer'和`UdpClient`
+暂时只还原`TcpServer`、`TcpClient`、`UdpServer`和`UdpClient`。
