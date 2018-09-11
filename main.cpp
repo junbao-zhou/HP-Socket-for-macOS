@@ -1,7 +1,8 @@
 #include <QCoreApplication>
 #include <iostream>
-#include "TcpAgent.h"
+#include "TcpPackAgent.h"
 #include <memory>
+
 class ServerImpl: public CTcpAgentListener{
 public:
 
@@ -110,23 +111,26 @@ public:
 
 ServerImpl ServerImpl::instance;
 
-CTcpAgent g_tcpAgentClient(&ServerImpl::instance);
+CTcpPackAgent g_tcpPackAgentClient(&ServerImpl::instance);
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
 //    g_tcpPackServer.Start(nullptr, 9999);
-    if(false == g_tcpAgentClient.Start(nullptr, false)){
+    if(false == g_tcpPackAgentClient.Start(nullptr, false)){
         printf("start agent error!");
         std::exit(0);
     }
 
     CONNID dwIpAddress;
-    if(false == g_tcpAgentClient.Connect("118.25.7.178", 5555, &dwIpAddress)){
+    if(false == g_tcpPackAgentClient.Connect("118.25.7.178", 5555, &dwIpAddress)){
         printf("agent connect to server 118.25.7.178:5555 error!");
         std::exit(0);
     }
+
+    g_tcpPackAgentClient.SetMaxPackSize(0x7FF);
+    g_tcpPackAgentClient.SetPackHeaderFlag(0x169);
 
     do{
         std::string strTmp;
@@ -138,7 +142,7 @@ int main(int argc, char *argv[])
         if(strTmp.compare("#quit") == 0)
             break;
 
-        if(g_tcpAgentClient.Send(dwIpAddress, (BYTE *)(strTmp.c_str()), strTmp.size()))
+        if(g_tcpPackAgentClient.Send(dwIpAddress, (BYTE *)(strTmp.c_str()), strTmp.size()))
             continue;
 
     }while(true);

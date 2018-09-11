@@ -17,13 +17,11 @@ HP-Socket for macOS版本只是提供与其他平台上相同的回调接口，�
 
 `epoll` => `kqueue`
 
-`ONESHOT`=>`DISPATCH`
+部分`Server` 从`ONESHOT`=>`DISPATCH`
 
 ```tex
-`DISPATCH`和epoll中的
+`DISPATCH`等同与epoll中的`edge-triggered (ET)`，在macOS中`ONESHOT`会从内核中删除，而对于大量数据交换就代表有大量删除与添加，而使用ET(DISPATCH)只会重置状态(ENABLE)使其有效。
 ```
-
-
 
 组件:
 
@@ -38,3 +36,5 @@ HP-Socket for macOS版本(改自HP-Socket for linux 5.3.2)。
 - `UdpServer(Client)`
 - `TcpPackServer(Client)`
 - `TcpAgent`
+- `TcpPackAgent`
+

@@ -46,7 +46,8 @@ SOURCES += \
     TcpPackServer.cpp \
     TcpPackClient.cpp \
     MiscHelper.cpp \
-    TcpAgent.cpp
+    TcpAgent.cpp \
+    TcpPackAgent.cpp
 
 DISTFILES += \
     TestCode.txt \
@@ -95,4 +96,5 @@ HEADERS += \
     TcpPackClient.h \
     TcpPackServer.h \
     MiscHelper.h \
-    TcpAgent.h
+    TcpAgent.h \
+    TcpPackAgent.h
