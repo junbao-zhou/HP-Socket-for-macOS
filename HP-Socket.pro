@@ -8,7 +8,9 @@ QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
 # any feature of Qt which as been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DEPRECATED_WARNINGS _HTTP_SUPPORT _NEED_HTTP _NEED_SSL _SSL_SUPPORT
+
+LIBS += -lz
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -47,7 +49,19 @@ SOURCES += \
     TcpPackClient.cpp \
     MiscHelper.cpp \
     TcpAgent.cpp \
-    TcpPackAgent.cpp
+    TcpPackAgent.cpp \
+    HttpServer.cpp \
+    HttpHelper.cpp \
+    common/http/http_parser.cpp \
+    HttpCookie.cpp \
+    common/crypto/Crypto.cpp \
+    HPSocket-SSL.cpp \
+    HttpClient.cpp \
+    HttpAgent.cpp \
+    SSLAgent.cpp \
+    SSLClient.cpp \
+    SSLHelper.cpp \
+    SSLServer.cpp
 
 DISTFILES += \
     TestCode.txt \
@@ -97,4 +111,32 @@ HEADERS += \
     TcpPackServer.h \
     MiscHelper.h \
     TcpAgent.h \
-    TcpPackAgent.h
+    TcpPackAgent.h \
+    HttpServer.h \
+    HttpHelper.h \
+    common/http/http_parser.h \
+    HttpCookie.h \
+    common/crypto/Crypto.h \
+    HPSocket-SSL.h \
+    HttpClient.h \
+    HttpAgent.h \
+    SSLAgent.h \
+    SSLClient.h \
+    SSLHelper.h \
+    SSLServer.h
+
+
+
+macx: LIBS += -L$$PWD/../../../../usr/local/Cellar/openssl/1.0.2q/lib/ -lssl
+
+INCLUDEPATH += $$PWD/../../../../usr/local/Cellar/openssl/1.0.2q/include
+DEPENDPATH += $$PWD/../../../../usr/local/Cellar/openssl/1.0.2q/include
+
+macx: PRE_TARGETDEPS += $$PWD/../../../../usr/local/Cellar/openssl/1.0.2q/lib/libssl.a
+
+macx: LIBS += -L$$PWD/../../../../usr/local/Cellar/openssl/1.0.2q/lib/ -lcrypto
+
+INCLUDEPATH += $$PWD/../../../../usr/local/Cellar/openssl/1.0.2q/include
+DEPENDPATH += $$PWD/../../../../usr/local/Cellar/openssl/1.0.2q/include
+
+macx: PRE_TARGETDEPS += $$PWD/../../../../usr/local/Cellar/openssl/1.0.2q/lib/libcrypto.a

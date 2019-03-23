@@ -24,8 +24,8 @@
 #pragma once
 
 #include "SocketHelper.h"
-#include "./common/GeneralHelper.h"
-#include "./common/TItemPtr.h"
+#include "common/GeneralHelper.h"
+#include "common/TItemPtr.h"
 
 class CUdpClient : public IUdpClient
 {

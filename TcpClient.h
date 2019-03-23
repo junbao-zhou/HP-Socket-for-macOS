@@ -24,7 +24,7 @@
 #pragma once
 
 #include "SocketHelper.h"
-#include "./common/GeneralHelper.h"
+#include "common/GeneralHelper.h"
 
 class CTcpClient : public ITcpClient
 {

@@ -517,7 +517,7 @@ extern LPCTSTR g_s_lpszKeyPasswod2;
 
 #ifdef _NEED_HTTP
 
-#include "../../src/common/crypto/Crypto.h"
+#include "common/crypto/Crypto.h"
 
 #define HTTP_NAME					_T("http")
 #define HTTPS_NAME					_T("https")

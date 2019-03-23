@@ -24,9 +24,9 @@
 #pragma once
 
 #include "SocketHelper.h"
-#include "./common/GeneralHelper.h"
-#include "./common/IODispatcher.h"
-#include "./common/TItemPtr.h"
+#include "common/GeneralHelper.h"
+#include "common/IODispatcher.h"
+#include "common/TItemPtr.h"
 
 class CUdpServer : public IUdpServer, private CIOHandler
 {

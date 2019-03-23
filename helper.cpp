@@ -2024,7 +2024,7 @@ LPCTSTR GetAnyAddress(LPCTSTR lpszLikeAddress)
 
 #ifdef _NEED_SSL
 
-#include "../../src/common/FuncHelper.h"
+#include "common/FuncHelper.h"
 
 #define SSL_CERT_RELATIVE_PATH_1		_T("/hp-ssl-cert/")
 #define SSL_CERT_RELATIVE_PATH_2		_T("/../../ssl-cert/")

@@ -53,7 +53,7 @@ protected:
 	virtual void PrepareStart();
 	virtual void Reset();
 
-	virtual void OnWorkerThreadEnd(DWORD dwThreadID);
+    virtual void OnWorkerThreadEnd(THR_ID dwThreadID);
 
 private:
 	friend EnHandleResult ProcessHandShake<>(CSSLServer* pThis, TSocketObj* pSocketObj, CSSLSession* pSession);

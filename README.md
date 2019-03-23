@@ -32,9 +32,9 @@ HP-Socket for macOS版本(改自HP-Socket for linux 5.3.2)。
 #### 支持
 
 - `TcpServer(Client)` 
-
 - `UdpServer(Client)`
 - `TcpPackServer(Client)`
 - `TcpAgent`
 - `TcpPackAgent`
+- HTTP-Server/HTTPS-Server
 

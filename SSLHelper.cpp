@@ -105,7 +105,7 @@ CSSLInitializer::~CSSLInitializer()
 void CSSLInitializer::CleanupThreadState(THR_ID dwThreadID)
 {
 #if OPENSSL_VERSION_NUMBER < OPENSSL_VERSION_1_1_0
-	CRYPTO_THREADID tid = {nullptr, dwThreadID};
+    CRYPTO_THREADID tid = {nullptr, *reinterpret_cast<DWORD*>(&dwThreadID)};
 	
 	CRYPTO_THREADID_current(&tid);
 	ERR_remove_thread_state(&tid);

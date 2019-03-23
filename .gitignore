@@ -31,3 +31,6 @@
 *.out
 *.app
 HP-Socket.pro.user
+.DS_Store
+.vscode/
+common/.DS_Store

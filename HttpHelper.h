@@ -29,7 +29,7 @@
 #ifdef _HTTP_SUPPORT
 
 #include <zlib.h>
-#include <http_parser.h>
+#include "common/http/http_parser.h"
 
 /************************************************************************
 名称：HTTP 全局常量
