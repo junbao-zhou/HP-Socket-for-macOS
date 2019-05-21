@@ -1,0 +1,1578 @@
+auto func = [](){
+    auto thread_id = std::this_thread::get_id();
+    long id = *(long*)((void *)(&thread_id));
+    std::srand(id);
+    errno = std::rand() % 100;
+    printf("thread id %ld, errno code: %d\n", id, errno);
+};
+
+std::vector<std::thread> threads;
+
+for(int i = 0; i < std::thread::hardware_concurrency() * 2; ++i){
+    threads.push_back(std::thread(func));
+}
+
+for(auto& t: threads){
+    t.join();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <QCoreApplication>
+#include <stdio.h>
+#include <sys/event.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <thread>
+#include <functional>
+#include <random>
+const int MAX_NUM = 16;
+const int MAX_TRY_COUNT = 10;
+
+void acceptEx(int kqueFd, int fd);
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+
+    int kqueFd = kqueue();
+    fcntl(kqueFd, F_SETFL, O_NONBLOCK | FD_CLOEXEC);
+
+    int listenSocket = -1;
+    if(0 > (listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_IP))){
+        printf("Create socket listener error! Code: %d\n", errno);
+        return 0;
+    }
+
+    int val = 1;
+    setsockopt(listenSocket, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(int));
+
+    sockaddr_in listenAddr;
+    listenAddr.sin_family = AF_INET;
+    listenAddr.sin_addr.s_addr = inet_addr("0.0.0.0");
+    listenAddr.sin_port = htons(9999);
+    if(0 > bind(listenSocket, (sockaddr *)&listenAddr, sizeof(sockaddr_in))){
+        printf("Bind listen address error! Code: %d\n", errno);
+        return 0;
+    }
+
+    if(0 > listen(listenSocket, MAX_NUM)){
+        printf("listen error! Code: %d\n", errno);
+        return 0;
+    }
+
+    struct kevent change;
+    EV_SET(&change, listenSocket, EVFILT_READ, EV_ADD | EV_ONESHOT, NULL, NULL, NULL);
+
+    if(0 > kevent(kqueFd, &change, 1, NULL, NULL, NULL)){
+        printf("kevent register error! Code: %d\n", errno);
+        return 0;
+    }
+
+    auto func = [=](){
+        char buf[MAX_NUM] = {0, };
+        struct kevent changes[MAX_NUM];
+        auto threadId = std::this_thread::get_id();
+        std::srand(*(unsigned int*)(&threadId));
+        while(true){
+            int nResult = kevent(kqueFd, NULL, NULL, changes, MAX_NUM, NULL);
+            if(0 > nResult){
+                printf("kevent wait error! Code: %d\n", errno);
+            }else{
+                for(int i = 0; i < nResult; ++i){
+                    int fd = changes[i].ident;
+                    if(fd == listenSocket){
+                        std::thread t1(std::bind(acceptEx, kqueFd, listenSocket));
+                        t1.detach();
+                    }else{
+                        int e = changes[i].filter;
+                        if(e == EVFILT_READ){
+                            printf("triggered once\n");
+
+                            int ret = -1;
+                            int nCount = MAX_TRY_COUNT;
+//                            std::this_thread::sleep_for(std::chrono::milliseconds(3333));
+                            while(--nCount && 0 < (ret = read(fd, buf, MAX_NUM - 1))){
+                                buf[ret] = '\0';
+                                printf("thread ID: %d\n%s\n", std::this_thread::get_id(), buf);
+//                                std::this_thread::sleep_for(std::chrono::milliseconds(random() % 3333));
+                            }
+                            if(ret == 0){
+                                close(fd);
+                            }else
+                            if(ret == -1 || errno == EAGAIN || nCount == 0){
+                                printf("reset kqueue event!\n");
+                                struct kevent change;
+                                EV_SET(&change, fd, EVFILT_READ, EV_ADD | EV_CLEAR | EV_ENABLE | EV_DISPATCH, NULL, NULL, NULL);
+                                if(0 > kevent(kqueFd, &change, 1, NULL, NULL, NULL)){
+                                    printf("kevent register error! Code: %d\n", errno);
+                                    close(fd);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    std::vector<std::thread> threads;
+    int nCpuCore = std::thread::hardware_concurrency();
+    for(int i = 0; i < nCpuCore; ++i){
+        threads.push_back(std::thread(func));
+    }
+
+    return a.exec();
+}
+
+
+void acceptEx(int kqueFd, int fd){
+    sockaddr_in sAddress;
+    socklen_t len = sizeof(sockaddr_in);
+    struct kevent change;
+
+    while(true){
+        int clientFd = accept(fd, (sockaddr *)&sAddress, &len);
+        if(0 > clientFd){
+            printf("accept one user error! Code: %d\n", errno);
+        }else{
+            write(clientFd, "HelloWorld!", 11);
+
+            int ret = fcntl(clientFd, F_SETFL, O_NONBLOCK);
+            EV_SET(&change, clientFd, EVFILT_READ, EV_ADD | EV_CLEAR | EV_DISPATCH, NULL, NULL, NULL);
+            if(0 > kevent(kqueFd, &change, 1, NULL, NULL, NULL)){
+                printf("kevent register error! Code: %d\n", errno);
+                close(clientFd);
+                continue;
+            }
+        }
+    }
+}
+
+//////////////////////////////////////////////////////////////////////
+
+MessagePipe* p = MessagePipe::Create();
+char csTmp[256] = {0, };
+const char pTmp[] = "HelloWorld!\n";
+p->Write(pTmp, sizeof pTmp);
+p->Read(csTmp, sizeof pTmp);
+printf(csTmp);
+delete p;
+
+///////////////////////////////////////////////////////////////////////
+
+
+int kqueFd = kqueue();
+struct kevent evt;
+TimerPipe* p = TimerPipe::Create(100); //1s
+assert(p);
+EV_SET(&evt, p->GetReadFd(), EVFILT_READ, EV_ADD, NULL, NULL, NULL);
+if(0 > kevent(kqueFd, &evt, 1, NULL, NULL, NULL)){
+    printf("kevent register error! Code: %d\n", errno);
+    return 0;
+}
+char cTmp;
+while(true){
+    int nResult = kevent(kqueFd, NULL, NULL, &evt, 1, NULL);
+    if(0 > nResult){
+        printf("kevent wait error! Code: %d\n", errno);
+    }else{
+        int fd = evt.ident;
+        assert(fd == p->GetReadFd());
+        int nLen = evt.data;
+        nLen = read(fd, &cTmp, 1);
+        printf("%d, current time: %d\n", cTmp, QTime::currentTime().msecsSinceStartOfDay());
+    }
+}
+
+std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+
+delete p;
+
+printf("------------------------------------------\n");
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
+
+void TestRingCache()
+{
+    CRingCache2<ULID> cache(300);
+
+    ULID id1 = 123;
+    ULID id2 = 456;
+    ULID* p;
+
+    DWORD i1, i2, i3, i4, ir;
+    BOOL rs;
+
+    rs = cache.Put(&id1, i1);
+    rs = cache.Put(&id2, i2);
+
+    cache.Get(i1, &p, &ir);
+    cache.Get(i2, &p, &ir);
+}
+
+void TestBufferPool(){
+
+    CBufferPool p;
+
+    p.SetMaxCacheSize	(1000);
+    p.SetItemCapacity	(1000);
+    p.SetItemPoolSize	(1000);
+    p.SetItemPoolHold	(1000);
+    p.SetBufferLockTime	(15 * 1000);
+    p.SetBufferPoolSize	(1000);
+    p.SetBufferPoolHold	(1000);
+
+
+    p.Prepare();
+
+    TBuffer* pBuffer = p.PutCacheBuffer(1);
+    ASSERT(pBuffer);
+
+    char* pczTmp = "Hello World!";
+    int nSize = strlen(pczTmp);
+
+
+    int nLen = pBuffer->Cat((BYTE*)pczTmp, nSize);
+    assert(nLen == nSize);
+
+    std::vector<char> vecTmp;
+    vecTmp.resize(nSize + 1);
+
+    nLen = pBuffer->Fetch((BYTE*)vecTmp.data(), nSize + 1);
+    ASSERT(nLen == nSize);
+    vecTmp[nSize] = '\0';
+
+    printf("%s\n", vecTmp.data());
+
+    p.PutFreeBuffer(1);
+    p.Clear();
+}
+
+void TestEventPipe(){
+    uint64_t tStart =  std::chrono::duration<uint64_t, std::milli>(std::clock()).count();
+    DWORD dwStart = ::TimeGetTime64();
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+
+    printf("%d\n", ::TimeGetTime64() - dwStart);
+    uint64_t tSpace = std::chrono::duration<uint64_t, std::milli>(std::clock()).count() - tStart;
+    printf("%d ms\n", tSpace);
+
+    CTimerEvent t;
+    t.Set(1000, 3000);
+    DWORD dwStart = ::TimeGetTime64();
+    while(true){
+        t.Wait();
+
+        printf("%d\n", ::TimeGetTime64() - dwStart);
+        dwStart = ::TimeGetTime64();
+    }
+
+    CCounterEvent<true> c;
+    c.Set(10);
+    int64_t llVal;
+    while(true){
+        llVal = c.Wait();
+        printf("%lld\n", llVal);
+    }
+}
+
+void TestFileManager(){
+    CFile file;
+    file.Open("test.txt", O_RDWR);
+    if(!file.IsExist()){
+        printf("file not exist!\n");
+        return 0;
+    }
+    char *pcsTmp = "Hello World!";
+
+    int len = file.Write(pcsTmp, strlen(pcsTmp));
+
+    printf("write %d size data.\n", len);
+
+    file.Close();
+}
+
+/////////////////////////////////////////////////////////
+CFileMapping fMap;
+if(fMap.Map("/Users/hu/Documents/macOS.zip")){
+    if(fMap.IsValid()){
+        CFile f("macOS.zip", O_RDWR);
+        if(f.IsValid()){
+            f.Seek(fMap.Size(), SEEK_SET);
+            f.Seek(0,SEEK_SET);
+            int len = 0;
+            SIZE_T nSize = 0;
+            char *pPos = (char *)fMap.Ptr();
+            while(0 < (len = f.Write(pPos, 8192))) pPos += len;
+
+            printf("写入完成!");
+        }
+    }
+}
+
+
+//////////////////////////////////////////
+CRWLock lock;
+{
+    CReentrantReadLock rLock1(lock);
+    {
+        CReentrantReadLock rLock2(lock);
+    }
+}
+
+{
+    CReentrantWriteLock wLock1(lock);
+    {
+        CReentrantWriteLock wLock2(lock);
+    }
+}
+
+/////////////////////////////////////////
+
+
+struct Func: public __CFakeRunnerClass_{
+    void Run(void*){
+        while(!IsThreadInterrupted());
+    }
+};
+
+UINT_PTR Run(void*){
+    printf("Hello World!\n");
+}
+
+int main(int argc, char *argv[])
+{
+//    CString strTmp;
+//    strTmp.Format("%d, Hello World!", 123);
+
+//    printf(strTmp);
+
+//    CThread<Func, void, void> th;
+    Func f;
+//    th.Start(&f, &Func::Run);
+
+//    while(!th.IsRunning());
+
+
+//    if(th.Interrupt())
+//        printf("Interrupt success!");
+
+
+//    th.Join();
+
+//    th.Detach();
+
+//    sleep(1000);
+
+
+    CStaticThread<> th;
+    th.Start(&Run);
+
+
+    th.Join();
+}
+
+/////////////////////////////////
+
+#include <stdio.h>
+#include <iostream>
+#include <string>
+#include "TcpServer.h"
+#include "SocketInterface.h"
+class ServerImpl: public CTcpServerListener{
+public:
+    virtual EnHandleResult OnPrepareListen(ITcpServer* pSender, SOCKET soListen) override
+    {
+        return HR_OK;
+    }
+
+    virtual EnHandleResult OnAccept(ITcpServer* pSender, CONNID dwConnID, UINT_PTR soClient) override
+    {
+        return HR_OK;
+    }
+
+    virtual EnHandleResult OnHandShake(ITcpServer* pSender, CONNID dwConnID) override
+    {
+        return HR_OK;
+    }
+
+    virtual EnHandleResult OnReceive(ITcpServer* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override
+    {
+        if(pSender->Send(dwConnID, pData, iLength))
+            return HR_OK;
+
+        return HR_ERROR;
+    }
+
+    virtual EnHandleResult OnSend(ITcpServer* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override
+    {
+        return HR_OK;
+    }
+
+    virtual EnHandleResult OnClose(ITcpServer* pSender, CONNID dwConnID, EnSocketOperation enOperation, int iErrorCode) override
+    {
+        return HR_OK;
+    }
+
+    virtual EnHandleResult OnShutdown(ITcpServer* pSender) override
+    {
+        return HR_OK;
+    }
+};
+
+int main(int argc, char *argv[])
+{
+    ServerImpl serverImpl;
+    CTcpServer tcpServer(&serverImpl);
+    const int cnSize = 1024;
+
+    if(tcpServer.Start("0.0.0.0", 8888)){
+        std::string strInputCommand;
+        CONNID dwConnIDs[cnSize] = {0, };
+        while(true){
+//            ::YieldThread();
+            std::cin >> strInputCommand;
+
+//            if(strInputCommand.compare("#quit") == 0){
+//                if(tcpServer.Stop()){
+//                    printf("Stop tcpserver success!\n");
+//                    return 0;
+//                }
+//            }else if(strInputCommand.compare("#send") >= 0){
+//                int nPos = strInputCommand.find("#send ");
+//                std::string strSendText = strInputCommand.substr(nPos);
+//                DWORD nSize = cnSize;
+//                if(tcpServer.GetAllConnectionIDs(dwConnIDs, nSize)){
+//                    for(int i = 0; i < nSize; ++i){
+//                        tcpServer.Send(dwConnIDs[i], (const unsigned char*)(strSendText.c_str()), strSendText.size());
+//                    }
+//                }
+//            }else if(strInputCommand.compare("#DisconnectSilence") == 0){
+//                tcpServer.DisconnectSilenceConnections(15 * 1000);
+//            }
+        }
+    }
+}
+/////////////////////////////////////////
+#include <QCoreApplication>
+#include <stdio.h>
+#include <sys/event.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <thread>
+#include <functional>
+#include <random>
+#include "common/IODispatcher.h"
+#include "SocketInterface.h"
+
+int listenSocket = -1;
+BOOL HandleAccept(UINT events);
+CIODispatcher IODispatcher;
+
+class IOHandleImpl: public IIOHandler{
+
+    virtual VOID OnCommand(TDispCommand* pCmd){
+
+    }
+
+    virtual VOID OnTimer(LLONG llExpirations){
+
+    }
+
+    virtual BOOL OnBeforeProcessIo(PVOID ptr, UINT events, uint16_t flags){
+        if(ptr == &listenSocket){
+            HandleAccept(events);
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+    virtual VOID OnAfterProcessIo(PVOID ptr, UINT events, BOOL rs){
+
+        SOCKET soClient = (long)(reinterpret_cast<int*>(ptr));
+
+        if(soClient > 0 && rs){
+            ASSERT(rs && !(events == (EVFILT_EXCEPT)));
+
+            UINT evts = EVFILT_READ;
+            IODispatcher.CtlFD(soClient, EV_ADD | EV_ONESHOT ,evts, ptr);
+        }
+    }
+
+    virtual BOOL OnReadyPrivilege(PVOID ptr, UINT events){
+
+        return TRUE;
+    }
+
+    virtual VOID OnDispatchThreadEnd(THR_ID tid){
+
+    }
+
+    //未提供默认实现
+    virtual BOOL OnReadyRead(PVOID ptr, UINT events){
+
+        SOCKET soClient = (long)(reinterpret_cast<int*>(ptr));
+
+        char csTmp[1024] = {0, };
+        int reads = 30;
+
+        for(int i = 0; i < reads || reads < 0; i++)
+        {
+            int rc = (int)read(soClient, csTmp, 1023);
+
+            if(rc > 0)
+            {
+                csTmp[rc] = '\0';
+                printf("%s\n", csTmp);
+            }
+            else if(rc == 0)
+            {
+                shutdown(soClient, SHUT_RDWR);
+                close(soClient);
+
+                return FALSE;
+            }
+            else
+            {
+                ASSERT(rc == -1);
+
+                int code = errno;
+                if(code == ERROR_WOULDBLOCK)
+                    break;
+
+                shutdown(soClient, SHUT_RDWR);
+                close(soClient);
+                return FALSE;
+            }
+        }
+
+        return TRUE;
+    }
+
+    virtual BOOL OnReadyWrite(PVOID ptr, UINT events){
+
+        return TRUE;
+    }
+
+    virtual BOOL OnHungUp(PVOID ptr, UINT events){
+
+        return TRUE;
+    }
+
+    virtual BOOL OnError(PVOID ptr, UINT events){
+
+        return TRUE;
+    }
+};
+
+const int MAX_NUM = 16;
+IOHandleImpl handleImpl;
+
+BOOL HandleAccept(UINT events)
+{
+    if(events == EVFILT_EXCEPT)
+    {
+//        VERIFY(!HasStarted());
+        return FALSE;
+    }
+
+    while(TRUE)
+    {
+        sockaddr_in sAddress;
+        socklen_t len = sizeof(sockaddr_in);
+
+        SOCKET soClient = accept(listenSocket, (sockaddr *)&sAddress, &len);
+
+        if(soClient == -1)
+        {
+            int code = errno;
+
+            if(code == EWOULDBLOCK)
+                return TRUE;
+            else if(code == ECONNABORTED)
+                continue;
+            else if(code == EBADF)
+                return FALSE;
+
+            ERROR_EXIT2(EXIT_CODE_SOFTWARE, code);
+
+            continue;
+        }
+
+        VERIFY(::fcntl_SETFL(soClient, O_NONBLOCK | O_CLOEXEC));
+        BOOL bResult = VERIFY(IODispatcher.CtlFD(soClient, EV_ADD | EV_ONESHOT |EV_ENABLE, EVFILT_READ, (PVOID)soClient));
+        ASSERT(bResult);
+    }
+
+    return TRUE;
+}
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+
+    //Server layer
+    //////////////////////////////////////////
+
+    if(0 > (listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP))){
+        printf("Create socket listener error! Code: %d\n", errno);
+        return 0;
+    }
+
+    fcntl(listenSocket, F_SETFL, O_NONBLOCK | FD_CLOEXEC);
+
+    int val = 1;
+    setsockopt(listenSocket, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(int));
+
+    val = 10;
+    if(0 != setsockopt(listenSocket, IPPROTO_TCP, TCP_KEEPALIVE, &val, sizeof(int))){
+        printf("set socket start keepalive paln error! %s\n", ::GetLastErrorStr());
+        return 0;
+    }
+    val = 30;
+    if(0 != setsockopt(listenSocket, IPPROTO_TCP, TCP_KEEPINTVL, &val, sizeof(int))){
+        printf("set socket keepalive ack interval time error! %s\n", ::GetLastErrorStr());
+        return 0;
+    }
+    val = 5;
+    if(0 != setsockopt(listenSocket, IPPROTO_TCP, TCP_KEEPCNT, &val, sizeof(int))){
+        printf("set socket keepalive max try count error! %s\n", ::GetLastErrorStr());
+        return 0;
+    }
+
+    sockaddr_in listenAddr;
+    listenAddr.sin_family = AF_INET;
+    listenAddr.sin_addr.s_addr = inet_addr("0.0.0.0");
+    listenAddr.sin_port = htons(9999);
+    if(0 > ::bind(listenSocket, (sockaddr *)&listenAddr, sizeof(sockaddr_in))){
+        printf("Bind listen address error! Code: %d\n", errno);
+        return 0;
+    }
+
+    if(0 > ::listen(listenSocket, MAX_NUM)){
+        printf("listen error! Code: %d\n", errno);
+        return 0;
+    }
+
+
+    if(!IODispatcher.Start(&handleImpl)){
+        printf("Start I/O dispatcher error! [[%s]]\n", GetLastErrorStr());
+        return 0;
+    }
+
+    if(!IODispatcher.CtlFD(listenSocket, EV_ADD | EV_CLEAR, EVFILT_READ, &listenSocket)){
+        printf("register listen event error! [[%s]]\n", GetLastErrorStr());
+        return 0;
+    }
+
+//    ERROR:
+
+
+    return a.exec();
+}
+
+/////////////////////////////////////////
+
+fcntl(m_soListen, F_SETFL, O_NONBLOCK | FD_CLOEXEC);
+
+int val = 1;
+if(0 != setsockopt(m_soListen, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(int))){
+    printf("%\n", ::GetLastErrorStr());
+    ASSERT(FALSE);
+    std::exit(0);
+}
+
+val = m_dwKeepAliveTime / 1000; //10
+if(0 != setsockopt(m_soListen, IPPROTO_TCP, TCP_KEEPALIVE, &val, sizeof(int))){
+    printf("%s\n", ::GetLastErrorStr());
+    ASSERT(FALSE);
+    std::exit(0);
+}
+val = m_dwKeepAliveInterval / 1000; //30
+if(0 != setsockopt(m_soListen, IPPROTO_TCP, TCP_KEEPINTVL, &val, sizeof(int))){
+    printf("%s\n", ::GetLastErrorStr());
+    ASSERT(FALSE);
+    std::exit(0);
+}
+val = 5;
+if(0 != setsockopt(m_soListen, IPPROTO_TCP, TCP_KEEPCNT, &val, sizeof(int))){
+    printf("%s\n", ::GetLastErrorStr());
+    ASSERT(FALSE);
+    std::exit(0);
+}
+/////////////////////////////////////////
+#include <QCoreApplication>
+#include <iostream>
+#include <stdio.h>
+#include <sys/event.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <thread>
+#include <functional>
+#include <random>
+#include "common/IODispatcher.h"
+#include "SocketInterface.h"
+
+int listenSocket = -1;
+BOOL HandleAccept(UINT events);
+CIODispatcher IODispatcher;
+
+class IOHandleImpl: public IIOHandler{
+
+    virtual VOID OnCommand(TDispCommand* pCmd){
+
+    }
+
+    virtual VOID OnTimer(LLONG llExpirations){
+        printf("Triggered OnTimer: %d\n", ::TimeGetTime());
+    }
+
+    virtual BOOL OnBeforeProcessIo(PVOID ptr, UINT events, uint16_t flags){
+        if(ptr == &listenSocket){
+            HandleAccept(events);
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+    virtual VOID OnAfterProcessIo(PVOID ptr, UINT events, BOOL rs){
+
+        SOCKET soClient = (long)(reinterpret_cast<int*>(ptr));
+
+        if(soClient > 0 && rs){
+            ASSERT(rs && !(events == (EVFILT_EXCEPT)));
+
+            UINT evts = EVFILT_READ;
+            IODispatcher.CtlFD(soClient, EV_ADD | EV_DISPATCH | EV_ENABLE ,evts, ptr);
+        }
+    }
+
+    virtual BOOL OnReadyPrivilege(PVOID ptr, UINT events){
+
+        return TRUE;
+    }
+
+    virtual VOID OnDispatchThreadEnd(THR_ID tid){
+
+    }
+
+    //未提供默认实现
+    virtual BOOL OnReadyRead(PVOID ptr, UINT events){
+
+        SOCKET soClient = (long)(reinterpret_cast<int*>(ptr));
+
+        char csTmp[1024] = {0, };
+        int reads = 30;
+
+        for(int i = 0; i < reads || reads < 0; i++)
+        {
+            int rc = (int)read(soClient, csTmp, 1023);
+
+            if(rc > 0)
+            {
+                csTmp[rc] = '\0';
+                printf("%s\n", csTmp);
+            }
+            else if(rc == 0)
+            {
+                shutdown(soClient, SHUT_RDWR);
+                close(soClient);
+
+                return FALSE;
+            }
+            else
+            {
+                ASSERT(rc == -1);
+
+                int code = errno;
+                if(code == ERROR_WOULDBLOCK)
+                    break;
+
+                shutdown(soClient, SHUT_RDWR);
+                close(soClient);
+                return FALSE;
+            }
+        }
+
+        return TRUE;
+    }
+
+    virtual BOOL OnReadyWrite(PVOID ptr, UINT events){
+
+        return TRUE;
+    }
+
+    virtual BOOL OnHungUp(PVOID ptr, UINT events){
+
+        return TRUE;
+    }
+
+    virtual BOOL OnError(PVOID ptr, UINT events){
+
+        return TRUE;
+    }
+};
+
+const int MAX_NUM = 16;
+IOHandleImpl handleImpl;
+
+BOOL HandleAccept(UINT events)
+{
+    if(events == EVFILT_EXCEPT)
+    {
+//        VERIFY(!HasStarted());
+        return FALSE;
+    }
+
+    while(TRUE)
+    {
+        sockaddr_in sAddress;
+        socklen_t len = sizeof(sockaddr_in);
+
+        SOCKET soClient = accept(listenSocket, (sockaddr *)&sAddress, &len);
+
+        if(soClient == -1)
+        {
+            int code = errno;
+
+            if(code == EWOULDBLOCK)
+                return TRUE;
+            else if(code == ECONNABORTED)
+                continue;
+            else if(code == EBADF)
+                return FALSE;
+
+            ERROR_EXIT2(EXIT_CODE_SOFTWARE, code);
+
+            continue;
+        }
+
+        VERIFY(::fcntl_SETFL(soClient, O_NONBLOCK | O_CLOEXEC));
+        BOOL bResult = VERIFY(IODispatcher.CtlFD(soClient, EV_ADD | EV_DISPATCH | EV_ENABLE, EVFILT_READ, (PVOID)soClient));
+        ASSERT(bResult);
+    }
+
+    return TRUE;
+}
+
+int main(int argc, char *argv[])
+{
+    //Server layer
+    //////////////////////////////////////////
+
+    if(0 > (listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP))){
+        printf("Create socket listener error! Code: %d\n", errno);
+        return 0;
+    }
+
+    fcntl(listenSocket, F_SETFL, O_NONBLOCK | FD_CLOEXEC);
+
+    int val = 1;
+    setsockopt(listenSocket, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(int));
+
+    val = 1;
+    setsockopt(listenSocket, SOL_SOCKET, SO_KEEPALIVE, &val, sizeof(int));
+
+    sockaddr_in listenAddr;
+    listenAddr.sin_family = AF_INET;
+    listenAddr.sin_addr.s_addr = inet_addr("0.0.0.0");
+    listenAddr.sin_port = htons(9999);
+    if(0 > ::bind(listenSocket, (sockaddr *)&listenAddr, sizeof(sockaddr_in))){
+        printf("Bind listen address error! Code: %d\n", errno);
+        return 0;
+    }
+
+    if(0 > ::listen(listenSocket, MAX_NUM)){
+        printf("listen error! Code: %d\n", errno);
+        return 0;
+    }
+
+
+    if(!IODispatcher.Start(&handleImpl, 0, 0, 2000)){
+        printf("Start I/O dispatcher error! [[%s]]\n", GetLastErrorStr());
+        return 0;
+    }
+
+    if(!IODispatcher.CtlFD(listenSocket, EV_ADD | EV_CLEAR | EV_ENABLE, EVFILT_READ, &listenSocket)){
+        printf("register listen event error! [[%s]]\n", GetLastErrorStr());
+        return 0;
+    }
+
+//    ERROR:
+
+    while(true){
+        std::cin.get();
+    }
+
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <stdio.h>
+#include <iostream>
+#include <string>
+#include "TcpClient.h"
+
+class TcpClientListenerImpl: public CTcpClientListener{
+public:
+
+    virtual EnHandleResult OnPrepareConnect(ITcpClient* pSender, CONNID dwConnID, SOCKET socket)			override {
+        return HR_IGNORE;
+    }
+
+    virtual EnHandleResult OnConnect(ITcpClient* pSender, CONNID dwConnID)									override {
+        return HR_IGNORE;
+    }
+
+    virtual EnHandleResult OnHandShake(ITcpClient* pSender, CONNID dwConnID)								override {
+        return HR_IGNORE;
+    }
+
+    virtual EnHandleResult OnReceive(ITcpClient* pSender, CONNID dwConnID, int iLength)						override {
+        return HR_IGNORE;
+    }
+
+    virtual EnHandleResult OnReceive(ITcpClient* pSender, CONNID dwConnID, const BYTE* pData, int iLength)	override{
+        std::string strTmp((const char*)pData, iLength);
+        std::cout << strTmp << std::endl;
+        return HR_OK;
+    }
+
+    virtual EnHandleResult OnSend(ITcpClient* pSender, CONNID dwConnID, const BYTE* pData, int iLength)		override {
+        return HR_IGNORE;
+    }
+
+    /*
+    * 名称：通信错误通知
+    * 描述：通信发生错误后，Socket 监听器将收到该通知，并关闭连接
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			enOperation	-- Socket 操作类型
+    *			iErrorCode	-- 错误代码
+    * 返回值：	忽略返回值
+    */
+    virtual EnHandleResult OnClose(ITcpClient* pSender, CONNID dwConnID, EnSocketOperation enOperation, int iErrorCode)	override{
+
+        return HR_IGNORE;
+    }
+
+};
+
+int main(int argc, char *argv[])
+{
+    TcpClientListenerImpl listenImpl;
+    CTcpClient client(&listenImpl);
+    if(!client.Start("127.0.0.1", 8888, false)){
+        printf("create tcp client connect error!\n");
+        return 0;
+    }
+
+    while(true){
+        std::string strInput;
+        std::cin >> strInput;
+
+        if(!client.Send((const BYTE*)strInput.c_str(), strInput.size())){
+            printf("send data error! input data: %s\n", strInput.c_str());
+        }
+    }
+}
+//////////////////////////////////////////////////////////////////////////////////////////
+#include <stdio.h>
+#include <iostream>
+#include <string>
+
+#include "UdpClient.h"
+
+class UdpClientListenerImpl: public CUdpClientListener{
+
+public:
+    //override function
+
+    /*
+    * 名称：准备连接通知
+    * 描述：通信客户端组件启动时，在客户端 Socket 创建完成并开始执行连接前，Socket 监听
+    *		器将收到该通知，监听器可以在通知处理方法中执行 Socket 选项设置等额外工作
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			socket		-- 客户端 Socket
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 终止启动通信客户端组件
+    */
+    virtual EnHandleResult OnPrepareConnect(IUdpClient* pSender, CONNID dwConnID, SOCKET socket) override{
+
+        return HR_IGNORE;
+    }
+
+    /*
+    * 名称：连接完成通知
+    * 描述：与服务端成功建立连接时，Socket 监听器将收到该通知
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 同步连接：终止启动通信客户端组件
+    *								   异步连接：关闭连接
+    */
+    virtual EnHandleResult OnConnect(IUdpClient* pSender, CONNID dwConnID) override{
+
+        return HR_IGNORE;
+    }
+
+
+    /*
+    * 名称：握手完成通知
+    * 描述：连接完成握手时，Socket 监听器将收到该通知，监听器接收到该通知后才能开始
+    *		数据收发操作
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 引发 OnClose() 事件并关闭连接
+    */
+    virtual EnHandleResult OnHandShake(IUdpClient* pSender, CONNID dwConnID) override{
+
+        return HR_IGNORE;
+    }
+    /*
+    * 名称：已发送数据通知
+    * 描述：成功发送数据后，Socket 监听器将收到该通知
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			pData		-- 已发送数据缓冲区
+    *			iLength		-- 已发送数据长度
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 该通知不允许返回 HR_ERROR（调试模式下引发断言错误）
+    */
+    virtual EnHandleResult OnSend(IUdpClient* pSender, CONNID dwConnID, const BYTE* pData, int iLength)	 override{
+
+        return HR_IGNORE;
+    }
+    /*
+    * 名称：数据到达通知（PUSH 模型）
+    * 描述：对于 PUSH 模型的 Socket 通信组件，成功接收数据后将向 Socket 监听器发送该通知
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			pData		-- 已接收数据缓冲区
+    *			iLength		-- 已接收数据长度
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 引发 OnClose() 事件并关闭连接
+    */
+    virtual EnHandleResult OnReceive(IUdpClient* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override{
+        std::string strTmp((const char*)pData, iLength);
+        std::cout << strTmp << std::endl;
+        return HR_OK;
+    }
+    /*
+    * 名称：通信错误通知
+    * 描述：通信发生错误后，Socket 监听器将收到该通知，并关闭连接
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			enOperation	-- Socket 操作类型
+    *			iErrorCode	-- 错误代码
+    * 返回值：	忽略返回值
+    */
+    virtual EnHandleResult OnClose(IUdpClient* pSender, CONNID dwConnID, EnSocketOperation enOperation, int iErrorCode)	 override{
+
+        return HR_IGNORE;
+    }
+public:
+
+    static UdpClientListenerImpl Listener;
+};
+
+UdpClientListenerImpl UdpClientListenerImpl::Listener;
+
+int main(int argc, char *argv[])
+{
+    CUdpClient s(&UdpClientListenerImpl::Listener);
+    if(!s.Start("127.0.0.1", 9999, false)){
+        printf("create udp client error! [[%s]]\n", ::GetLastErrorStr());
+        return 0;
+    }
+
+    std::string strInputTmp;
+    while(true){
+        std::cin >> strInputTmp;
+
+        if(!s.Send((const BYTE*)strInputTmp.c_str(), strInputTmp.size())){
+            printf("send input data error! [[%s]]\n", strInputTmp.c_str());
+        }
+    }
+}
+///////////////////////////////////////////////////////////////////////
+#include <QCoreApplication>
+#include <iostream>
+#include <string>
+#include <cstring>
+
+#include "UdpServer.h"
+
+class UdpServerListenerImpl: public CUdpServerListener{
+
+    /*
+    * 名称：通信错误通知
+    * 描述：通信发生错误后，Socket 监听器将收到该通知，并关闭连接
+
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			enOperation	-- Socket 操作类型
+    *			iErrorCode	-- 错误代码
+    * 返回值：	忽略返回值
+    */
+    virtual EnHandleResult OnClose(IUdpServer* pSender, CONNID dwConnID, EnSocketOperation enOperation, int iErrorCode) override{
+
+        return HR_IGNORE;
+    }
+
+    /*
+    * 名称：准备监听通知
+    * 描述：通信服务端组件启动时，在监听 Socket 创建完成并开始执行监听前，Socket 监听
+    *		器将收到该通知，监听器可以在通知处理方法中执行 Socket 选项设置等额外工作
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			soListen	-- 监听 Socket
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 终止启动通信服务组件
+    */
+    virtual EnHandleResult OnPrepareListen(IUdpServer* pSender, SOCKET soListen) override{
+
+        return HR_IGNORE;
+    }
+
+
+    /*
+    * 名称：接收连接通知
+    * 描述：接收到客户端连接请求时，Socket 监听器将收到该通知，监听器可以在通知处理方
+    *		法中执行 Socket 选项设置或拒绝客户端连接等额外工作
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			soClient	-- TCP: 客户端 Socket 句柄，UDP: 客户端 Socket SOCKADDR 指针
+    * 返回值：	HR_OK / HR_IGNORE	-- 接受连接
+    *			HR_ERROR			-- 拒绝连接
+    */
+    virtual EnHandleResult OnAccept(IUdpServer* pSender, CONNID dwConnID, UINT_PTR soClient) override{
+
+        return HR_IGNORE;
+    }
+
+
+    /*
+    * 名称：已发送数据通知
+    * 描述：成功发送数据后，Socket 监听器将收到该通知
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 该通知不允许返回 HR_ERROR（调试模式下引发断言错误）
+    */
+    virtual EnHandleResult OnSend(IUdpServer* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override{
+
+        return HR_IGNORE;
+    }
+
+    /*
+    * 名称：数据到达通知（PUSH 模型）
+    * 描述：对于 PUSH 模型的 Socket 通信组件，成功接收数据后将向 Socket 监听器发送该通知
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 引发 OnClose() 事件并关闭连接
+    */
+    virtual EnHandleResult OnReceive(IUdpServer* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override{
+
+        if(!pSender->Send(dwConnID, pData, iLength))
+            return HR_ERROR;
+        return HR_IGNORE;
+    }
+
+public:
+    static UdpServerListenerImpl Listener;
+};
+
+UdpServerListenerImpl UdpServerListenerImpl::Listener;
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+    CUdpServer s(&UdpServerListenerImpl::Listener);
+    if(!s.Start(nullptr, 9999)){
+        printf("create udp server listen error!\n");
+        return 0;
+    }
+
+    return a.exec();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+#include <stdio.h>
+#include <iostream>
+#include <string>
+#include <cstring>
+
+#include "UdpClient.h"
+
+class UdpClientListenerImpl: public CUdpClientListener{
+
+public:
+    //override function
+
+    /*
+    * 名称：准备连接通知
+    * 描述：通信客户端组件启动时，在客户端 Socket 创建完成并开始执行连接前，Socket 监听
+    *		器将收到该通知，监听器可以在通知处理方法中执行 Socket 选项设置等额外工作
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			socket		-- 客户端 Socket
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 终止启动通信客户端组件
+    */
+    virtual EnHandleResult OnPrepareConnect(IUdpClient* pSender, CONNID dwConnID, SOCKET socket) override{
+
+        return HR_IGNORE;
+    }
+
+    /*
+    * 名称：连接完成通知
+    * 描述：与服务端成功建立连接时，Socket 监听器将收到该通知
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 同步连接：终止启动通信客户端组件
+    *								   异步连接：关闭连接
+    */
+    virtual EnHandleResult OnConnect(IUdpClient* pSender, CONNID dwConnID) override{
+
+        return HR_IGNORE;
+    }
+
+
+    /*
+    * 名称：握手完成通知
+    * 描述：连接完成握手时，Socket 监听器将收到该通知，监听器接收到该通知后才能开始
+    *		数据收发操作
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 引发 OnClose() 事件并关闭连接
+    */
+    virtual EnHandleResult OnHandShake(IUdpClient* pSender, CONNID dwConnID) override{
+
+        return HR_IGNORE;
+    }
+    /*
+    * 名称：已发送数据通知
+    * 描述：成功发送数据后，Socket 监听器将收到该通知
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			pData		-- 已发送数据缓冲区
+    *			iLength		-- 已发送数据长度
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 该通知不允许返回 HR_ERROR（调试模式下引发断言错误）
+    */
+    virtual EnHandleResult OnSend(IUdpClient* pSender, CONNID dwConnID, const BYTE* pData, int iLength)	 override{
+
+        return HR_IGNORE;
+    }
+    /*
+    * 名称：数据到达通知（PUSH 模型）
+    * 描述：对于 PUSH 模型的 Socket 通信组件，成功接收数据后将向 Socket 监听器发送该通知
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			pData		-- 已接收数据缓冲区
+    *			iLength		-- 已接收数据长度
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 引发 OnClose() 事件并关闭连接
+    */
+    virtual EnHandleResult OnReceive(IUdpClient* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override{
+        std::string strTmp((const char*)pData, iLength);
+        std::cout << strTmp << std::endl;
+        return HR_OK;
+    }
+    /*
+    * 名称：通信错误通知
+    * 描述：通信发生错误后，Socket 监听器将收到该通知，并关闭连接
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			enOperation	-- Socket 操作类型
+    *			iErrorCode	-- 错误代码
+    * 返回值：	忽略返回值
+    */
+    virtual EnHandleResult OnClose(IUdpClient* pSender, CONNID dwConnID, EnSocketOperation enOperation, int iErrorCode)	 override{
+
+        return HR_IGNORE;
+    }
+public:
+
+    static UdpClientListenerImpl Listener;
+};
+
+UdpClientListenerImpl UdpClientListenerImpl::Listener;
+
+int main(int argc, char *argv[])
+{
+    CUdpClient s(&UdpClientListenerImpl::Listener);
+    if(!s.Start("127.0.0.1", 9999, false)){
+        printf("create udp client error! [[%s]]\n", ::GetLastErrorStr());
+        return 0;
+    }
+
+    while(true){
+        std::string strTmp;
+        std::cin >> strTmp;
+
+        if(strTmp.empty()){
+            Sleep(1000);
+            continue;
+        }
+
+        if(!s.Send((const BYTE*)strTmp.c_str(), strTmp.size())){
+            printf("send input data error! [[%s]]\n", strTmp.c_str());
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////
+
+#include <QCoreApplication>
+#include <iostream>
+#include "TcpPackClient.h"
+#include "TcpPackServer.h"
+
+class ServerImpl: public CTcpServerListener{
+public:
+    virtual EnHandleResult OnPrepareListen(ITcpServer* pSender, SOCKET soListen) override
+    {
+        return HR_OK;
+    }
+
+    virtual EnHandleResult OnAccept(ITcpServer* pSender, CONNID dwConnID, UINT_PTR soClient) override
+    {
+        return HR_OK;
+    }
+
+    virtual EnHandleResult OnHandShake(ITcpServer* pSender, CONNID dwConnID) override
+    {
+        return HR_OK;
+    }
+
+    virtual EnHandleResult OnReceive(ITcpServer* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override
+    {
+        if(pSender->Send(dwConnID, pData, iLength))
+            return HR_OK;
+
+        return HR_ERROR;
+    }
+
+    virtual EnHandleResult OnSend(ITcpServer* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override
+    {
+        return HR_OK;
+    }
+
+    virtual EnHandleResult OnClose(ITcpServer* pSender, CONNID dwConnID, EnSocketOperation enOperation, int iErrorCode) override
+    {
+        return HR_OK;
+    }
+
+    virtual EnHandleResult OnShutdown(ITcpServer* pSender) override
+    {
+        return HR_OK;
+    }
+
+public:
+    static ServerImpl instance;
+};
+
+ServerImpl ServerImpl::instance;
+
+CTcpPackServer g_tcpPackServer(&ServerImpl::instance);
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+
+    g_tcpPackServer.Start(nullptr, 9999);
+
+    return a.exec();
+}
+////////////////////////////////////////////////////////////
+#include <QCoreApplication>
+#include <iostream>
+#include "TcpAgent.h"
+#include <memory>
+class ServerImpl: public CTcpAgentListener{
+public:
+
+    virtual EnHandleResult OnPrepareConnect(ITcpAgent* pSender, CONNID dwConnID, SOCKET socket){
+        return HR_IGNORE;
+    }
+    virtual EnHandleResult OnConnect(ITcpAgent* pSender, CONNID dwConnID){
+        return HR_IGNORE;
+    }
+    virtual EnHandleResult OnHandShake(ITcpAgent* pSender, CONNID dwConnID){
+        return HR_IGNORE;
+    }
+//    virtual EnHandleResult OnReceive(ITcpAgent* pSender, CONNID dwConnID, int iLength){
+//        return HR_IGNORE;
+//    }
+    virtual EnHandleResult OnSend(ITcpAgent* pSender, CONNID dwConnID, const BYTE* pData, int iLength){
+        return HR_IGNORE;
+    }
+    virtual EnHandleResult OnShutdown(ITcpAgent* pSender){
+        return HR_IGNORE;
+    }
+
+//    virtual EnHandleResult OnPrepareConnect(ITcpAgent* pSender, CONNID dwConnID, SOCKET socket){
+//        return HR_IGNORE;
+//    }
+
+//    virtual EnHandleResult OnConnect(ITcpAgent* pSender, CONNID dwConnID){
+//        return HR_IGNORE;
+//    }
+
+
+    /*
+    * 名称：握手完成通知
+    * 描述：连接完成握手时，Socket 监听器将收到该通知，监听器接收到该通知后才能开始
+    *		数据收发操作
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 引发 OnClose() 事件并关闭连接
+    */
+//    virtual EnHandleResult OnHandShake(ITcpAgent* pSender, CONNID dwConnID){
+//        return HR_IGNORE;
+//    }
+    /*
+    * 名称：已发送数据通知
+    * 描述：成功发送数据后，Socket 监听器将收到该通知
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			pData		-- 已发送数据缓冲区
+    *			iLength		-- 已发送数据长度
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 该通知不允许返回 HR_ERROR（调试模式下引发断言错误）
+    */
+//    virtual EnHandleResult OnSend(ITcpAgent* pSender, CONNID dwConnID, const BYTE* pData, int iLength){
+//        return HR_IGNORE;
+//    }
+    /*
+    * 名称：数据到达通知（PUSH 模型）
+    * 描述：对于 PUSH 模型的 Socket 通信组件，成功接收数据后将向 Socket 监听器发送该通知
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			pData		-- 已接收数据缓冲区
+    *			iLength		-- 已接收数据长度
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 引发 OnClose() 事件并关闭连接
+    */
+    virtual EnHandleResult OnReceive(ITcpAgent* pSender, CONNID dwConnID, const BYTE* pData, int iLength){
+        if(iLength > 0){
+            std::cout.write((const char *)pData, iLength);
+            std::cout << std::endl;
+        }
+        return HR_IGNORE;
+    }
+    /*
+    * 名称：数据到达通知（PULL 模型）
+    * 描述：对于 PULL 模型的 Socket 通信组件，成功接收数据后将向 Socket 监听器发送该通知
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			iLength		-- 已接收数据长度
+    * 返回值：	HR_OK / HR_IGNORE	-- 继续执行
+    *			HR_ERROR			-- 引发 OnClose() 事件并关闭连接
+    */
+//    virtual EnHandleResult OnReceive(ITcpAgent* pSender, CONNID dwConnID, int iLength){
+//        return HR_IGNORE;
+//    }
+    /*
+    * 名称：通信错误通知
+    * 描述：通信发生错误后，Socket 监听器将收到该通知，并关闭连接
+    *
+    * 参数：		pSender		-- 事件源对象
+    *			dwConnID	-- 连接 ID
+    *			enOperation	-- Socket 操作类型
+    *			iErrorCode	-- 错误代码
+    * 返回值：	忽略返回值
+    */
+    virtual EnHandleResult OnClose(ITcpAgent* pSender, CONNID dwConnID, EnSocketOperation enOperation, int iErrorCode){
+        return HR_IGNORE;
+    }
+public:
+    static ServerImpl instance;
+};
+
+ServerImpl ServerImpl::instance;
+
+CTcpAgent g_tcpAgentClient(&ServerImpl::instance);
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+
+//    g_tcpPackServer.Start(nullptr, 9999);
+    if(false == g_tcpAgentClient.Start(nullptr, false)){
+        printf("start agent error!");
+        std::exit(0);
+    }
+
+    CONNID dwIpAddress;
+    if(false == g_tcpAgentClient.Connect("118.25.7.178", 5555, &dwIpAddress)){
+        printf("agent connect to server 118.25.7.178:5555 error!");
+        std::exit(0);
+    }
+
+    do{
+        std::string strTmp;
+        std::cin >> strTmp;
+
+        if(strTmp.empty())
+            continue;
+
+        if(strTmp.compare("#quit") == 0)
+            break;
+
+        if(g_tcpAgentClient.Send(dwIpAddress, (BYTE *)(strTmp.c_str()), strTmp.size()))
+            continue;
+
+    }while(true);
+
+
+    printf("bye bye~\n");
+    return a.exec();
+}
