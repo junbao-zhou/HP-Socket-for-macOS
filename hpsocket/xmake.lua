@@ -38,13 +38,22 @@ target("hpsocket_demo")
 
 -- unit test
 -- add target
-target("unit_test1")
+target("unit_client_test1")
 
     -- set kind
     set_kind("binary")
 
     -- add files
-    add_files("test/test1.cpp")
+    add_files("test/client/test1.cpp")
+-- unit test
+-- add target
+target("unit_server_test1")
+
+    -- set kind
+    set_kind("binary")
+
+    -- add files
+    add_files("test/server/test1.cpp")
 
 
 --
