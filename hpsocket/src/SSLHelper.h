@@ -28,25 +28,25 @@
 
 #ifdef _SSL_SUPPORT
 
-#include "openssl/ssl.h"
+#include <openssl/ssl.h>
 
 #define OPENSSL_VERSION_1_0_2	0x10002000L
 #define OPENSSL_VERSION_1_1_0	0x10100000L
 
 /************************************************************************
-���ƣ�SSL ����״̬
-��������ʶ��ǰ���ӵ� SSL ����״̬
+名称：SSL 握手状态
+描述：标识当前连接的 SSL 握手状态
 ************************************************************************/
 enum EnSSLHandShakeStatus
 {
-	SSL_HSS_INIT	= 0,	// ��ʼ״̬
-	SSL_HSS_PROC	= 1,	// ��������
-	SSL_HSS_SUCC	= 2,	// ���ֳɹ�
+	SSL_HSS_INIT	= 0,	// 初始状态
+	SSL_HSS_PROC	= 1,	// 正在握手
+	SSL_HSS_SUCC	= 2,	// 握手成功
 };
 
 #if OPENSSL_VERSION_NUMBER < OPENSSL_VERSION_1_1_0
 
-/* SSL CRYPTO DYNLOCK �ṹ */
+/* SSL CRYPTO DYNLOCK 结构 */
 typedef struct CRYPTO_dynlock_value
 {
 	CSimpleRWLock cs;
@@ -86,77 +86,77 @@ private:
 };
 
 /************************************************************************
-���ƣ�SSL Context
-��������ʼ�������� SSL ���л���
+名称：SSL Context
+描述：初始化和清理 SSL 运行环境
 ************************************************************************/
 class CSSLContext
 {
 public:
 
 	/*
-	* ���ƣ���ʼ�� SSL ��������
-	* ������SSL �������������� SSL ͨ���������ǰ��ɳ�ʼ������������ʧ��
+	* 名称：初始化 SSL 环境参数
+	* 描述：SSL 环境参数必须在 SSL 通信组件启动前完成初始化，否则启动失败
 	*		
-	* ������		enSessionMode			-- SSL ����ģʽ���ο� EnSSLSessionMode��
-	*			iVerifyMode				-- SSL ��֤ģʽ���ο� EnSSLVerifyMode��
-	*			lpszPemCertFile			-- ֤���ļ����ͻ��˿�ѡ��
-	*			lpszPemKeyFile			-- ˽Կ�ļ����ͻ��˿�ѡ��
-	*			lpszKeyPasswod			-- ˽Կ���루û��������Ϊ�գ�
-	*			lpszCAPemCertFileOrPath	-- CA ֤���ļ���Ŀ¼��������֤��ͻ��˿�ѡ��
-	*			fnServerNameCallback	-- SNI �ص�����ָ�루��ѡ��ֻ���ڷ���ˣ�
+	* 参数：		enSessionMode			-- SSL 工作模式（参考 EnSSLSessionMode）
+	*			iVerifyMode				-- SSL 验证模式（参考 EnSSLVerifyMode）
+	*			lpszPemCertFile			-- 证书文件（客户端可选）
+	*			lpszPemKeyFile			-- 私钥文件（客户端可选）
+	*			lpszKeyPasswod			-- 私钥密码（没有密码则为空）
+	*			lpszCAPemCertFileOrPath	-- CA 证书文件或目录（单向验证或客户端可选）
+	*			fnServerNameCallback	-- SNI 回调函数指针（可选，只用于服务端）
 	*
-	* ����ֵ��	TRUE	-- �ɹ�
-	*			FALSE	-- ʧ�ܣ���ͨ�� ::GetLastError() ��ȡʧ��ԭ��
+	* 返回值：	TRUE	-- 成功
+	*			FALSE	-- 失败，可通过 ::GetLastError() 获取失败原因
 	*/
 	BOOL Initialize(EnSSLSessionMode enSessionMode, int iVerifyMode = SSL_VM_NONE, LPCTSTR lpszPemCertFile = nullptr, LPCTSTR lpszPemKeyFile = nullptr, LPCTSTR lpszKeyPasswod = nullptr, LPCTSTR lpszCAPemCertFileOrPath = nullptr, Fn_SNI_ServerNameCallback fnServerNameCallback = nullptr);
 
 	/*
-	* ���ƣ����� SNI ����֤�飨ֻ���ڷ���ˣ�
-	* ������SSL ������� Initialize() �ɹ�����Ե��ñ��������Ӷ�� SNI ����֤��
+	* 名称：增加 SNI 主机证书（只用于服务端）
+	* 描述：SSL 服务端在 Initialize() 成功后可以调用本方法增加多个 SNI 主机证书
 	*		
-	* ������		iVerifyMode				-- SSL ��֤ģʽ���ο� EnSSLVerifyMode��
-	*			lpszPemCertFile			-- ֤���ļ�
-	*			lpszPemKeyFile			-- ˽Կ�ļ�
-	*			lpszKeyPasswod			-- ˽Կ���루û��������Ϊ�գ�
-	*			lpszCAPemCertFileOrPath	-- CA ֤���ļ���Ŀ¼��������֤��ѡ��
+	* 参数：		iVerifyMode				-- SSL 验证模式（参考 EnSSLVerifyMode）
+	*			lpszPemCertFile			-- 证书文件
+	*			lpszPemKeyFile			-- 私钥文件
+	*			lpszKeyPasswod			-- 私钥密码（没有密码则为空）
+	*			lpszCAPemCertFileOrPath	-- CA 证书文件或目录（单向验证可选）
 	*
-	* ����ֵ��	����		-- �ɹ��������� SNI ����֤���Ӧ�������������������� SNI �ص������ж�λ SNI ����
-	*			����		-- ʧ�ܣ���ͨ�� ::GetLastError() ��ȡʧ��ԭ��
+	* 返回值：	正数		-- 成功，并返回 SNI 主机证书对应的索引，该索引用于在 SNI 回调函数中定位 SNI 主机
+	*			负数		-- 失败，可通过 ::GetLastError() 获取失败原因
 	*/
 	int AddServerContext(int iVerifyMode, LPCTSTR lpszPemCertFile, LPCTSTR lpszPemKeyFile, LPCTSTR lpszKeyPasswod = nullptr, LPCTSTR lpszCAPemCertFileOrPath = nullptr);
 
 	/*
-	* ���ƣ����� SSL ���л���
-	* ���������� SSL ���л��������� SSL ����ڴ�
-	*		1��CSSLContext �������������Զ����ñ�����
-	*		2����Ҫ�������� SSL ��������ʱ����Ҫ�ȵ��ñ���������ԭ�ȵĻ�������
+	* 名称：清理 SSL 运行环境
+	* 描述：清理 SSL 运行环境，回收 SSL 相关内存
+	*		1、CSSLContext 的析构函数会自动调用本方法
+	*		2、当要重新设置 SSL 环境参数时，需要先调用本方法清理原先的环境参数
 	*		
-	* ������	��
+	* 参数：	无
 	* 
-	* ����ֵ����
+	* 返回值：无
 	*/
 	void Cleanup();
 
-	/* ��ȡ SSL ���л��� SSL_CTX ���� */
+	/* 获取 SSL 运行环境 SSL_CTX 对象 */
 	SSL_CTX* GetContext				(int i) const;
-	/* ��ȡ SSL ���л���Ĭ�� SSL_CTX ���� */
+	/* 获取 SSL 运行环境默认 SSL_CTX 对象 */
 	SSL_CTX* GetDefaultContext		()		const	{return m_sslCtx;}
-	/* ��ȡ SSL ���л���������ģʽ������ģʽ�ο���EnSSLSessionMode */
+	/* 获取 SSL 运行环境的配置模式，配置模式参考：EnSSLSessionMode */
 	EnSSLSessionMode GetSessionMode	()		const	{return m_enSessionMode;}
-	/* ��� SSL ���л����Ƿ��ʼ����� */
+	/* 检查 SSL 运行环境是否初始化完成 */
 	BOOL IsValid					()		const	{return m_sslCtx != nullptr;}
 
 public:
 	
 		/*
-	* ���ƣ������ֲ߳̾����� SSL ��Դ
-	* �������κ�һ������ SSL ���̣߳���ͨ�Ž���ʱ����Ҫ�����ֲ߳̾����� SSL ��Դ
-	*		1�����̺߳� HP-Socket �����߳���ͨ�Ž���ʱ���Զ������ֲ߳̾����� SSL ��Դ����ˣ�һ������²����ֹ����ñ�����
-	*		2����������£����Զ����̲߳��� HP-Socket ͨ�Ų�������鵽 SSL �ڴ�й©ʱ������ÿ��ͨ�Ž���ʱ�Զ����̵߳��ñ�����
+	* 名称：清理线程局部环境 SSL 资源
+	* 描述：任何一个操作 SSL 的线程，在通信结束时都需要清理线程局部环境 SSL 资源
+	*		1、主线程和 HP-Socket 工作线程在通信结束时会自动清理线程局部环境 SSL 资源。因此，一般情况下不必手工调用本方法
+	*		2、特殊情况下，当自定义线程参与 HP-Socket 通信操作并检查到 SSL 内存泄漏时，需在每次通信结束时自定义线程调用本方法
 	*		
-	* ������		dwThreadID	-- �߳� ID��0����ǰ�̣߳�
+	* 参数：		dwThreadID	-- 线程 ID（0：当前线程）
 	* 
-	* ����ֵ����
+	* 返回值：无
 	*/
 	static void RemoveThreadLocalState(THR_ID dwThreadID = 0)	{CSSLInitializer::CleanupThreadState(dwThreadID);}
 

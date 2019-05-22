@@ -1,5 +1,5 @@
 #include "timerpipe.h"
-#include "./common/GeneralHelper.h"
+#include "GeneralHelper.h"
 
 TimerPipe* TimerPipe::Create(uint64_t tDelayTime, uint64_t tInterval, char cFlag){
     MessagePipe* p = MessagePipe::Create();

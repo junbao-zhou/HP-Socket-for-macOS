@@ -110,15 +110,22 @@ ULLONG TimeGetTime64()
 	return 0ull;
 }
 
-DWORD GetTimeGap32(DWORD dwOriginal)
+DWORD GetTimeGap32(DWORD dwOriginal, DWORD dwCurrent)
 {
-	return TimeGetTime() - dwOriginal;
+	if(dwCurrent == 0)
+		dwCurrent = ::TimeGetTime();
+
+	return dwCurrent - dwOriginal;
 }
 
-ULLONG GetTimeGap64(ULLONG ullOriginal)
+ULLONG GetTimeGap64(ULLONG ullOriginal, ULONGLONG ullCurrent)
 {
-	return TimeGetTime64() - ullOriginal;
+	if(ullCurrent == 0)
+		ullCurrent = ::TimeGetTime64();
+
+	return ullCurrent - ullOriginal;
 }
+
 
 LLONG TimevalToMillisecond(const timeval& tv)
 {

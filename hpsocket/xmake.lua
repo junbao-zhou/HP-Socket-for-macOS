@@ -2,26 +2,28 @@
 -- add modes: debug and release 
 add_rules("mode.debug", "mode.release")
 
--- add linkdirs
+-- openssl
 add_linkdirs("/usr/local/opt/openssl/lib")
-
--- add linkdirs includes
 add_includedirs("/usr/local/opt/openssl/include")
 
-add_syslinks("crypto", "ssl")
+-- glog
+add_linkdirs("/usr/local/opt/glog/lib", "/usr/local/opt/gflags/lib")
+add_includedirs("/usr/local/opt/glog/include", "/usr/local/opt/gflags/include")
+
+add_syslinks("ssl", "crypto", "glog", "gflags", "iconv")
+
+set_languages("cxx14")
+add_defines("DEBUG")
+add_defines("_HTTP_SUPPORT", "_SSL_SUPPORT", "_ICONV_SUPPORT")
+
+-- add files
+add_files("src/**.cpp|*4C*.cpp", "src/**.c") 
+add_includedirs("src/**")
+
 -- add target
 target("hpsocket")
-
     -- set kind
     set_kind("static")
-    set_languages("cxx14")
-    add_defines("DEBUG")
-    add_defines("_HTTP_SUPPORT", "_NEED_HTTP", "_NEED_SSL", "_SSL_SUPPORT")
-
-    -- add files
-    add_files("src/**.cpp") 
-    add_includedirs("src/")
-
 
 
 -- add target
@@ -29,19 +31,20 @@ target("hpsocket_demo")
 
     -- set kind
     set_kind("binary")
-    set_languages("cxx14")
-    add_defines("DEBUG")
-    -- TARGET_OS_MAC
-    add_defines("_HTTP_SUPPORT", "_NEED_HTTP", "_NEED_SSL", "_SSL_SUPPORT")
-
-    -- add deps
-    add_deps("hpsocket")
 
     -- add files
-    add_files("src/**.cpp") 
-    add_includedirs("src/")
     add_files("main.cpp")
 
+
+-- unit test
+-- add target
+target("unit_test1")
+
+    -- set kind
+    set_kind("binary")
+
+    -- add files
+    add_files("test/test1.cpp")
 
 
 --
