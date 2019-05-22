@@ -2,6 +2,7 @@
 #include "../../src/TcpClient.h"
 #include <thread>
 #include <string>
+#include <iostream>
 
 class CListenerImpl : public CTcpClientListener
 {
@@ -30,6 +31,7 @@ public:
 
 	virtual EnHandleResult OnReceive(ITcpClient* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override
 	{
+		std::cout.write((const char*)pData, iLength) << std::endl;
 		return HR_OK;
 	}
 
@@ -48,7 +50,6 @@ public:
 CListenerImpl s_listener;
 CTcpClient s_client(&s_listener);
 
-#include <iostream>
 
 int main(int argc, char const *argv[])
 {
@@ -60,7 +61,6 @@ int main(int argc, char const *argv[])
 	
     std::string strInput;
 	while(1){
-        std::cout << "输入一行数据: " << std::endl;
         std::getline(std::cin, strInput);
         if(!strInput.empty()){
             s_client.Send((const BYTE*)strInput.c_str(), strInput.size());

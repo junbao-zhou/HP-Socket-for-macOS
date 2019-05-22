@@ -717,7 +717,7 @@ private:
 	virtual BOOL OnReadyRead(PVOID pv, UINT events) override
 	{
 
-		if(events & EVFILT_EXCEPT)
+		if(events == EVFILT_EXCEPT)
 			return FALSE;
 
 		CArqSessionEx* pSession = (CArqSessionEx*)pv;

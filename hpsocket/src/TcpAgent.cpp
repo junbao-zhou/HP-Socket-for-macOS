@@ -833,7 +833,7 @@ BOOL CTcpAgent::OnBeforeProcessIo(PVOID pv, UINT events, uint16_t flags)
 	if(!TAgentSocketObj::IsValid(pSocketObj))
 		return FALSE;
 
-	if((events & EVFILT_EXCEPT) || (flags & EV_ERROR))
+	if((events == EVFILT_EXCEPT) || (flags == EV_ERROR))
 		pSocketObj->SetConnected(FALSE);
 
 	pSocketObj->csIo.lock();
@@ -861,7 +861,7 @@ VOID CTcpAgent::OnAfterProcessIo(PVOID pv, UINT events, BOOL rs)
 
 	if(TAgentSocketObj::IsValid(pSocketObj))
 	{
-        ASSERT(rs && !(events & EVFILT_EXCEPT));
+        ASSERT(rs && !(events == EVFILT_EXCEPT));
 
         UINT evts = (pSocketObj->IsPending() ? EVFILT_WRITE : 0) | (pSocketObj->IsPaused() ? 0 : EVFILT_READ);
         m_ioDispatcher.CtlFD(pSocketObj->socket, EV_ADD | EV_ENABLE | EV_ONESHOT, evts, pSocketObj);
@@ -969,7 +969,7 @@ BOOL CTcpAgent::HandleConnect(TAgentSocketObj* pSocketObj, UINT events)
 {
 	int code = ::SSO_GetError(pSocketObj->socket);
 
-    if(!IS_NO_ERROR(code) || (events & EVFILT_EXCEPT))
+    if(!IS_NO_ERROR(code) || (events == EVFILT_EXCEPT))
 	{
 		AddFreeSocketObj(pSocketObj, SCF_ERROR, SO_CONNECT, code);
 		return FALSE;

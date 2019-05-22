@@ -659,7 +659,7 @@ BOOL CUdpServer::OnBeforeProcessIo(PVOID pv, UINT events, uint16_t flags)
 	if(pv == &m_soListen)
 		return TRUE;
 
-	if(!(events & EVFILT_EXCEPT) || !(flags & EV_ERROR))
+	if(!(events == EVFILT_EXCEPT) || !(flags == EV_ERROR))
 		DetectConnection(pv);
 
 	return FALSE;
