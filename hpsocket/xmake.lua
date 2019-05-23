@@ -56,6 +56,25 @@ target("unit_server_test1")
     add_files("test/server/test1.cpp")
 
 
+-- unit test
+-- add target
+target("unit_client_test2")
+
+    -- set kind
+    set_kind("binary")
+
+    -- add files
+    add_files("test/client/test2.cpp")
+-- unit test
+-- add target
+target("unit_server_test2")
+
+    -- set kind
+    set_kind("binary")
+
+    -- add files
+    add_files("test/server/test2.cpp")
+
 --
 -- FAQ
 --
