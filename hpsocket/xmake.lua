@@ -14,7 +14,7 @@ add_syslinks("ssl", "crypto", "glog", "gflags", "iconv")
 
 set_languages("cxx14")
 add_defines("DEBUG")
-add_defines("_HTTP_SUPPORT", "_SSL_SUPPORT", "_ICONV_SUPPORT")
+add_defines("_HTTP_SUPPORT", "_SSL_SUPPORT", "_ICONV_SUPPORT", "_UDP_SUPPORT")
 
 -- add files
 add_files("src/**.cpp|*4C*.cpp", "src/**.c") 
@@ -94,6 +94,27 @@ target("tcp_pack_agent_client")
 
     -- add files
     add_files("test/client/test4.cpp")
+
+
+-- unit test
+-- add target
+target("udp_server")
+
+    -- set kind
+    set_kind("binary")
+
+    -- add files
+    add_files("test/server/test3.cpp")
+
+-- unit test
+-- add target
+target("udp_client")
+
+    -- set kind
+    set_kind("binary")
+
+    -- add files
+    add_files("test/client/test5.cpp")
 --
 -- FAQ
 --
