@@ -30,7 +30,9 @@
 *.exe
 *.out
 *.app
-HP-Socket.pro.user
+HP-Socket.pro*
 .DS_Store
 .vscode/
 common/.DS_Store
+hpsocket/src/TestCode.txt
+
