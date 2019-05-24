@@ -63,6 +63,9 @@ public:
 CListenerImpl s_listener;
 CTcpPackServer s_server(&s_listener);
 
+/**
+ * 该例子与client/test2.cpp测试
+ */
 int main(int argc, char const *argv[])
 {
     LOG(INFO) << "hello world!";

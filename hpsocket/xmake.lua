@@ -21,7 +21,7 @@ add_files("src/**.cpp|*4C*.cpp", "src/**.c")
 add_includedirs("src/**")
 
 -- add target
-target("hpsocket")
+target("hpsocket_static_lib")
     -- set kind
     set_kind("static")
 
@@ -38,7 +38,7 @@ target("hpsocket_demo")
 
 -- unit test
 -- add target
-target("unit_client_test1")
+target("tcp_client")
 
     -- set kind
     set_kind("binary")
@@ -47,7 +47,7 @@ target("unit_client_test1")
     add_files("test/client/test1.cpp")
 -- unit test
 -- add target
-target("unit_server_test1")
+target("tcp_server")
 
     -- set kind
     set_kind("binary")
@@ -58,7 +58,7 @@ target("unit_server_test1")
 
 -- unit test
 -- add target
-target("unit_client_test2")
+target("tcp_pack_client")
 
     -- set kind
     set_kind("binary")
@@ -67,7 +67,7 @@ target("unit_client_test2")
     add_files("test/client/test2.cpp")
 -- unit test
 -- add target
-target("unit_server_test2")
+target("tcp_pack_server")
 
     -- set kind
     set_kind("binary")
@@ -75,6 +75,25 @@ target("unit_server_test2")
     -- add files
     add_files("test/server/test2.cpp")
 
+-- unit test
+-- add target
+target("tcp_agent_client")
+
+    -- set kind
+    set_kind("binary")
+
+    -- add files
+    add_files("test/client/test3.cpp")
+
+-- unit test
+-- add target
+target("tcp_pack_agent_client")
+
+    -- set kind
+    set_kind("binary")
+
+    -- add files
+    add_files("test/client/test4.cpp")
 --
 -- FAQ
 --
