@@ -115,6 +115,19 @@ target("udp_client")
 
     -- add files
     add_files("test/client/test5.cpp")
+
+-- unit test
+-- add target
+target("http_server")
+
+    -- set kind
+    set_kind("binary")
+    add_defines("_NEED_HTTP", "_NEED_SSL")
+
+    -- add files
+    add_files("test/server/test4.cpp")
+    add_files("test/helper.cpp")
+    add_includedirs("test/helper.h")
 --
 -- FAQ
 --
