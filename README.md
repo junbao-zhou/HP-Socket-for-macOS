@@ -27,7 +27,7 @@ HP-Socket for macOS版本只是提供与其他平台上相同的回调接口，�
 
 `MessagePipe.h`
 
-HP-Socket for macOS版本(改自HP-Socket for linux 5.5.1)。
+HP-Socket for macOS版本(改自HP-Socket for linux 5.5.1)
 
 #### 支持
 
