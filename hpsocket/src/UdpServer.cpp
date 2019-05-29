@@ -741,6 +741,8 @@ BOOL CUdpServer::HandleClose()
 }
 
 /**
+ * 当该socket具有数据报文被操作系统i/o监听机制触发可接收时调用此处
+ * 主要由IODispatcher调用
  * 接收UDP数据报文
  */
 BOOL CUdpServer::HandleReceive(int flag)
@@ -759,7 +761,7 @@ BOOL CUdpServer::HandleReceive(int flag)
 		if(rc >= 0)
 		{
 			CONNID dwConnID = FindConnectionID(&addr);
-
+			//表明该地址还不具有接收通信ID
 			if(dwConnID == 0)
 			{
 				if(rc > iBufferLen)
@@ -789,17 +791,19 @@ BOOL CUdpServer::HandleReceive(int flag)
 				continue;
 			}
 
+			//向后移动部分相应长度 => used
 			itPtr->Increase(rc);
-			
 			{
 				CReentrantReadLock locallock(pSocketObj->lcIo);
 
 				if(!TUdpSocketObj::IsValid(pSocketObj))
 					continue;
 
+				//将该追加到数据项添加到socket对应的接收队列中
+				//等待被kcp处理
 				pSocketObj->recvQueue.PushBack(itPtr.Detach());
 			}
-
+			//发送接收事件，将会调用kcp处理所接收的数据报文
 			VERIFY(m_ioDispatcher.SendCommand(DISP_CMD_RECEIVE, dwConnID, flag));
 		}
 		else
@@ -828,12 +832,14 @@ CONNID CUdpServer::HandleAccept(HP_SOCKADDR& addr)
 			return dwConnID;
 		else
 		{
+			//从环形池中取出一个未使用的INDEX，当做通信ID
 			if(!m_bfActiveSockets.AcquireLock(dwConnID))
 				return 0;
 
 			pSocketObj = GetFreeSocketObj(dwConnID);
+			//加锁
 			pSocketObj->lcIo.WaitToWrite();
-
+			//将该Socket Object添加到维护映射表中
 			AddClientSocketObj(dwConnID, pSocketObj, addr);
 		}
 	}
