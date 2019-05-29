@@ -360,12 +360,14 @@ public:
 
 	EnHandleResult Receive(const BYTE* pData, int iLength, BYTE* pBuffer, int iCapacity)
 	{
+		//判断接收的用户数据报大小进行分发
 		if(iLength >= KCP_HEADER_SIZE)
 			return ReceiveArq(pData, iLength, pBuffer, iCapacity);
-		else if(iLength == TArqCmd::PACKAGE_LENGTH)
+		else if(iLength == TArqCmd::PACKAGE_LENGTH) // 握手包
 			return ReceiveHandShake(pData);
 		else
 		{
+			//异常包
 			::WSASetLastError(ERROR_INVALID_DATA);
 			return HR_ERROR;
 		}
@@ -449,6 +451,11 @@ public:
 		return HR_OK;
 	}
 
+	/**
+	 * 由外部调用
+	 * 输入接收到的数据至kcp中: pData
+	 * 从kcp中取出有序的数据
+	 */
 	EnHandleResult ReceiveArq(const BYTE* pData, int iLength, BYTE* pBuffer, int iCapacity)
 	{
 		if(!IsReady()) return HR_IGNORE;
@@ -467,7 +474,7 @@ public:
 				::WSASetLastError(ERROR_INVALID_DATA);
 				return HR_ERROR;
 			}
-
+			//将接收到的数据输入到kcp中
 			int rs = ::ikcp_input(m_kcp, (const char*)pData, iLength);
 
 			if(rs != NO_ERROR)
@@ -478,6 +485,7 @@ public:
 
 			while(TRUE)
 			{
+				//此时取出的数据是有序的
 				int iRead = ::ikcp_recv(m_kcp, (char*)pBuffer, iCapacity);
 
 				if(iRead >= 0)
@@ -489,6 +497,7 @@ public:
 				}
 				else if(iRead == -3)
 				{
+					//接收buffer长度较小: 不够装
 					::WSASetLastError(ERROR_INCORRECT_SIZE);
 					return HR_ERROR;
 				}
@@ -497,6 +506,7 @@ public:
 			}
 		}
 
+		//更新kcp=> 调用flush等
 		Flush(TRUE);
 
 		return HR_OK;

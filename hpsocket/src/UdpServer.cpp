@@ -740,6 +740,9 @@ BOOL CUdpServer::HandleClose()
 	return FALSE;
 }
 
+/**
+ * 接收UDP数据报文
+ */
 BOOL CUdpServer::HandleReceive(int flag)
 {
 	while(TRUE)
@@ -750,6 +753,7 @@ BOOL CUdpServer::HandleReceive(int flag)
 		TItemPtr itPtr(m_bfObjPool, m_bfObjPool.PickFreeItem());
 		int iBufferLen = itPtr->Capacity();
 
+		//接收用户数据报
 		int rc = (int)recvfrom(m_soListen, itPtr->Ptr(), iBufferLen, MSG_TRUNC, addr.Addr(), &dwAddrLen);
 
 		if(rc >= 0)
@@ -760,7 +764,7 @@ BOOL CUdpServer::HandleReceive(int flag)
 			{
 				if(rc > iBufferLen)
 					continue;
-
+				//接收新用户
 				if((dwConnID = HandleAccept(addr)) == 0)
 					continue;
 			}
@@ -770,14 +774,17 @@ BOOL CUdpServer::HandleReceive(int flag)
 			if(!TUdpSocketObj::IsValid(pSocketObj))
 				continue;
 
+			//接收大小为0，则为探测包
 			if(rc == 0)
 			{
+				//发送检测包
 				HandleZeroBytes(pSocketObj);
 				continue;
 			}
-
+			//如果接收数据大于buffer长度则表明该用户数据报文错误
 			if(rc > iBufferLen)
 			{
+				//异常报文
 				AddFreeSocketObj(pSocketObj, SCF_ERROR, SO_RECEIVE, ERROR_BAD_LENGTH);
 				continue;
 			}
