@@ -239,6 +239,8 @@ BOOL CUdpClient::Stop()
 		m_soClient = INVALID_SOCKET;
 	}
 
+	SAFE_DELETE(m_pTimer);
+
 	Reset();
 
 	return TRUE;
@@ -263,6 +265,8 @@ void CUdpClient::Reset()
 	m_dwDetectFails	= 0;
 	m_bPaused		= FALSE;
 	m_enState		= SS_STOPPED;
+
+	m_pTimer = nullptr;
 }
 
 void CUdpClient::WaitForWorkerThreadEnd()
@@ -421,6 +425,9 @@ BOOL CUdpClient::CheckConnection()
 	return VERIFY(DetectConnection());
 }
 
+/**
+ * 向远端发送空数据报
+ */
 BOOL CUdpClient::DetectConnection()
 {
 	int rc = (int)send(m_soClient, nullptr, 0, 0);

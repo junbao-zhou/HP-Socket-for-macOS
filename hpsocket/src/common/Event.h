@@ -344,10 +344,7 @@ public:
 	{
         ASSERT_CHECK_EINVAL(lDelay >= 0L && lInterval >= 0L);
 
-        if(m_pTimer){
-            delete m_pTimer;
-            m_pTimer = nullptr;
-        }
+		SAFE_DELETE(m_pTimer);
 
         m_pTimer = TimerPipe::Create(lDelay, lInterval);
 

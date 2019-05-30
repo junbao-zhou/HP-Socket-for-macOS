@@ -24,7 +24,9 @@
 #pragma once
 
 #include "SocketHelper.h"
-#include "./common/GeneralHelper.h"
+#include "common/GeneralHelper.h"
+#include "common/MessagePipe.h"
+#include "common/TimerPipe.h"
 
 #ifdef _UDP_SUPPORT
 
@@ -169,6 +171,7 @@ public:
 	, m_dwFreeBufferPoolHold(DEFAULT_CLIENT_FREE_BUFFER_POOL_HOLD)
 	, m_dwDetectAttempts	(DEFAULT_UDP_DETECT_ATTEMPTS)
 	, m_dwDetectInterval	(DEFAULT_UDP_DETECT_INTERVAL)
+	, m_pTimer				(nullptr)
 	{
 		ASSERT(m_pListener);
 	}
@@ -207,6 +210,7 @@ protected:
 
 	CItemPool			m_itPool;
 
+    TimerPipe* 			m_pTimer;
 private:
 	CSpinGuard			m_csState;
 

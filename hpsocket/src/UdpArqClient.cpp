@@ -57,17 +57,17 @@ void CUdpArqClient::Reset()
 void CUdpArqClient::OnWorkerThreadStart(THR_ID dwThreadID)
 {
 	m_arqBuffer.Malloc(m_arqAttr.dwMaxMessageSize);
-	m_arqTimer = ::CreateTimer(m_arqAttr.dwFlushInterval);
+
+	m_pTimer = TimerPipe::Create(0, m_arqAttr.dwFlushInterval);
+	SET_NONBLOCK_CLOEXEC(m_pTimer->GetReadFd());
+
+	m_arqTimer = m_pTimer->GetReadFd();
 }
 
 void CUdpArqClient::OnWorkerThreadEnd(THR_ID dwThreadID)
 {
-	if(IS_VALID_FD(m_arqTimer))
-	{
-		close(m_arqTimer);
-		m_arqTimer = INVALID_FD;
-	}
-
+	m_arqTimer = INVALID_FD;
+	SAFE_DELETE(m_pTimer);
 	m_arqBuffer.Free();
 }
 

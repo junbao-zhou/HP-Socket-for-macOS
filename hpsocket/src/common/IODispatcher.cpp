@@ -129,7 +129,7 @@ BOOL CIODispatcher::Stop(BOOL bCheck)
 		SAFE_DELETE(m_evExit);
 	}
 
-	if (IS_VALID_FD(m_evCmd->GetReadFd()))
+	if (m_evCmd && IS_VALID_FD(m_evCmd->GetReadFd()))
 	{
 		SAFE_DELETE(m_evCmd);
 	}

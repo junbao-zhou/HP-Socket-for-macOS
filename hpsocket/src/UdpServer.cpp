@@ -1131,7 +1131,7 @@ void CUdpServer::DetectConnection(PVOID pv)
 		else
 			::InterlockedIncrement(&pSocketObj->detectFails);
 
-		// kqueue不需要取数据
+		// kqueue的timer不需要取数据
 		// ::ReadTimer(pSocketObj->fdTimer);
 	}
 }

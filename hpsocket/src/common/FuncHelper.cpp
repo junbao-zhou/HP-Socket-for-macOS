@@ -203,16 +203,19 @@ FD CreateTimer(LLONG llInterval, LLONG llStart, BOOL bRealTimeClock)
 	return 0; // 临时添加
 }
 
+/**
+ * TimerMessage使用
+ */
 BOOL ReadTimer(FD tmr, ULLONG* pVal, BOOL* pRs)
 {
-	static const SSIZE_T SIZE = sizeof(ULLONG);
+ 	static const SSIZE_T SIZE = sizeof(char);
 
 	if(pVal == nullptr)
 		pVal = CreateLocalObject(ULLONG);
 	if(pRs == nullptr)
 		pRs = CreateLocalObject(BOOL);
 
-	if(read(tmr, pVal, SIZE) == SIZE)
+    if(read(tmr, pVal, SIZE) == SIZE)
 		*pRs = TRUE;
 	else
 	{

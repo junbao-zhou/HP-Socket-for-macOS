@@ -8,6 +8,7 @@ TimerPipe* TimerPipe::Create(uint64_t tDelayTime, uint64_t tInterval, char cFlag
         timer->Start(tDelayTime, cFlag);
         return timer;
     }
+    SAFE_DELETE(p);
     return nullptr;
 }
 

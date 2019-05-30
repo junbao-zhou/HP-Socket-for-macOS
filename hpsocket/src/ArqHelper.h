@@ -726,7 +726,6 @@ private:
 
 	virtual BOOL OnReadyRead(PVOID pv, UINT events) override
 	{
-
 		if(events == EVFILT_EXCEPT)
 			return FALSE;
 
@@ -735,7 +734,8 @@ private:
 		if(!pSession->Check() && pSession->IsValid() && TUdpSocketObj::IsValid(pSession->m_pSocket))
 			pSession->m_pContext->Disconnect(pSession->m_pSocket->connID);
 
-		::ReadTimer(pSession->GetTimer());
+		// kqueue的timer不需要读取数据
+		// ::ReadTimer(pSession->GetTimer());
 
 		return TRUE;
 	}
