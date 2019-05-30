@@ -212,7 +212,7 @@ int CIODispatcher::WorkerProc(PVOID pv)
 			//触发的byte字节数，当为listen套接字时为待接收的连接数量
 			intptr_t count = pEvents[i].data;
 
-			if (ptr == &m_evTimer && fd == 1)
+			if (ptr == &m_evTimer)
 				ProcessTimer(&count, events);
 			else if (ptr == m_evCmd)
 				ProcessCommand(events);
@@ -267,7 +267,7 @@ BOOL CIODispatcher::ProcessTimer(PVOID ptr, UINT events)
 	if (events == EVFILT_EXCEPT)
 		ERROR_ABORT();
 
-	if (!(events == EVFILT_TIMER))
+	if (events != EVFILT_TIMER)
 		return TRUE;
 
 	BOOL isOK = TRUE;
@@ -282,7 +282,7 @@ BOOL CIODispatcher::ProcessExit(UINT events)
 	if (events == EVFILT_EXCEPT)
 		ERROR_ABORT();
 
-	if (!(events == EVFILT_READ))
+	if (events != EVFILT_READ)
 		return TRUE;
 
 	BOOL bRun = TRUE;
@@ -334,13 +334,14 @@ uint32_t CIODispatcher::AddTimer(LLONG llInterval, PVOID pv)
 		struct kevent event;
 		uint32_t timerIdent = GenerateNextTimerIdent();
 
-		EV_SET(&event, timerIdent, EVFILT_TIMER, EV_ADD, NOTE_USECONDS, llInterval * int64_t(1000), &timerIdent);
+		EV_SET(&event, timerIdent, EVFILT_TIMER, EV_ADD, NOTE_USECONDS, llInterval * int64_t(1000), pv);
 		if (kevent(m_kque, &event, 1, nullptr, 0, nullptr) < 0)
-			return 0;
+			goto LAST_GOTO;
 
 		return timerIdent;
 	}
 
+	LAST_GOTO:
 	return 0;
 }
 

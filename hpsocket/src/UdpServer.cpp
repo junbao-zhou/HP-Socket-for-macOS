@@ -656,10 +656,12 @@ BOOL CUdpServer::PauseReceive(CONNID dwConnID, BOOL bPause)
 
 BOOL CUdpServer::OnBeforeProcessIo(PVOID pv, UINT events, uint16_t flags)
 {
+	//监听事件触发
 	if(pv == &m_soListen)
 		return TRUE;
 
-	if(!(events == EVFILT_EXCEPT) || !(flags == EV_ERROR))
+	//该为定时器触发
+	if(events != EVFILT_EXCEPT || flags != EV_ERROR)
 		DetectConnection(pv);
 
 	return FALSE;
@@ -752,9 +754,11 @@ BOOL CUdpServer::HandleReceive(int flag)
 		HP_SOCKADDR addr;
 		socklen_t dwAddrLen = (socklen_t)addr.AddrSize();
 
+		//释放时回收到m_bfObjPool中
 		TItemPtr itPtr(m_bfObjPool, m_bfObjPool.PickFreeItem());
 		int iBufferLen = itPtr->Capacity();
 
+		//MSG_TRUNC：当接收的数据报文比iBufferLen多时，采取将数据截断的处理方式
 		//接收用户数据报
 		int rc = (int)recvfrom(m_soListen, itPtr->Ptr(), iBufferLen, MSG_TRUNC, addr.Addr(), &dwAddrLen);
 
@@ -771,6 +775,7 @@ BOOL CUdpServer::HandleReceive(int flag)
 					continue;
 			}
 
+			//取出相应SocketObj
 			TUdpSocketObj* pSocketObj = FindSocketObj(dwConnID);
 
 			if(!TUdpSocketObj::IsValid(pSocketObj))
@@ -837,13 +842,13 @@ CONNID CUdpServer::HandleAccept(HP_SOCKADDR& addr)
 				return 0;
 
 			pSocketObj = GetFreeSocketObj(dwConnID);
-			//加锁
+			//IO加锁
 			pSocketObj->lcIo.WaitToWrite();
 			//将该Socket Object添加到维护映射表中
 			AddClientSocketObj(dwConnID, pSocketObj, addr);
 		}
 	}
-
+	//进行响应回调
 	if(TriggerFireAccept(pSocketObj) == HR_ERROR)
 	{
 		AddFreeSocketObj(pSocketObj);
@@ -1126,7 +1131,8 @@ void CUdpServer::DetectConnection(PVOID pv)
 		else
 			::InterlockedIncrement(&pSocketObj->detectFails);
 
-		::ReadTimer(pSocketObj->fdTimer);
+		// kqueue不需要取数据
+		// ::ReadTimer(pSocketObj->fdTimer);
 	}
 }
 
