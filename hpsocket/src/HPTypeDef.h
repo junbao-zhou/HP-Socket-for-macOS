@@ -34,8 +34,8 @@
 //#define _UDP_DISABLED			// 禁用 UDP
 //#define _SSL_DISABLED			// 禁用 SSL
 //#define _HTTP_DISABLED		// 禁用 HTTP
-//#define _ZLIB_DISABLED		// 禁用 ZLIB
-//#define _ICONV_DISABLED		// 禁用 ICONV
+#define _ZLIB_DISABLED		// 禁用 ZLIB
+#define _ICONV_DISABLED		// 禁用 ICONV
 
 /* 是否启用 UDP，如果定义了 _UDP_DISABLED 则禁用（默认：启用） */
 #if !defined(_UDP_DISABLED)

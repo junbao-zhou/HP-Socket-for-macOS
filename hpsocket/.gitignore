@@ -20,3 +20,5 @@
 *.gch.d
 gmon.out
 build
+/.idea
+/cmake-build-debug

@@ -55,7 +55,7 @@ BOOL CIODispatcher::Start(IIOHandler *pHandler, int iWorkerMaxEvents, int iWorke
 	if (IS_INVALID_FD(m_evCmd->GetReadFd()))
 		goto START_ERROR;
 
-	if (!VERIFY(CtlFD(m_evCmd->GetReadFd(), EV_ADD | EV_CLEAR, EVFILT_READ, m_evCmd)))
+	if (!VERIFY(CtlFD(m_evCmd->GetReadFd(), EV_ADD | EV_CLEAR, EVFILT_READ, &m_evCmd)))
 		goto START_ERROR;
 
 	m_evExit = new CCounterEvent<true>();
@@ -63,7 +63,7 @@ BOOL CIODispatcher::Start(IIOHandler *pHandler, int iWorkerMaxEvents, int iWorke
 	if (IS_INVALID_FD(m_evExit->GetFD()))
 		goto START_ERROR;
 
-	if (!VERIFY(CtlFD(m_evExit->GetFD(), EV_ADD | EV_CLEAR, EVFILT_READ, m_evExit)))
+	if (!VERIFY(CtlFD(m_evExit->GetFD(), EV_ADD | EV_CLEAR, EVFILT_READ, &m_evExit)))
 		goto START_ERROR;
 
 	if (llTimerInterval > 0)
@@ -183,6 +183,7 @@ BOOL CIODispatcher::CtlFD(FD fd, int op, UINT mask, PVOID pv)
 
 int CIODispatcher::WorkerProc(PVOID pv)
 {
+    m_pHandler->OnDispatchThreadStart(SELF_THREAD_ID);
 	BOOL bRun = TRUE;
 	unique_ptr<struct kevent[]> pEvents = make_unique<struct kevent[]>(m_iMaxEvents);
 
@@ -214,16 +215,16 @@ int CIODispatcher::WorkerProc(PVOID pv)
 
 			if (ptr == &m_evTimer)
 				ProcessTimer(&count, events);
-			else if (ptr == m_evCmd)
+			else if (ptr == &m_evCmd)
 				ProcessCommand(events);
-			else if (ptr == m_evExit)
+			else if (ptr == &m_evExit)
 				bRun = ProcessExit(events);
 			else
 				ProcessIo(ptr, events, flags);
 		}
 	}
 
-	m_pHandler->OnDispatchThreadEnd(SELF_THREAD_ID);
+    m_pHandler->OnDispatchThreadEnd(SELF_THREAD_ID);
 
 	return 0;
 }
@@ -233,7 +234,7 @@ BOOL CIODispatcher::ProcessCommand(UINT events)
 	if (events == EVFILT_EXCEPT)
 		ERROR_ABORT();
 
-	if (!(events == EVFILT_READ))
+	if (events != EVFILT_READ)
 		return FALSE;
 
 	BOOL isOK = TRUE;
@@ -315,13 +316,13 @@ BOOL CIODispatcher::DoProcessIo(PVOID ptr, UINT events, uint16_t flags)
 {
 	if (events == EVFILT_EXCEPT || EV_ERROR == flags)
 		return m_pHandler->OnError(ptr, events);
-	if ((events == EVFILT_READ && flags == EV_OOBAND) && !m_pHandler->OnReadyPrivilege(ptr, events))
+	if ((events == (UINT)EVFILT_READ && flags == EV_OOBAND) && !m_pHandler->OnReadyPrivilege(ptr, events))
 		return FALSE;
-	if ((events == EVFILT_READ && flags != EV_OOBAND) && !m_pHandler->OnReadyRead(ptr, events))
+	if ((events == (UINT)EVFILT_READ && flags != EV_OOBAND) && !m_pHandler->OnReadyRead(ptr, events))
 		return FALSE;
-	if ((events == EVFILT_WRITE) && !m_pHandler->OnReadyWrite(ptr, events))
+	if ((events == (UINT)EVFILT_WRITE) && !m_pHandler->OnReadyWrite(ptr, events))
 		return FALSE;
-	if ((events == (EVFILT_USER)) && !m_pHandler->OnHungUp(ptr, events))
+	if ((events == (UINT)(EVFILT_USER)) && !m_pHandler->OnHungUp(ptr, events))
 		return FALSE;
 
 	return TRUE;

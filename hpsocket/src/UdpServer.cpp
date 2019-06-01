@@ -969,7 +969,7 @@ BOOL CUdpServer::DoSend(CONNID dwConnID, int flag)
 			sndBuff.PushFront(itPtr.Detach());
 			m_quSend.PushBack(dwConnID);
 
-			m_ioDispatcher.CtlFD(m_soListen, EV_ADD | EV_CLEAR | EV_ENABLE | EV_DISPATCH, EVFILT_WRITE, &m_soListen);
+			m_ioDispatcher.CtlFD(m_soListen, EV_ADD | EV_CLEAR | EV_ENABLE | EV_DISPATCH, EVFILT_WRITE | EVFILT_READ, &m_soListen);
 
 			break;
 		}

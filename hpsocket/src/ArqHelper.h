@@ -46,7 +46,7 @@ using namespace std;
 #define DEFAULT_ARQ_RECV_WND_SIZE		512
 #define DEFAULT_ARQ_MIN_RTO				30
 #define DEFAULT_ARQ_MAX_TRANS_UNIT		DEFAULT_UDP_MAX_DATAGRAM_SIZE
-#define DEFAULT_ARQ_MAX_MSG_SIZE		MAXIMUM_UDP_MAX_DATAGRAM_SIZE
+#define DEFAULT_ARQ_MAX_MSG_SIZE		DEFAULT_BUFFER_CACHE_CAPACITY
 #define DEFAULT_ARQ_HANND_SHAKE_TIMEOUT	5000
 
 #define KCP_HEADER_SIZE					24
@@ -59,14 +59,14 @@ using Fn_ArqOutputProc = int (*)(const char* pBuffer, int iLength, IKCPCB* kcp, 
 DWORD GenerateConversationID();
 
 /************************************************************************
-���ƣ�ARQ ����״̬
-��������ʶ��ǰ���ӵ� ARQ ����״̬
+名称：ARQ 握手状态
+描述：标识当前连接的 ARQ 握手状态
 ************************************************************************/
 enum EnArqHandShakeStatus
 {
-	ARQ_HSS_INIT	= 0,	// ��ʼ״̬
-	ARQ_HSS_PROC	= 1,	// ��������
-	ARQ_HSS_SUCC	= 2,	// ���ֳɹ�
+	ARQ_HSS_INIT	= 0,	// 初始状态
+	ARQ_HSS_PROC	= 1,	// 正在握手
+	ARQ_HSS_SUCC	= 2,	// 握手成功
 };
 
 struct TArqCmd
