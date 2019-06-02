@@ -55,7 +55,7 @@ BOOL CIODispatcher::Start(IIOHandler *pHandler, int iWorkerMaxEvents, int iWorke
 	if (IS_INVALID_FD(m_evCmd->GetReadFd()))
 		goto START_ERROR;
 
-	if (!VERIFY(CtlFD(m_evCmd->GetReadFd(), EV_ADD | EV_CLEAR, EVFILT_READ, &m_evCmd)))
+	if (!VERIFY(CtlFD(m_evCmd->GetReadFd(), EV_ADD | EV_CLEAR, EVFILT_READ, m_evCmd)))
 		goto START_ERROR;
 
 	m_evExit = new CCounterEvent<true>();
@@ -63,7 +63,7 @@ BOOL CIODispatcher::Start(IIOHandler *pHandler, int iWorkerMaxEvents, int iWorke
 	if (IS_INVALID_FD(m_evExit->GetFD()))
 		goto START_ERROR;
 
-	if (!VERIFY(CtlFD(m_evExit->GetFD(), EV_ADD | EV_CLEAR, EVFILT_READ, &m_evExit)))
+	if (!VERIFY(CtlFD(m_evExit->GetFD(), EV_ADD | EV_CLEAR, EVFILT_READ, m_evExit)))
 		goto START_ERROR;
 
 	if (llTimerInterval > 0)
@@ -178,7 +178,7 @@ BOOL CIODispatcher::CtlFD(FD fd, int op, UINT mask, PVOID pv)
 {
 	struct kevent evt;
 	EV_SET(&evt, fd, mask, op, NULL, NULL, pv);
-	return !(kevent(m_kque, &evt, 1, NULL, NULL, NULL) < 0);
+	return kevent(m_kque, &evt, 1, 0, 0, 0) >= 0;
 }
 
 int CIODispatcher::WorkerProc(PVOID pv)
@@ -215,9 +215,9 @@ int CIODispatcher::WorkerProc(PVOID pv)
 
 			if (ptr == &m_evTimer)
 				ProcessTimer(&count, events);
-			else if (ptr == &m_evCmd)
+			else if (ptr == m_evCmd)
 				ProcessCommand(events);
-			else if (ptr == &m_evExit)
+			else if (ptr == m_evExit)
 				bRun = ProcessExit(events);
 			else
 				ProcessIo(ptr, events, flags);
@@ -318,7 +318,7 @@ BOOL CIODispatcher::DoProcessIo(PVOID ptr, UINT events, uint16_t flags)
 		return m_pHandler->OnError(ptr, events);
 	if ((events == (UINT)EVFILT_READ && flags == EV_OOBAND) && !m_pHandler->OnReadyPrivilege(ptr, events))
 		return FALSE;
-	if ((events == (UINT)EVFILT_READ && flags != EV_OOBAND) && !m_pHandler->OnReadyRead(ptr, events))
+	if (((events == (UINT)EVFILT_READ || events == (UINT)EVFILT_TIMER) && flags != EV_OOBAND) && !m_pHandler->OnReadyRead(ptr, events))
 		return FALSE;
 	if ((events == (UINT)EVFILT_WRITE) && !m_pHandler->OnReadyWrite(ptr, events))
 		return FALSE;
