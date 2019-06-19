@@ -2056,9 +2056,15 @@ CString g_c_strCAPemCertFileOrPath2;
 CString g_c_strPemCertFile2;
 CString g_c_strPemKeyFile2;
 
+
 CString g_s_strCAPemCertFileOrPath2;
 CString g_s_strPemCertFile2;
 CString g_s_strPemKeyFile2;
+
+
+CString g_s_strCAPemCertFileOrPath3;
+CString g_s_strPemCertFile3;
+CString g_s_strPemKeyFile3;
 
 int g_c_iVerifyMode2					= SSL_VM_PEER;
 LPCTSTR g_c_lpszCAPemCertFileOrPath2	= _T("ca2.crt");
@@ -2071,6 +2077,11 @@ LPCTSTR g_s_lpszCAPemCertFileOrPath2	= _T("ca2.crt");
 LPCTSTR g_s_lpszPemCertFile2			= _T("server2.cer");
 LPCTSTR g_s_lpszPemKeyFile2				= _T("server2.key");
 LPCTSTR g_s_lpszKeyPasswod2				= _T("ppmm");
+
+LPCTSTR g_s_lpszCAPemCertFileOrPath3	= _T("ca2.crt");
+LPCTSTR g_s_lpszPemCertFile3			= _T("ws.dktai.cn.pem");
+LPCTSTR g_s_lpszPemKeyFile3				= _T("ws.dktai.cn.key");
+LPCTSTR g_s_lpszKeyPasswod3				= _T("");
 
 BOOL InitSSLParams();
 BOOL g_SSLParams = InitSSLParams();
@@ -2121,6 +2132,26 @@ BOOL InitSSLParams()
 		g_s_strCAPemCertFileOrPath	= strPath + g_s_lpszCAPemCertFileOrPath;
 		g_s_lpszCAPemCertFileOrPath	= g_s_strCAPemCertFileOrPath;
 	}
+///
+
+    if(g_s_lpszPemCertFile2)
+    {
+        g_s_strPemCertFile2	= strPath + g_s_lpszPemCertFile2;
+        g_s_lpszPemCertFile2 = g_s_strPemCertFile2;
+    }
+
+    if(g_s_lpszPemKeyFile2)
+    {
+        g_s_strPemKeyFile2	= strPath + g_s_lpszPemKeyFile2;
+        g_s_lpszPemKeyFile2	= g_s_strPemKeyFile2;
+    }
+
+    if(g_s_lpszCAPemCertFileOrPath2)
+    {
+        g_s_strCAPemCertFileOrPath2	= strPath + g_s_lpszCAPemCertFileOrPath2;
+        g_s_lpszCAPemCertFileOrPath2	= g_s_strCAPemCertFileOrPath2;
+    }
+
 
 	if(g_c_lpszPemCertFile2)
 	{
@@ -2140,22 +2171,22 @@ BOOL InitSSLParams()
 		g_c_lpszCAPemCertFileOrPath2 = g_c_strCAPemCertFileOrPath2;
 	}
 
-	if(g_s_lpszPemCertFile2)
+	if(g_s_lpszPemCertFile3)
 	{
-		g_s_strPemCertFile2  = strPath + g_s_lpszPemCertFile2;
-		g_s_lpszPemCertFile2 = g_s_strPemCertFile2;
+		g_s_strPemCertFile3  = strPath + g_s_lpszPemCertFile3;
+		g_s_lpszPemCertFile3 = g_s_strPemCertFile3;
 	}
 
-	if(g_s_lpszPemKeyFile2)
+	if(g_s_lpszPemKeyFile3)
 	{
-		g_s_strPemKeyFile2	= strPath + g_s_lpszPemKeyFile2;
-		g_s_lpszPemKeyFile2	= g_s_strPemKeyFile2;
+		g_s_strPemKeyFile3	= strPath + g_s_lpszPemKeyFile3;
+		g_s_lpszPemKeyFile3	= g_s_strPemKeyFile3;
 	}
 
-	if(g_s_lpszCAPemCertFileOrPath2)
+	if(g_s_lpszCAPemCertFileOrPath3)
 	{
-		g_s_strCAPemCertFileOrPath2  = strPath + g_s_lpszCAPemCertFileOrPath2;
-		g_s_lpszCAPemCertFileOrPath2 = g_s_strCAPemCertFileOrPath2;
+		g_s_strCAPemCertFileOrPath3  = strPath + g_s_lpszCAPemCertFileOrPath3;
+		g_s_lpszCAPemCertFileOrPath3 = g_s_strCAPemCertFileOrPath3;
 	}
 
 	return TRUE;

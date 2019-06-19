@@ -393,12 +393,22 @@ CHttpsServer s_https_server(&s_listener_2);
 const CString SPECIAL_SERVER_NAME	= _T("hpsocket.org");
 int SPECIAL_SERVER_INDEX			= -1;
 
+const CString SPECIAL_SERVER_NAME2	= _T("ws.dktai.cn");
+int SPECIAL_SERVER_INDEX2			= -1;
+
 int CALLBACK SIN_ServerNameCallback(LPCTSTR lpszServerName)
 {
 	if(::IsIPAddress(lpszServerName))
 		return 0;
 
+
 	int len  = lstrlen(lpszServerName);
+	{
+		int diff = len - SPECIAL_SERVER_NAME2.GetLength();
+		if(SPECIAL_SERVER_NAME2.CompareNoCase(lpszServerName) == 0)
+			return SPECIAL_SERVER_INDEX2;
+	}
+
 	int diff = len - SPECIAL_SERVER_NAME.GetLength();
 
 	if(diff < 0)
@@ -547,8 +557,10 @@ int main(int argc, char* const argv[])
 
 	g_app_arg.ParseArgs(argc, argv);
 
-	if(s_https_server.SetupSSLContext(SSL_VM_NONE, g_s_lpszPemCertFile, g_s_lpszPemKeyFile, g_s_lpszKeyPasswod, g_s_lpszCAPemCertFileOrPath, SIN_ServerNameCallback))
+	if(s_https_server.SetupSSLContext(SSL_VM_NONE, g_s_lpszPemCertFile, g_s_lpszPemKeyFile, g_s_lpszKeyPasswod, g_s_lpszCAPemCertFileOrPath, SIN_ServerNameCallback)){
 		SPECIAL_SERVER_INDEX = s_https_server.AddSSLContext(SSL_VM_NONE, g_s_lpszPemCertFile2, g_s_lpszPemKeyFile2, g_s_lpszKeyPasswod2, g_s_lpszCAPemCertFileOrPath2);
+		SPECIAL_SERVER_INDEX2 = s_https_server.AddSSLContext(SSL_VM_NONE, g_s_lpszPemCertFile3, g_s_lpszPemKeyFile3);
+	}
 	else
 	{
 		::LogServerStartFail(::GetLastError(), _T("initialize SSL env fail"));

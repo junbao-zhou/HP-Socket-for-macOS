@@ -60,11 +60,11 @@ public:
 
 	BOOL TryLock(BOOL bWeek = FALSE, memory_order m = memory_order_acquire)
 	{
-		BOOL bExpect = FALSE;
+		bool bExpect = false;
 
 		return bWeek
-			? m_atFlag.compare_exchange_weak(bExpect, TRUE, m)
-			: m_atFlag.compare_exchange_strong(bExpect, TRUE, m);
+			? m_atFlag.compare_exchange_weak(bExpect, (bool)TRUE, m)
+			: m_atFlag.compare_exchange_strong(bExpect, (bool)TRUE, m);
 	}
 
 	void Unlock(memory_order m = memory_order_release)

@@ -27,7 +27,7 @@
 #include <sys/types.h>
 #include <sys/_pthread/_pthread_t.h>
 
-typedef bool					BOOL;
+typedef int						BOOL;
 typedef float					FLOAT;
 typedef FLOAT					*PFLOAT, *LPFLOAT;
 typedef double					DOUBLE;
@@ -180,8 +180,8 @@ typedef const TCHAR				*PCTSTR, *LPCTSTR;
 #define INVALID_PVOID			((PVOID)-1)
 #define _MAX_PATH				256
 #define MAX_PATH				_MAX_PATH
-#define TRUE					true
-#define FALSE					false
+#define TRUE					1
+#define FALSE					0
 #define CONST					const
 
 #define MAKEWORD(a, b)			((WORD)(((BYTE)(((DWORD_PTR)(a)) & 0xff)) | ((WORD)((BYTE)(((DWORD_PTR)(b)) & 0xff))) << 8))
