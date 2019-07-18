@@ -2030,7 +2030,7 @@ LPCTSTR GetAnyAddress(LPCTSTR lpszLikeAddress)
 #include "../src/common/FuncHelper.h"
 
 #define SSL_CERT_RELATIVE_PATH_1		_T("/hp-ssl-cert/")
-#define SSL_CERT_RELATIVE_PATH_2		_T("/../../../../ssl-cert/")
+#define SSL_CERT_RELATIVE_PATH_2		_T("../ssl-cert/")
 
 CString g_c_strCAPemCertFileOrPath;
 CString g_c_strPemCertFile;
@@ -2079,8 +2079,8 @@ LPCTSTR g_s_lpszPemKeyFile2				= _T("server2.key");
 LPCTSTR g_s_lpszKeyPasswod2				= _T("ppmm");
 
 LPCTSTR g_s_lpszCAPemCertFileOrPath3	= _T("ca2.crt");
-LPCTSTR g_s_lpszPemCertFile3			= _T("ws.dktai.cn.pem");
-LPCTSTR g_s_lpszPemKeyFile3				= _T("ws.dktai.cn.key");
+LPCTSTR g_s_lpszPemCertFile3			= _T("server33.crt");
+LPCTSTR g_s_lpszPemKeyFile3				= _T("server33.key");
 LPCTSTR g_s_lpszKeyPasswod3				= _T("");
 
 BOOL InitSSLParams();

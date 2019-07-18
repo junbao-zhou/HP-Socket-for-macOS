@@ -393,7 +393,7 @@ CHttpsServer s_https_server(&s_listener_2);
 const CString SPECIAL_SERVER_NAME	= _T("hpsocket.org");
 int SPECIAL_SERVER_INDEX			= -1;
 
-const CString SPECIAL_SERVER_NAME2	= _T("ws.dktai.cn");
+const CString SPECIAL_SERVER_NAME2	= _T("qweqwe.club");
 int SPECIAL_SERVER_INDEX2			= -1;
 
 int CALLBACK SIN_ServerNameCallback(LPCTSTR lpszServerName)

@@ -12,7 +12,7 @@ public:
 		USHORT usPort;
 
 		pSender->GetListenAddress(szAddress, iAddressLen, usPort);
-		LOG(INFO) << szAddress << ":" << usPort;
+        LOG(INFO) << szAddress << ":" << usPort;
 		return HR_OK;
 	}
 
@@ -25,7 +25,7 @@ public:
 
 		pSender->GetRemoteAddress(dwConnID, szAddress, iAddressLen, usPort);
 
-		LOG(INFO) << szAddress << ":" << usPort;
+        LOG(INFO) << szAddress << ":" << usPort;
 
 		return bPass ? HR_OK : HR_ERROR;
 	}
@@ -73,7 +73,7 @@ int main(int argc, char const *argv[])
 	s_server.SetPackHeaderFlag(0x1F9);
     
 	if(!s_server.Start("", 8888)){
-		LOG(ERROR) << "开启监听失败!";
+        LOG(ERROR) << "开启监听失败!";
 		return -1;
 	}
 	

@@ -52,8 +52,8 @@
 #define IPV6_ANY_ADDRESS		_T("::")
 #define DEF_BROAD_CAST_ADDRESS	_T("233.0.0.1")
 #define DEF_TCP_UDP_PORT		5555
-#define DEF_HTTP_PORT			80
-#define DEF_HTTPS_PORT			443
+#define DEF_HTTP_PORT			8080
+#define DEF_HTTPS_PORT			8443
 
 #define TCP_KEEPALIVE_TIME		(60 * 1000)
 #define UDP_DETECT_ATTEMPTS		3
