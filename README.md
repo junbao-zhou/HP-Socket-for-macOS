@@ -31,12 +31,51 @@ HP-Socket for macOS版本(改自HP-Socket for linux 5.5.1)
 
 #### 支持
 
-- `TcpServer(Client)` 
-- `UdpServer(Client)`
-- `TcpPackServer(Client)`
+- `TcpServer/Client` 
+- `UdpServer/Client`
+- `TcpPackServer/Client`
 - `TcpAgent`
 - `TcpPackAgent`
-- `HTTP-Server/HTTPS-Server`
-- `ARQ-UdpServer/ARQ-UdpClient`
+- `HttpClient/Server`
+- `ARQ-UdpServer/Client`
 - `SSL`
 
+------
+
+#### 文件目录介绍
+
+| 目录名                               | 描述                                                |
+| ------------------------------------ | --------------------------------------------------- |
+| hpsocket                             | hpsocket网络框架相关的所有文件                      |
+| hpsocket\qt-hpsocket                 | 存有qt使用hpsocket的简单例子                        |
+| hpsocket\qt-hpsocket\hpsocket.pro    | 生成静态库/qt creator工程配置文件                   |
+| hpsocket\qt-hpsocket\qt-hpsocket.pro | 使用hpsocket源文件的简单例子/qt creator工程配置文件 |
+| hpsocket\qt-hpsocket\qt-lib-demo     | 使用静态库的简单例子/qt creator工程配置文件         |
+| hpsocket\src                         | hpsocket的源文件                                    |
+| hpsocket\ssl-cert                    | 测试ssl的相关证书                                   |
+| hpsocket\test                        | 一些简单的测试例子                                  |
+| hpsocket\CMakeLists.txt              | cmake的配置文件                                     |
+
+提供的例子中请注意依赖头文件与库路径。
+
+> CMakeLists.txt
+
+```
+include_directories(/opt/local/include)
+link_directories(/opt/local/lib)
+#暂时关闭对ssl的支持
+#link_libraries(ssl iconv z crypto)
+add_definitions(-D_SSL_DISABLED)
+```
+
+> *.pro
+
+```
+#暂时关闭对ssl的支持
+DEFINES += _SSL_DISABLED
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
+
+#ssl的依赖库
+#macx: LIBS += -L/opt/local/lib -lssl -lcrypto -lglog
+INCLUDEPATH += /opt/local/include
+```

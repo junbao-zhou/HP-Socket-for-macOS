@@ -77,6 +77,7 @@ int main(int argc, char const *argv[])
 		return -1;
 	}
 	
+
 	while(1)
 		std::this_thread::sleep_for(1s);
 

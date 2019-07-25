@@ -53,9 +53,9 @@ CTcpClient s_client(&s_listener);
 
 int main(int argc, char const *argv[])
 {
-    LOG(INFO) << "hello world!";
+//    LOG(INFO) << "hello world!";
 	if(!s_client.Start("127.0.0.1", 8888, false)){
-		LOG(ERROR) << "开启监听失败!";
+//		LOG(ERROR) << "开启监听失败!";
 		return -1;
 	}
 	
