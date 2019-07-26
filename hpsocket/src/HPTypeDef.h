@@ -28,11 +28,11 @@
 /* HP-Socket 版本号 */
 #define HP_VERSION_MAJOR	5	// 主版本号
 #define HP_VERSION_MINOR	5	// 子版本号
-#define HP_VERSION_REVISE	1	// 修正版本号
-#define HP_VERSION_BUILD	5	// 构建编号
+#define HP_VERSION_REVISE	3	// 修正版本号
+#define HP_VERSION_BUILD	2	// 构建编号
 
 //#define _UDP_DISABLED			// 禁用 UDP
-//#define _SSL_DISABLED			// 禁用 SSL
+#define _SSL_DISABLED			// 禁用 SSL
 //#define _HTTP_DISABLED		// 禁用 HTTP
 #define _ZLIB_DISABLED		// 禁用 ZLIB
 #define _ICONV_DISABLED		// 禁用 ICONV

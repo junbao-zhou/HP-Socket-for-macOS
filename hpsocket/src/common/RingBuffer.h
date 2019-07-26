@@ -91,7 +91,7 @@ public:
 
 			if(pValue == E_EMPTY)
 			{
-				if(::InterlockedCompareExchangePointer((volatile PVOID*)&pValue, pElement, E_EMPTY) == E_EMPTY)
+				if(::InterlockedCompareExchangePointer(&pValue, pElement, E_EMPTY) == E_EMPTY)
 				{
 					::InterlockedIncrement(&m_dwCount);
 					::InterlockedCompareExchange(&m_dwCurSeq, dwCurSeq + 1, dwCurSeq);
@@ -810,9 +810,8 @@ public:
 
 		BOOL isOK = FALSE;
 
-		while(true)
+		for(DWORD i = 0; i < m_dwSize; i++)
 		{
-			BOOL bOccupy = FALSE;
 			DWORD seqPut = m_seqPut;
 
 			if(!HasPutSpace(seqPut))
@@ -820,34 +819,21 @@ public:
 
 			DWORD dwIndex = seqPut % m_dwSize;
 			VTPTR& pValue = INDEX_VAL(dwIndex);
+			TPTR pCurrent = (TPTR)pValue;
 
-            //
-			if(pValue == E_RELEASED)
+			if(pCurrent == E_EMPTY)
 			{
-                //尝试将已经释放的位置变为占有
-				if(::InterlockedCompareExchangePointer(&pValue, E_OCCUPIED, E_RELEASED) == E_RELEASED)
-                    bOccupy = TRUE; //占有中...
-				else
-                    //占有失败，可想此时失败的理由肯定是被使用
-                    //同样的m_seqPut会被增加，若未增加也就是多个while判断，最坏返回False
-                    continue;
-			}
-            //没有被占用或者为空时
-			if(pValue == E_EMPTY || bOccupy)
-			{
-                //尝试增加当前序列值，若增加失败则表示被别的线程占有了，只需要下次循环就可以了
-                //此时有一个疑难点，会不会出现bOccupy为TRUE，m_seqPut增加失败的情况？
-                //不会出现的，当被占有时其他线程是无法对m_seqPut进行增步的
-				if(::InterlockedCompareExchange(&m_seqPut, seqPut + 1, seqPut) == seqPut)
+				if(::InterlockedCompareExchangePointer(&pValue, pElement, pCurrent) == pCurrent)
 				{
-					pValue	= pElement;
-					isOK	= TRUE;
+					::InterlockedCompareExchange(&m_seqPut, seqPut + 1, seqPut);
+
+					isOK = TRUE;
 
 					break;
 				}
 			}
-			else if(pValue == E_LOCKED)
-				break;
+
+			::InterlockedCompareExchange(&m_seqPut, seqPut + 1, seqPut);
 		}
 
 		return isOK;
@@ -870,25 +856,22 @@ public:
 
 			DWORD dwIndex = seqGet % m_dwSize;
 			VTPTR& pValue = INDEX_VAL(dwIndex);
+			TPTR pCurrent = (TPTR)pValue;
 
-            //已经被上锁则返回False
-			if(pValue == E_LOCKED)
-				break;
-            //当为E_EMPTY、E_RELEASED、E_OCCUPIED的状态的时，表明数据并没有实际添加到缓冲中
-			else if(pValue != E_EMPTY && pValue != E_RELEASED && pValue != E_OCCUPIED)
+			if(pCurrent > E_MAX_STATUS)
 			{
-                //尝试将已经被获取的指针增步
-				if(::InterlockedCompareExchange(&m_seqGet, seqGet + 1, seqGet) == seqGet)
+				if(::InterlockedCompareExchangePointer(&pValue, E_EMPTY, pCurrent) == pCurrent)
 				{
-					ASSERT(pValue > E_MAX_STATUS);
+					::InterlockedCompareExchange(&m_seqGet, seqGet + 1, seqGet);
 
-					*(ppElement)	= (TPTR)pValue;
-					pValue			= E_EMPTY;
-					isOK			= TRUE;
+					*(ppElement) = pCurrent;
+					isOK		 = TRUE;
 
 					break;
 				}
 			}
+
+			::InterlockedCompareExchange(&m_seqGet, seqGet + 1, seqGet);
 		}
 
 		return isOK;
@@ -909,24 +892,24 @@ public:
 			if(!HasGetSpace(seqGet))
 				break;
 
-			dwIndex			= seqGet % m_dwSize;
-			VTPTR& pValue	= INDEX_VAL(dwIndex);
+			dwIndex		  = seqGet % m_dwSize;
+			VTPTR& pValue = INDEX_VAL(dwIndex);
+			TPTR pCurrent = (TPTR)pValue;
 
-			if(pValue == E_LOCKED)
-				break;
-			else if(pValue != E_EMPTY && pValue != E_RELEASED && pValue != E_OCCUPIED)
+			if(pCurrent > E_MAX_STATUS)
 			{
-				if(::InterlockedCompareExchange(&m_seqGet, seqGet + 1, seqGet) == seqGet)
+				if(::InterlockedCompareExchangePointer(&pValue, E_LOCKED, pCurrent) == pCurrent)
 				{
-					ASSERT(pValue > E_MAX_STATUS);
+					::InterlockedCompareExchange(&m_seqGet, seqGet + 1, seqGet);
 
-					*(ppElement)	= (TPTR)pValue;
-					pValue			= E_LOCKED;
-					isOK			= TRUE;
+					*(ppElement) = pCurrent;
+					isOK		 = TRUE;
 
 					break;
 				}
 			}
+
+			::InterlockedCompareExchange(&m_seqGet, seqGet + 1, seqGet);
 		}
 
 		return isOK;
@@ -940,30 +923,12 @@ public:
 		if(!IsValid()) return FALSE;
 
 		VTPTR& pValue = INDEX_VAL(dwIndex);
-		VERIFY(pValue == E_LOCKED);
+		ENSURE(pValue == E_LOCKED);
 
-		if(pElement != nullptr)
-		{
-			for(DWORD i = 0; ; i++)
-			{
-				if(TryPut(pElement))
-					break;
-
-				DWORD dwPutIndex = m_seqPut % m_dwSize;
-
-				if(dwIndex == dwPutIndex)
-				{
-					pValue = pElement;
-					::InterlockedIncrement(&m_seqPut);
-
-					return TRUE;
-				}
-
-				::YieldThread(i);
-			}
-		}
-
-		pValue = E_RELEASED;
+		if(pElement == nullptr)
+			pValue = E_EMPTY;
+		else
+			pValue = pElement;
 
 		return TRUE;
 	}
@@ -976,6 +941,22 @@ public:
 			Destroy();
 		if(dwSize > 0)
 			Create(dwSize);
+	}
+
+	void Clear()
+	{
+		for(DWORD dwIndex = 0; dwIndex < m_dwSize; dwIndex++)
+		{
+			VTPTR& pValue = INDEX_VAL(dwIndex);
+
+			if(pValue > E_MAX_STATUS)
+			{
+				T::Destruct((TPTR)pValue);
+				pValue = E_EMPTY;
+			}
+		}
+
+		Reset();
 	}
 
 	DWORD Size()		{return m_dwSize;}
@@ -1034,7 +1015,9 @@ public:
 		Reset(0);
 	}
 
-	DECLARE_NO_COPY_CLASS(CRingPool)
+private:
+	CRingPool(const CRingPool&);
+	CRingPool operator = (const CRingPool&);
 
 private:
         DWORD				m_dwSize; //缓冲区实际大小
@@ -1048,8 +1031,6 @@ private:
 
 template <class T> T* const CRingPool<T>::E_EMPTY		= (T*)0x00;
 template <class T> T* const CRingPool<T>::E_LOCKED		= (T*)0x01;
-template <class T> T* const CRingPool<T>::E_RELEASED	= (T*)0x02;
-template <class T> T* const CRingPool<T>::E_OCCUPIED	= (T*)0x03;
 template <class T> T* const CRingPool<T>::E_MAX_STATUS	= (T*)0x0F;
 
 // ------------------------------------------------------------------------------------------------------------- //

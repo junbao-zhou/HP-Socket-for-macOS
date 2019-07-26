@@ -8,7 +8,7 @@ link_directories(/opt/local/lib)
 
 #暂时关闭对ssl的支持
 #link_libraries(ssl iconv z crypto)
-add_definitions(-D_SSL_DISABLED)
+#add_definitions(-D_SSL_DISABLED)
 
 set(HPSOCKET_SOURCE_PATH src)
 set(HPSOCKET_SOURCE_COMMON_PATH src/common)

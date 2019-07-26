@@ -59,11 +59,11 @@ void CSSLServer::Reset()
 	__super::Reset();
 }
 
-void CSSLServer::OnWorkerThreadEnd(THR_ID tID)
+void CSSLServer::OnWorkerThreadEnd(THR_ID dwThreadID)
 {
 	m_sslCtx.RemoveThreadLocalState();
 
-	__super::OnWorkerThreadEnd(tID);
+	__super::OnWorkerThreadEnd(dwThreadID);
 }
 
 BOOL CSSLServer::SendPackets(CONNID dwConnID, const WSABUF pBuffers[], int iCount)

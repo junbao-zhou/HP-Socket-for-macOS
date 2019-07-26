@@ -227,9 +227,10 @@ BOOL CTcpClient::Stop()
 	if(!CheckStoping())
 		return FALSE;
 
-	SetConnected(FALSE);
 
 	WaitForWorkerThreadEnd();
+	SetConnected(FALSE);
+
 
 	if(m_ccContext.bFireOnClose)
 		FireClose(m_ccContext.enOperation, m_ccContext.iErrorCode);

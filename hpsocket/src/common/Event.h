@@ -359,7 +359,7 @@ public:
 	{
 		ASSERT(IsValid());
 
-        static const SSIZE_T SIZE = sizeof(char);
+        const SSIZE_T SIZE = sizeof(char);
 
         if(read(m_pTimer->GetReadFd(), &v, SIZE) == SIZE)
 			ok = TRUE;

@@ -1,4 +1,3 @@
-#include "mainwindow.h"
 #include <thread>
 #include <chrono>
 #include "GlobalDef.h"

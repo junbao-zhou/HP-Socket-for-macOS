@@ -38,7 +38,7 @@ public:
 
 	virtual BOOL SetupSSLContext(int iVerifyMode = SSL_VM_NONE, LPCTSTR lpszPemCertFile = nullptr, LPCTSTR lpszPemKeyFile = nullptr, LPCTSTR lpszKeyPasswod = nullptr, LPCTSTR lpszCAPemCertFileOrPath = nullptr, Fn_SNI_ServerNameCallback fnServerNameCallback = nullptr)
 		{return m_sslCtx.Initialize(SSL_SM_SERVER, iVerifyMode, lpszPemCertFile, lpszPemKeyFile, lpszKeyPasswod, lpszCAPemCertFileOrPath, fnServerNameCallback);}
-	virtual BOOL AddSSLContext	(int iVerifyMode = SSL_VM_NONE, LPCTSTR lpszPemCertFile = nullptr, LPCTSTR lpszPemKeyFile = nullptr, LPCTSTR lpszKeyPasswod = nullptr, LPCTSTR lpszCAPemCertFileOrPath = nullptr)
+	virtual int AddSSLContext	(int iVerifyMode = SSL_VM_NONE, LPCTSTR lpszPemCertFile = nullptr, LPCTSTR lpszPemKeyFile = nullptr, LPCTSTR lpszKeyPasswod = nullptr, LPCTSTR lpszCAPemCertFileOrPath = nullptr)
 		{return m_sslCtx.AddServerContext(iVerifyMode, lpszPemCertFile, lpszPemKeyFile, lpszKeyPasswod, lpszCAPemCertFileOrPath);}
 	virtual void CleanupSSLContext()
 		{m_sslCtx.Cleanup();}
@@ -57,7 +57,8 @@ protected:
 	virtual void PrepareStart();
 	virtual void Reset();
 
-    virtual void OnWorkerThreadEnd(THR_ID tID);
+	virtual void OnWorkerThreadEnd(THR_ID dwThreadID);
+
 protected:
 	virtual BOOL StartSSLHandShake(TSocketObj* pSocketObj);
 
