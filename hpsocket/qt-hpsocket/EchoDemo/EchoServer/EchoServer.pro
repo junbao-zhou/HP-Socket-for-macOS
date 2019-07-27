@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-07-25T20:42:10
+# Project created by QtCreator 2019-07-26T22:58:02
 #
 #-------------------------------------------------
 
@@ -8,10 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
-
-TARGET = lib-demo
-
+TARGET = EchoServer
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -25,20 +22,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
+
 CONFIG += c++14
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        mainwindow.cpp \
+    tcpserverlistenerimpl.cpp
+
+HEADERS += \
+        mainwindow.h \
+    tcpserverlistenerimpl.h
+
+FORMS += \
+        mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-INCLUDEPATH += $$PWD/../includes/
-DEPENDPATH += $$PWD/../includes/
+INCLUDEPATH += $$PWD/../../includes/
+DEPENDPATH += $$PWD/../../includes/
 
-macx: LIBS += -L$$PWD/../lib/ -lhpsocket
-
-
-# DEFINES += _SSL_DISABLED
+macx: LIBS += -L$$PWD/../../lib/ -lhpsocket

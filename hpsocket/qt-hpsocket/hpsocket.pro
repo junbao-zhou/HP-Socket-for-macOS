@@ -9,7 +9,7 @@ TEMPLATE = lib
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 #暂时关闭对ssl的支持
-DEFINES += _SSL_DISABLED
+#DEFINES += _SSL_DISABLED
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
 
 # You can also make your code fail to compile if it uses deprecated APIs.
@@ -138,4 +138,4 @@ SOURCES += \
 #ssl的依赖库
 #macx: LIBS += -L/opt/local/lib -lssl -lcrypto -lglog
 
-INCLUDEPATH += /opt/local/include
+#INCLUDEPATH += /opt/local/include
