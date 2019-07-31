@@ -2030,7 +2030,7 @@ LPCTSTR GetAnyAddress(LPCTSTR lpszLikeAddress)
 #include "../src/common/FuncHelper.h"
 
 #define SSL_CERT_RELATIVE_PATH_1		_T("/hp-ssl-cert/")
-#define SSL_CERT_RELATIVE_PATH_2		_T("../ssl-cert/")
+#define SSL_CERT_RELATIVE_PATH_2		_T("/../ssl-cert/")
 
 CString g_c_strCAPemCertFileOrPath;
 CString g_c_strPemCertFile;

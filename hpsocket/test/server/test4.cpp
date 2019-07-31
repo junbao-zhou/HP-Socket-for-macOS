@@ -484,22 +484,24 @@ void OnCmdSend(CHttpCommandParser* pParser)
 	}
 
 	BYTE bCode	= 0x8;
-	int iLength = 0;;
+	int iLength = 0;
 	BYTE* pData	= nullptr;
 
 	if(pParser->m_strData.CompareNoCase(HTTP_WEB_SOCKET_CLOSE_FLAG) != 0)
 	{
 		bCode	= 0x1;
-		iLength	= pParser->m_strData.GetLength();
-		pData	= (BYTE*)(LPCSTR)pParser->m_strData;
+        iLength	= pParser->m_strData.GetLength();
+        pData	= (BYTE*)(LPCSTR)pParser->m_strData;
 	}
 
 	CString strContent;
 	strContent.Format(_T("[WebSocket] (oc: 0x%X, len: %d)"), bCode, iLength);
 	::LogSending(pParser->m_dwConnID, strContent, lpszName);
 
-	if(!pServer->SendWSMessage(pParser->m_dwConnID, TRUE, 0, bCode, nullptr, pData, iLength))
-		::LogSendFail(pParser->m_dwConnID, ::GetLastError(), ::GetLastErrorStr(), lpszName);
+
+    if(!pServer->SendWSMessage(pParser->m_dwConnID, TRUE, 0, bCode, nullptr, pData, iLength)){
+        ::LogSendFail(pParser->m_dwConnID, ::GetLastError(), ::GetLastErrorStr(), lpszName);
+    }
 }
 
 void OnCmdPause(CHttpCommandParser* pParser)
