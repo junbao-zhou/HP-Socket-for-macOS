@@ -55,6 +55,7 @@ HP-Socket for macOS版本(改自HP-Socket for linux 5.5.3)
 | hpsocket\ssl-cert                    | 测试ssl的相关证书                                   |
 | hpsocket\test                        | 一些简单的测试例子                                  |
 | hpsocket\CMakeLists.txt              | cmake的配置文件                                     |
+| hpsocket\4C                          | hpsocket框架提供的类C接口                           |
 
 提供的例子中请注意依赖头文件与库路径。
 
@@ -70,7 +71,7 @@ add_definitions(-D_SSL_DISABLED)
 
 > *.pro
 
-```
+```tex
 #暂时关闭对ssl的支持
 DEFINES += _SSL_DISABLED
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
@@ -79,3 +80,20 @@ QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
 #macx: LIBS += -L/opt/local/lib -lssl -lcrypto -lglog
 INCLUDEPATH += /opt/local/include
 ```
+
+------
+
+#### 如何使用`4C`接口？
+
+> 将4C文件夹下的文件放置src目录下，删除以下文件
+
+```tex
+HPSocket.cpp
+HPSocket.h
+HPSocket-SSL.cpp
+HPSocket-SSL.h
+```
+
+并提供了一个官方使用4C接口的http例子`test_server_4c`
+
+后面将完善相关例子与工程配置
