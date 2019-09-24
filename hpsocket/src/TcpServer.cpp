@@ -54,7 +54,7 @@ BOOL CTcpServer::CheckParams()
 {
 	if	((m_enSendPolicy >= SP_PACK && m_enSendPolicy <= SP_DIRECT)								&&
 		(m_enOnSendSyncPolicy >= OSSP_NONE && m_enOnSendSyncPolicy <= OSSP_RECEIVE)				&&
-		((int)m_dwMaxConnectionCount > 0)														&&
+		((int)m_dwMaxConnectionCount > 0 && m_dwMaxConnectionCount <= MAX_CONNECTION_COUNT)		&&
 		((int)m_dwWorkerThreadCount > 0 && m_dwWorkerThreadCount <= MAX_WORKER_THREAD_COUNT)	&&
 		((int)m_dwAcceptSocketCount > 0)														&&
 		((int)m_dwSocketBufferSize >= MIN_SOCKET_BUFFER_SIZE)									&&
@@ -812,12 +812,12 @@ BOOL CTcpServer::HandleAccept(UINT events)
         {
             int code = ::WSAGetLastError();
 
-            if(code == EWOULDBLOCK)
-                return TRUE;
-            else if(code == ECONNABORTED)
-                continue;
-            else if(code == EBADF)
-                return FALSE;
+			if(code == ERROR_WOULDBLOCK)
+				return TRUE;
+			else if(code == ERROR_CONNABORTED)
+				continue;
+			else if(code == ERROR_HANDLES_CLOSED)
+				return FALSE;
 			
             ERROR_EXIT2(EXIT_CODE_SOFTWARE, code);
         }
