@@ -942,11 +942,11 @@ BOOL CTcpAgent::HandleClose(TAgentSocketObj* pSocketObj, EnSocketCloseFlag enFla
 {
 	EnSocketOperation enOperation = SO_CLOSE;
 
-    if(events & EVFILT_USER)
+    if(events == EVFILT_USER)
 		enOperation = SO_CLOSE;
-    else if(events & EVFILT_READ)
+    else if(events == EVFILT_READ)
 		enOperation = SO_RECEIVE;
-    else if(events & EVFILT_WRITE)
+    else if(events == EVFILT_WRITE)
 		enOperation = SO_SEND;
 
 	int iErrorCode = 0;
@@ -969,13 +969,13 @@ BOOL CTcpAgent::HandleConnect(TAgentSocketObj* pSocketObj, UINT events)
 		return FALSE;
 	}
 
-    if(events & EVFILT_USER)
+    if(events == EVFILT_USER)
 	{
 		AddFreeSocketObj(pSocketObj, SCF_CLOSE, SO_CONNECT, SE_OK);
 		return FALSE;
 	}
 
-    ASSERT(events & EVFILT_WRITE);
+    ASSERT(events == EVFILT_WRITE);
 
 	pSocketObj->SetConnected();
 

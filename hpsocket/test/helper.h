@@ -50,7 +50,8 @@
 #define IPV6_LOOPBACK_ADDRESS	_T("::1")
 #define IPV4_ANY_ADDRESS		_T("0.0.0.0")
 #define IPV6_ANY_ADDRESS		_T("::")
-#define DEF_BROAD_CAST_ADDRESS	_T("233.0.0.1")
+#define DEF_MULTI_CAST_ADDRESS	_T("233.0.0.1")
+#define BROAD_CAST_ADDRESS		_T("255.255.255.255")
 #define DEF_TCP_UDP_PORT		5555
 #define DEF_HTTP_PORT			8080
 #define DEF_HTTPS_PORT			8443
@@ -481,9 +482,9 @@ void PostInfoMsg(info_msg* msg);
 void LogInfoMsg(info_msg* pInfoMsg);
 void LogMsg(const CString& msg);
 
-// extern LPCTSTR g_lpszDefaultCookieFile;
+ extern LPCTSTR g_lpszDefaultCookieFile;
 
-// LPCTSTR GetDefaultCookieFile();
+ LPCTSTR GetDefaultCookieFile();
 
 #ifdef _NEED_SSL
 

@@ -776,11 +776,11 @@ BOOL CTcpServer::HandleClose(TSocketObj* pSocketObj, EnSocketCloseFlag enFlag, U
 {
 	EnSocketOperation enOperation = SO_CLOSE;
 
-    if(events & EVFILT_USER)
+    if(events == EVFILT_USER)
 		enOperation = SO_CLOSE;
-    else if(events & EVFILT_READ)
+    else if(events == EVFILT_READ)
 		enOperation = SO_RECEIVE;
-    else if(events & EVFILT_WRITE)
+    else if(events == EVFILT_WRITE)
 		enOperation = SO_SEND;
 
 	int iErrorCode = 0;

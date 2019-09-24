@@ -1,7 +1,7 @@
 #include "../helper.h"
-#include "../../src/TcpAgent.h"
+#include "../../src/TcpPullAgent.h"
 
-class CListenerImpl : public CTcpAgentListener
+class CListenerImpl : public CTcpPullAgentListener
 {
 
 public:
@@ -28,9 +28,47 @@ public:
         return HR_OK;
     }
 
-    virtual EnHandleResult OnReceive(ITcpAgent* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override
+    virtual EnHandleResult OnReceive(ITcpAgent* pSender, CONNID dwConnID, int iLength) override
     {
-        ::PostOnReceive(dwConnID, pData, iLength);
+        ITcpPullAgent* pAgent = ITcpPullAgent::FromS(pSender);
+        TPkgInfo* pInfo		  = ::FindPkgInfo(pSender, dwConnID);
+
+        int required = pInfo->length;
+        int remain = iLength;
+
+        while(remain >= required)
+        {
+            remain -= required;
+            CBufferPtr buffer(required);
+
+            EnFetchResult result = pAgent->Fetch(dwConnID, buffer, (int)buffer.Size());
+
+            if(result == FR_OK)
+            {
+                ::PostOnReceive(dwConnID, buffer, (int)buffer.Size());
+
+                if(pInfo->is_header)
+                {
+                    TPkgHeader* pHeader = (TPkgHeader*)buffer.Ptr();
+#ifdef DEBUG
+                    PRINTLN("(head) -> seq: %d, body_len: %d", pHeader->seq, pHeader->body_len);
+#endif
+                    required = pHeader->body_len;
+                }
+                else
+                {
+#ifdef DEBUG
+                    TPkgBody* pBody = (TPkgBody*)buffer.Ptr();
+					PRINTLN("(body) -> name: %s, age: %d, desc: %s", pBody->name, pBody->age, pBody->desc);
+#endif
+                    required = sizeof(TPkgHeader);
+                }
+
+                pInfo->is_header = !pInfo->is_header;
+                pInfo->length	 = required;
+            }
+        }
+
         return HR_OK;
     }
 
@@ -45,6 +83,8 @@ public:
         iErrorCode == SE_OK ? ::PostOnClose(dwConnID) :
         ::PostOnError(dwConnID, enOperation, iErrorCode);
 
+        ::RemovePkgInfo(pSender, dwConnID);
+
         return HR_OK;
     }
 
@@ -57,7 +97,7 @@ public:
 };
 
 CListenerImpl s_listener;
-CTcpAgent s_agent(&s_listener);
+CTcpPullAgent s_agent(&s_listener);
 
 void OnCmdStart(CCommandParser* pParser)
 {
@@ -82,18 +122,27 @@ void OnCmdStatus(CCommandParser* pParser)
 
 void OnCmdConnect(CCommandParser* pParser)
 {
+    TPkgInfo* pInfo = ::ConstructPkgInfo();
+
     ::LogConnect(pParser->m_strRemoteAddr, pParser->m_usRemotePort);
 
-    if(!s_agent.Connect(pParser->m_strRemoteAddr, pParser->m_usRemotePort))
+    if(!s_agent.Connect(pParser->m_strRemoteAddr, pParser->m_usRemotePort, nullptr, pInfo))
+    {
+        ::DestructPkgInfo(pInfo);
         ::LogConnectFail(::GetLastError(), ::GetLastErrorStr());
+    }
 }
 
 void OnCmdSend(CCommandParser* pParser)
 {
-    if(s_agent.Send(pParser->m_dwConnID, (LPBYTE)(LPCTSTR)pParser->m_strMessage, pParser->m_strMessage.GetLength()))
-    ::LogSend(pParser->m_dwConnID, pParser->m_strMessage);
+    static DWORD SEQ = 0;
+
+    unique_ptr<CBufferPtr> buffer(::GeneratePkgBuffer(++SEQ, _T("HP-Agent"), 23, pParser->m_strMessage));
+
+    if(s_agent.Send(pParser->m_dwConnID, buffer->Ptr(), (int)buffer->Size()))
+        ::LogSend(pParser->m_dwConnID, pParser->m_strMessage);
     else
-    ::LogSendFail(pParser->m_dwConnID, ::GetLastError(), ::GetLastErrorStr());
+        ::LogSendFail(pParser->m_dwConnID, ::GetLastError(), ::GetLastErrorStr());
 }
 
 void OnCmdPause(CCommandParser* pParser)
