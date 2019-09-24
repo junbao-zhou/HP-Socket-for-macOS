@@ -27,7 +27,7 @@ HP-Socket for macOS版本只是提供与其他平台上相同的回调接口，�
 
 `MessagePipe.h`
 
-HP-Socket for macOS版本(改自HP-Socket for linux 5.5.3)
+HP-Socket for macOS版本(改自HP-Socket for linux 5.6.1)
 
 #### 支持
 
@@ -36,6 +36,7 @@ HP-Socket for macOS版本(改自HP-Socket for linux 5.5.3)
 - `TcpPackServer/Client`
 - `TcpAgent`
 - `TcpPackAgent`
+- Pull
 - `HttpClient/Server`
 - `ARQ-UdpServer/Client`
 - `SSL`
@@ -44,18 +45,14 @@ HP-Socket for macOS版本(改自HP-Socket for linux 5.5.3)
 
 #### 文件目录介绍
 
-| 目录名                               | 描述                                                |
-| ------------------------------------ | --------------------------------------------------- |
-| hpsocket                             | hpsocket网络框架相关的所有文件                      |
-| hpsocket\qt-hpsocket                 | 存有qt使用hpsocket的简单例子                        |
-| hpsocket\qt-hpsocket\hpsocket.pro    | 生成静态库/qt creator工程配置文件                   |
-| hpsocket\qt-hpsocket\qt-hpsocket.pro | 使用hpsocket源文件的简单例子/qt creator工程配置文件 |
-| hpsocket\qt-hpsocket\qt-lib-demo     | 使用静态库的简单例子/qt creator工程配置文件         |
-| hpsocket\src                         | hpsocket的源文件                                    |
-| hpsocket\ssl-cert                    | 测试ssl的相关证书                                   |
-| hpsocket\test                        | 一些简单的测试例子                                  |
-| hpsocket\CMakeLists.txt              | cmake的配置文件                                     |
-| hpsocket\4C                          | hpsocket框架提供的类C接口                           |
+| 目录名                  | 描述                           |
+| ----------------------- | ------------------------------ |
+| hpsocket                | hpsocket网络框架相关的所有文件 |
+| hpsocket\src            | hpsocket的源文件               |
+| hpsocket\ssl-cert       | 测试ssl的相关证书              |
+| hpsocket\test           | 一些简单的测试例子             |
+| hpsocket\CMakeLists.txt | cmake的配置文件                |
+| hpsocket\4C             | hpsocket框架提供的类C接口      |
 
 提供的例子中请注意依赖头文件与库路径。
 
@@ -64,21 +61,9 @@ HP-Socket for macOS版本(改自HP-Socket for linux 5.5.3)
 ```
 include_directories(/opt/local/include)
 link_directories(/opt/local/lib)
-#暂时关闭对ssl的支持
-#link_libraries(ssl iconv z crypto)
-add_definitions(-D_SSL_DISABLED)
-```
 
-> *.pro
-
-```tex
-#暂时关闭对ssl的支持
-DEFINES += _SSL_DISABLED
-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
-
-#ssl的依赖库
-#macx: LIBS += -L/opt/local/lib -lssl -lcrypto -lglog
-INCLUDEPATH += /opt/local/include
+link_libraries(ssl iconv z crypto)
+add_definitions(-D_NEED_HTTP -D_SSL_SUPPORT -D_NEED_SSL)
 ```
 
 ------
@@ -96,4 +81,14 @@ HPSocket-SSL.h
 
 并提供了一个官方使用4C接口的http例子`test_server_4c`
 
-后面将完善相关例子与工程配置
+完全支持官方使用示例
+
+------
+
+#### 相关依赖如何安装？
+
+通过使用brew或MacPort；例子中使用的是MacPort。
+
+具体安装了以下依赖：
+
+openssl @1.1.1d、zlib
