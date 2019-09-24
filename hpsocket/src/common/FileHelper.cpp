@@ -41,16 +41,9 @@ CString GetModuleFileName(pid_t pid)
 		pid = SELF_PROCESS_ID;
 
 	char szLink[MAX_PATH];
-	char szPath[MAX_PATH];
-
-	sprintf(szLink, "/proc/%d/exe", pid);
-
-	SSIZE_T rs = readlink(szLink, szPath, sizeof(szPath) - 1);
-
-	if(rs < 0) rs = 0;
-	szPath[rs]	  = 0;
-
-	return szPath;
+    //由于macOS与linux的不同直接使用进程ID
+	sprintf(szLink, "%d", pid);
+    return szLink;
 }
 
 BOOL SetCurrentPathToModulePath(pid_t pid)

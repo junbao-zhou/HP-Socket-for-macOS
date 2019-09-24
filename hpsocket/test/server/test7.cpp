@@ -1,11 +1,10 @@
 #include "../helper.h"
-#include "../../src/UdpServer.h"
-
-class CListenerImpl : public CUdpServerListener
+#include "../../src/TcpPullServer.h"
+class CListenerImpl : public CTcpPullServerListener
 {
 
 public:
-    virtual EnHandleResult OnPrepareListen(IUdpServer* pSender, SOCKET soListen) override
+    virtual EnHandleResult OnPrepareListen(ITcpServer* pSender, SOCKET soListen) override
     {
         TCHAR szAddress[50];
         int iAddressLen = sizeof(szAddress) / sizeof(TCHAR);
@@ -14,13 +13,10 @@ public:
         pSender->GetListenAddress(szAddress, iAddressLen, usPort);
         ::PostOnPrepareListen(szAddress, usPort);
 
-        //需要注意macOS上对socket缓冲区大小限制
-        VERIFY_IS_NO_ERROR(::SSO_RecvBuffSize(soListen, 4 * 1024 * 1024));
-
         return HR_OK;
     }
 
-    virtual EnHandleResult OnAccept(IUdpServer* pSender, CONNID dwConnID, UINT_PTR soClient) override
+    virtual EnHandleResult OnAccept(ITcpServer* pSender, CONNID dwConnID, UINT_PTR soClient) override
     {
         BOOL bPass = TRUE;
         TCHAR szAddress[50];
@@ -37,39 +33,83 @@ public:
 
         ::PostOnAccept(dwConnID, szAddress, usPort, bPass);
 
+        if(bPass) ::CreatePkgInfo(pSender, dwConnID);
+
         return bPass ? HR_OK : HR_ERROR;
     }
 
-    virtual EnHandleResult OnHandShake(IUdpServer* pSender, CONNID dwConnID) override
+    virtual EnHandleResult OnHandShake(ITcpServer* pSender, CONNID dwConnID) override
     {
         return HR_OK;
     }
 
-    virtual EnHandleResult OnReceive(IUdpServer* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override
+    virtual EnHandleResult OnReceive(ITcpServer* pSender, CONNID dwConnID, int iLength) override
     {
-        ::PostOnReceive(dwConnID, pData, iLength);
+        TPkgInfo* pInfo			= ::FindPkgInfo(pSender, dwConnID);
+        ITcpPullServer* pServer	= ITcpPullServer::FromS(pSender);
 
-        if(pSender->Send(dwConnID, pData, iLength))
-            return HR_OK;
+        if(pInfo != nullptr)
+        {
+            int required = pInfo->length;
+            int remain = iLength;
 
-        return HR_ERROR;
+            while(remain >= required)
+            {
+                remain -= required;
+                CBufferPtr buffer(required);
+
+                EnFetchResult result = pServer->Fetch(dwConnID, buffer, (int)buffer.Size());
+
+                if(result == FR_OK)
+                {
+                    ::PostOnReceive(dwConnID, buffer, (int)buffer.Size());
+
+                    if(pInfo->is_header)
+                    {
+                        TPkgHeader* pHeader = (TPkgHeader*)buffer.Ptr();
+#ifdef DEBUG
+                        PRINTLN("(head) -> seq: %d, body_len: %d", pHeader->seq, pHeader->body_len);
+#endif
+                        required = pHeader->body_len;
+                    }
+                    else
+                    {
+#ifdef DEBUG
+                        TPkgBody* pBody = (TPkgBody*)(BYTE*)buffer;
+						PRINTLN("(body) -> name: %s, age: %d, desc: %s", pBody->name, pBody->age, pBody->desc);
+#endif
+                        required = sizeof(TPkgHeader);
+                    }
+
+                    pInfo->is_header = !pInfo->is_header;
+                    pInfo->length	 = required;
+
+                    if(!pSender->Send(dwConnID, buffer, (int)buffer.Size()))
+                        return HR_ERROR;
+                }
+            }
+        }
+
+        return HR_OK;
     }
 
-    virtual EnHandleResult OnSend(IUdpServer* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override
+    virtual EnHandleResult OnSend(ITcpServer* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override
     {
         ::PostOnSend(dwConnID, pData, iLength);
         return HR_OK;
     }
 
-    virtual EnHandleResult OnClose(IUdpServer* pSender, CONNID dwConnID, EnSocketOperation enOperation, int iErrorCode) override
+    virtual EnHandleResult OnClose(ITcpServer* pSender, CONNID dwConnID, EnSocketOperation enOperation, int iErrorCode) override
     {
         iErrorCode == SE_OK ? ::PostOnClose(dwConnID)	:
         ::PostOnError(dwConnID, enOperation, iErrorCode);
 
+        ::RemovePkgInfo(pSender, dwConnID);
+
         return HR_OK;
     }
 
-    virtual EnHandleResult OnShutdown(IUdpServer* pSender) override
+    virtual EnHandleResult OnShutdown(ITcpServer* pSender) override
     {
         ::PostOnShutdown();
         return HR_OK;
@@ -78,7 +118,7 @@ public:
 };
 
 CListenerImpl s_listener;
-CUdpServer s_server(&s_listener);
+CTcpPullServer s_server(&s_listener);
 
 void OnCmdStart(CCommandParser* pParser)
 {
@@ -103,10 +143,14 @@ void OnCmdStatus(CCommandParser* pParser)
 
 void OnCmdSend(CCommandParser* pParser)
 {
-    if(s_server.Send(pParser->m_dwConnID, (LPBYTE)(LPCTSTR)pParser->m_strMessage, pParser->m_strMessage.GetLength()))
-    ::LogSend(pParser->m_dwConnID, pParser->m_strMessage);
+    static DWORD SEQ = 0;
+
+    unique_ptr<CBufferPtr> buffer(::GeneratePkgBuffer(++SEQ, _T("HP-Server"), 32, pParser->m_strMessage));
+
+    if(s_server.Send(pParser->m_dwConnID, buffer->Ptr(), (int)buffer->Size()))
+        ::LogSend(pParser->m_dwConnID, pParser->m_strMessage);
     else
-    ::LogSendFail(pParser->m_dwConnID, ::GetLastError(), ::GetLastErrorStr());
+        ::LogSendFail(pParser->m_dwConnID, ::GetLastError(), ::GetLastErrorStr());
 }
 
 void OnCmdPause(CCommandParser* pParser)
@@ -148,7 +192,7 @@ int main(int argc, char* const argv[])
 
     g_app_arg.ParseArgs(argc, argv);
 
-    s_server.SetDetectAttempts(g_app_arg.keep_alive ? UDP_DETECT_ATTEMPTS : 0);
+    s_server.SetKeepAliveTime(g_app_arg.keep_alive ? TCP_KEEPALIVE_TIME : 0);
 
     CCommandParser::CMD_FUNC fnCmds[CCommandParser::CT_MAX] = {0};
 

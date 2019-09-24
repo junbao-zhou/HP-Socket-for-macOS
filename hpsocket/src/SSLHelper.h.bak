@@ -28,19 +28,12 @@
 
 #ifdef _SSL_SUPPORT
 
-#include "openssl/ssl.h"
+#include <openssl/ssl.h>
 
 #define OPENSSL_VERSION_1_0_2	0x10002000L
 #define OPENSSL_VERSION_1_1_0	0x10100000L
 
- /************************************************************************
- 名称：SSL 全局常量
- 描述：声明 SSL 组件的公共全局常量
- ************************************************************************/
-
-#define SSL_DOMAIN_SEP_CHAR		'.'
-
- /************************************************************************
+/************************************************************************
 名称：SSL 握手状态
 描述：标识当前连接的 SSL 握手状态
 ************************************************************************/
@@ -98,7 +91,7 @@ private:
 ************************************************************************/
 class CSSLContext
 {
-	typedef unordered_map<CString, int, cstring_nc_hash_func::hash, cstring_nc_hash_func::equal_to> CServerNameMap;
+    typedef unordered_map<CString, int, cstring_nc_hash_func::hash, cstring_nc_hash_func::equal_to> CServerNameMap;
 
 public:
 
@@ -280,7 +273,6 @@ public:
 	{
 		Reset();
 	}
-
 	static CSSLSession* Construct(CItemPool& itPool)
 		{return new CSSLSession(itPool);}
 

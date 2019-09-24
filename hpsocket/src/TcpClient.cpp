@@ -227,10 +227,9 @@ BOOL CTcpClient::Stop()
 	if(!CheckStoping())
 		return FALSE;
 
-
 	WaitForWorkerThreadEnd();
-	SetConnected(FALSE);
 
+	SetConnected(FALSE);
 
 	if(m_ccContext.bFireOnClose)
 		FireClose(m_ccContext.enOperation, m_ccContext.iErrorCode);
@@ -274,7 +273,7 @@ void CTcpClient::WaitForWorkerThreadEnd()
 		return;
 
 	if(m_thWorker.IsInMyThread())
-        m_thWorker.Detach();
+		m_thWorker.Detach();
 	else
 	{
 		m_evStop.Set();
@@ -337,6 +336,7 @@ UINT WINAPI CTcpClient::WorkerThreadProc(LPVOID pv)
 
 					if(!BeforeUnpause())
 						goto EXIT_WORKER_THREAD;
+
 					if(!ReadData())
 						goto EXIT_WORKER_THREAD;
 				}
@@ -384,7 +384,8 @@ BOOL CTcpClient::ProcessNetworkEvent(SHORT events)
 	if(bContinue && events & POLLOUT)
 		bContinue = HandleWrite(events);
 
-	if(bContinue && events & _POLL_HUNGUP_EVENTS)
+    //不将socket挂起检测放置头部的原因，很有是想将最后的一些数据发送/读入
+    if(bContinue && events & _POLL_HUNGUP_EVENTS)
 		bContinue = HandleClose(events);
 
 	return bContinue;
@@ -392,6 +393,7 @@ BOOL CTcpClient::ProcessNetworkEvent(SHORT events)
 
 BOOL CTcpClient::HandleConnect(SHORT events)
 {
+    //异步进行connect时会导致此处不为真；但不为错。
 	ASSERT(events & POLLOUT);
 
 	int code = ::SSO_GetError(m_soClient);
@@ -451,6 +453,7 @@ BOOL CTcpClient::ReadData()
 	{
 		if(m_bPaused)
 			break;
+
 		int rc = (int)read(m_soClient, (char*)(BYTE*)m_rcBuffer, m_dwSocketBufferSize);
 
 		if(rc > 0)

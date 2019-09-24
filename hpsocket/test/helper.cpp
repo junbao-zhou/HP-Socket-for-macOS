@@ -2007,23 +2007,23 @@ LPCTSTR GetAnyAddress(LPCTSTR lpszLikeAddress)
 	return nullptr;
 }
 
-// LPCTSTR g_lpszDefaultCookieFile = GetDefaultCookieFile();
+ LPCTSTR g_lpszDefaultCookieFile = GetDefaultCookieFile();
 
-// LPCTSTR GetDefaultCookieFile()
-// {
-// 	static TCHAR c_szCookieFile[MAX_PATH] = {0};
+ LPCTSTR GetDefaultCookieFile()
+ {
+ 	static TCHAR c_szCookieFile[MAX_PATH] = {0};
 
-// 	if(c_szCookieFile[0] == 0)
-// 	{
-// 		CString strName = ::GetModuleFileName();
-// 		ASSERT(!strName.IsEmpty());
+ 	if(c_szCookieFile[0] == 0)
+ 	{
+ 		CString strName = ::GetModuleFileName();
+ 		ASSERT(!strName.IsEmpty());
 
-// 		strName.Append(".cki");
-// 		lstrcpy(c_szCookieFile, strName);
-// 	}
+ 		strName.Append(".cki");
+ 		lstrcpy(c_szCookieFile, strName);
+ 	}
 
-// 	return c_szCookieFile;
-// }
+ 	return c_szCookieFile;
+ }
 
 #ifdef _NEED_SSL
 

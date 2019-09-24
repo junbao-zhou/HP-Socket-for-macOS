@@ -1,6 +1,7 @@
 #include "../helper.h"
-#include "../../src/TcpClient.h"
-class CListenerImpl : public CTcpClientListener
+#include "../../src/TcpPullClient.h"
+
+class CListenerImpl : public CTcpPullClientListener
 {
 
 public:
@@ -27,9 +28,46 @@ public:
         return HR_OK;
     }
 
-    virtual EnHandleResult OnReceive(ITcpClient* pSender, CONNID dwConnID, const BYTE* pData, int iLength) override
+    virtual EnHandleResult OnReceive(ITcpClient* pSender, CONNID dwConnID, int iLength) override
     {
-        ::PostOnReceive(dwConnID, pData, iLength);
+        ITcpPullClient* pClient	= ITcpPullClient::FromS(pSender);
+        TPkgInfo* pInfo			= (TPkgInfo*)pSender->GetExtra();
+
+        int required = pInfo->length;
+        int remain	 = iLength;
+
+        while(remain >= required)
+        {
+            remain -= required;
+            CBufferPtr buffer(required);
+
+            EnFetchResult result = pClient->Fetch(buffer, (int)buffer.Size());
+            if(result == FR_OK)
+            {
+                ::PostOnReceive(dwConnID, buffer, (int)buffer.Size());
+
+                if(pInfo->is_header)
+                {
+                    TPkgHeader* pHeader = (TPkgHeader*)buffer.Ptr();
+#ifdef DEBUG
+                    PRINTLN("(head) -> seq: %d, body_len: %d", pHeader->seq, pHeader->body_len);
+#endif
+                    required = pHeader->body_len;
+                }
+                else
+                {
+#ifdef DEBUG
+                    TPkgBody* pBody = (TPkgBody*)buffer.Ptr();
+					PRINTLN("(body) -> name: %s, age: %d, desc: %s", pBody->name, pBody->age, pBody->desc);
+#endif
+                    required = sizeof(TPkgHeader);
+                }
+
+                pInfo->is_header	= !pInfo->is_header;
+                pInfo->length	= required;
+            }
+        }
+
         return HR_OK;
     }
 
@@ -50,11 +88,11 @@ public:
 };
 
 CListenerImpl s_listener;
-CTcpClient s_client(&s_listener);
+CTcpPullClient s_client(&s_listener);
+TPkgInfo s_pkgInfo;
 
 void OnCmdStart(CCommandParser* pParser)
 {
-//    if(s_client.Start(g_app_arg.remote_addr, g_app_arg.port, false, g_app_arg.bind_addr))
     if(s_client.Start(g_app_arg.remote_addr, g_app_arg.port, g_app_arg.async, g_app_arg.bind_addr))
         ::LogClientStart(g_app_arg.remote_addr, g_app_arg.port);
     else
@@ -76,10 +114,14 @@ void OnCmdStatus(CCommandParser* pParser)
 
 void OnCmdSend(CCommandParser* pParser)
 {
-    if(s_client.Send((LPBYTE)(LPCTSTR)pParser->m_strMessage, pParser->m_strMessage.GetLength()))
-    ::LogSend(s_client.GetConnectionID(), pParser->m_strMessage);
+    static DWORD SEQ = 0;
+
+    unique_ptr<CBufferPtr> buffer(::GeneratePkgBuffer(++SEQ, _T("HP-Client"), 23, pParser->m_strMessage));
+
+    if(s_client.Send(buffer->Ptr(), (int)buffer->Size()))
+        ::LogSend(s_client.GetConnectionID(), pParser->m_strMessage);
     else
-    ::LogSendFail(s_client.GetConnectionID(), ::GetLastError(), ::GetLastErrorStr());
+        ::LogSendFail(s_client.GetConnectionID(), ::GetLastError(), ::GetLastErrorStr());
 }
 
 void OnCmdPause(CCommandParser* pParser)
@@ -97,6 +139,7 @@ int main(int argc, char* const argv[])
 
     g_app_arg.ParseArgs(argc, argv);
 
+    s_client.SetExtra(&s_pkgInfo);
     s_client.SetKeepAliveTime(g_app_arg.keep_alive ? TCP_KEEPALIVE_TIME : 0);
 
     CCommandParser::CMD_FUNC fnCmds[CCommandParser::CT_MAX] = {0};
