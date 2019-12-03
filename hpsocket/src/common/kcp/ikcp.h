@@ -233,7 +233,7 @@ typedef struct IQUEUEHEAD iqueue_head;
 
 
 //---------------------------------------------------------------------
-// WORD ORDER
+// BYTE ORDER & ALIGNMENT
 //---------------------------------------------------------------------
 #ifndef IWORDS_BIG_ENDIAN
     #ifdef _BIG_ENDIAN_
@@ -256,8 +256,17 @@ typedef struct IQUEUEHEAD iqueue_head;
     #endif
 #endif
 
-
-
+#ifndef IWORDS_MUST_ALIGN
+	#if defined(__i386__) || defined(__i386) || defined(_i386_)
+		#define IWORDS_MUST_ALIGN 0
+	#elif defined(_M_IX86) || defined(_X86_) || defined(__x86_64__)
+		#define IWORDS_MUST_ALIGN 0
+	#elif defined(__amd64) || defined(__amd64__)
+		#define IWORDS_MUST_ALIGN 0
+	#else
+		#define IWORDS_MUST_ALIGN 1
+	#endif
+#endif
 /**
  * 分片
  * fastack: 收到ack时计算的该分片被跳过的累计次数, 当超过一定记数则会产生丢包
@@ -345,6 +354,7 @@ struct IKCPCB
 	char *buffer; //消息字节流
 	//fastresend: 快速重传数，触发快速重传的跨越ACK个数
 	int fastresend;
+	int fastlimit;
 	/**
 	 * nocwnd: 无拥塞模式
 	 * stream: 流模式

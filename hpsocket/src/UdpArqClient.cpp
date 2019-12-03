@@ -66,8 +66,11 @@ void CUdpArqClient::OnWorkerThreadStart(THR_ID dwThreadID)
 
 void CUdpArqClient::OnWorkerThreadEnd(THR_ID dwThreadID)
 {
-	m_arqTimer = INVALID_FD;
-	SAFE_DELETE(m_pTimer);
+    if(IS_VALID_FD(m_arqTimer))
+	{
+		  m_arqTimer = INVALID_FD;
+		  SAFE_DELETE(m_pTimer);
+	}
 	m_arqBuffer.Free();
 }
 
@@ -129,6 +132,7 @@ BOOL CUdpArqClient::SendPackets(const WSABUF pBuffers[], int iCount)
 		return ERROR_INCORRECT_SIZE;
 
 	CBufferPtr sndBuffer(iLength);
+	sndBuffer.SetSize(0);
 
 	for(int i = 0; i < iCount; i++)
 	{

@@ -2,11 +2,11 @@
 * Copyright: JessMA Open Source (ldcsaa@gmail.com)
 *
 * Author	: Bruce Liang
-* Website	: http://www.jessma.org
-* Project	: https://github.com/ldcsaa
+* Website	: https://github.com/ldcsaa
+* Project	: https://github.com/ldcsaa/HP-Socket
 * Blog		: http://www.cnblogs.com/ldcsaa
 * Wiki		: http://www.oschina.net/p/hp-socket
-* QQ Group	: 75375912, 44636872
+* QQ Group	: 44636872, 75375912
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -617,7 +617,7 @@ public:
 	CStringT(_InputIterator __beg, _InputIterator __end, const _Alloc& __a = _Alloc())
 	: __super(__beg, __end, __a) {}
 
-	~CStringT() _GLIBCXX_NOEXCEPT = default;
+	~CStringT() = default;
 
 	CStringT& operator=(const __super& __str)
 	{__super::operator=(__str); return *this;}

@@ -159,7 +159,7 @@ VOID CIODispatcher::Reset()
 	m_kque = INVALID_FD;
 	m_evCmd = nullptr;
 	m_evExit = nullptr;
-	m_evTimer = 0;
+	m_evTimer = INVALID_FD;
 }
 
 BOOL CIODispatcher::SendCommand(USHORT t, UINT_PTR wp, UINT_PTR lp)

@@ -2,11 +2,11 @@
 * Copyright: JessMA Open Source (ldcsaa@gmail.com)
 *
 * Author	: Bruce Liang
-* Website	: http://www.jessma.org
-* Project	: https://github.com/ldcsaa
+* Website	: https://github.com/ldcsaa
+* Project	: https://github.com/ldcsaa/HP-Socket
 * Blog		: http://www.cnblogs.com/ldcsaa
 * Wiki		: http://www.oschina.net/p/hp-socket
-* QQ Group	: 75375912, 44636872
+* QQ Group	: 44636872, 75375912
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -717,7 +717,7 @@ template<class T, class H> struct str_hash_func_t
 };
 
 // char/wchar_t/CStringX hash function (no case)
-template<class T, class H> struct str_nc_hash_func_t
+template<class T, class H, class B> struct str_nc_hash_func_t
 {
 	struct hash
 	{
@@ -725,7 +725,7 @@ template<class T, class H> struct str_nc_hash_func_t
 		{
 			size_t _Val				  = 2166136261U;
 			typename H::row_type lpsz = H::row_type_value(t);
-			char c;
+			B c;
 
 			while((c = *lpsz++) != 0) 
 			{
@@ -750,14 +750,14 @@ template<class T, class H> struct str_nc_hash_func_t
 
 };
 
-typedef str_hash_func_t<LPCSTR, char_comparator<LPCSTR>>				str_hash_func;
-typedef str_hash_func_t<LPCWSTR, wchar_comparator<LPCWSTR>>				wstr_hash_func;
-typedef str_hash_func_t<CStringA, cstring_comparator<CStringA>>			cstringa_hash_func;
-typedef str_hash_func_t<CStringW, cstring_comparator<CStringW>>			cstringw_hash_func;
-typedef str_nc_hash_func_t<LPCSTR, char_nc_comparator<LPCSTR>>			str_nc_hash_func;
-typedef str_nc_hash_func_t<LPCWSTR, wchar_nc_comparator<LPCWSTR>>		wstr_nc_hash_func;
-typedef str_nc_hash_func_t<CStringA, cstring_nc_comparator<CStringA>>	cstringa_nc_hash_func;
-typedef str_nc_hash_func_t<CStringW, cstring_nc_comparator<CStringW>>	cstringw_nc_hash_func;
+typedef str_hash_func_t<LPCSTR, char_comparator<LPCSTR>>						str_hash_func;
+typedef str_hash_func_t<LPCWSTR, wchar_comparator<LPCWSTR>>						wstr_hash_func;
+typedef str_hash_func_t<CStringA, cstring_comparator<CStringA>>					cstringa_hash_func;
+typedef str_hash_func_t<CStringW, cstring_comparator<CStringW>>					cstringw_hash_func;
+typedef str_nc_hash_func_t<LPCSTR, char_nc_comparator<LPCSTR>, char>			str_nc_hash_func;
+typedef str_nc_hash_func_t<LPCWSTR, wchar_nc_comparator<LPCWSTR>, wchar_t>		wstr_nc_hash_func;
+typedef str_nc_hash_func_t<CStringA, cstring_nc_comparator<CStringA>, char>		cstringa_nc_hash_func;
+typedef str_nc_hash_func_t<CStringW, cstring_nc_comparator<CStringW>, wchar_t>	cstringw_nc_hash_func;
 
 #ifdef _UNICODE
 	typedef cstringw_hash_func		cstring_hash_func;

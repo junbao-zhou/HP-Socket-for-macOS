@@ -660,7 +660,7 @@ public:
 	* 参数：		iVerifyMode				-- SSL 验证模式（参考 EnSSLVerifyMode）
 	*			lpszPemCertFile			-- 证书文件（客户端可选）
 	*			lpszPemKeyFile			-- 私钥文件（客户端可选）
-	*			lpszKeyPasswod			-- 私钥密码（没有密码则为空）
+	*			lpszKeyPassword			-- 私钥密码（没有密码则为空）
 	*			lpszCAPemCertFileOrPath	-- CA 证书文件或目录（单向验证或客户端可选）
 	*
 	* 返回值：	TRUE	-- 成功

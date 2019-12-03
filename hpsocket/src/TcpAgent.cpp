@@ -458,6 +458,7 @@ void CTcpAgent::AddClientSocketObj(CONNID dwConnID, TAgentSocketObj* pSocketObj,
 	pSocketObj->extra		= pExtra;
 
 	remoteAddr.Copy(pSocketObj->remoteAddr);
+
 	VERIFY(m_bfActiveSockets.ReleaseLock(dwConnID, pSocketObj));
 }
 
@@ -684,6 +685,7 @@ BOOL CTcpAgent::IsConnected(CONNID dwConnID)
 
 	return FALSE;
 }
+
 BOOL CTcpAgent::GetPendingDataLength(CONNID dwConnID, int& iPending)
 {
 	TAgentSocketObj* pSocketObj = FindSocketObj(dwConnID);
@@ -1005,6 +1007,7 @@ BOOL CTcpAgent::HandleReceive(TAgentSocketObj* pSocketObj, int flag)
 	{
 		if(pSocketObj->paused)
 			break;
+
 		int rc = (int)read(pSocketObj->socket, buffer.Ptr(), buffer.Size());
 
 		if(rc > 0)

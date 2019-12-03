@@ -23,14 +23,44 @@
 
 #include "SysHelper.h"
 
+#include <stdio.h>
+#include <sys/utsname.h>
+
+DWORD _GetKernelVersion()
+{
+	utsname uts;
+	
+	if(uname(&uts) == RS_FAIL)
+		return 0;
+
+	char c;
+	int major, minor, revise;
+
+	if(sscanf(uts.release, "%d.%d.%d%c", &major, &minor, &revise, &c) < 3)
+		return 0;
+
+	return (DWORD)((major << 16) | (minor << 8) | revise);
+}
+
 DWORD GetSysPageSize()
 {
-	static const DWORD s_dtsbs = (DWORD)SysGetPageSize();
-	return s_dtsbs;
+	static const DWORD _s_page_size = (DWORD)SysGetPageSize();
+	return _s_page_size;
+}
+
+DWORD GetKernelVersion()
+{
+	static const DWORD _s_kernel_version = _GetKernelVersion();
+	return _s_kernel_version;
+}
+
+BOOL IsKernelVersionAbove(BYTE major, BYTE minor, BYTE revise)
+{
+	return GetKernelVersion() >= (DWORD)((major << 16) | (minor << 8) | revise);
 }
 
 DWORD GetDefaultWorkerThreadCount()
 {
-	static const DWORD s_dwtc = MIN((PROCESSOR_COUNT * 2 + 2), MAX_WORKER_THREAD_COUNT);
-	return s_dwtc;
+	static const DWORD _s_dwtc = MIN((PROCESSOR_COUNT * 2 + 2), MAX_WORKER_THREAD_COUNT);
+	return _s_dwtc;
 }

@@ -24,37 +24,37 @@
 /******************************************************************************
 Module:  HPSocket for C
 
-Desc: å¯¼å‡ºçº¯ C å‡½æ•°ï¼Œè®©å…¶å®ƒè¯­è¨€ï¼ˆå¦‚ï¼šC / C# / Java ç­‰ï¼‰èƒ½æ–¹ä¾¿åœ°ä½¿ç”¨ HPSocket
+Desc: µ¼³ö´¿ C º¯Êı£¬ÈÃÆäËüÓïÑÔ£¨Èç£ºC / C# / Java µÈ£©ÄÜ·½±ãµØÊ¹ÓÃ HPSocket
 
 Usage:
-		æ–¹æ³•ä¸€ï¼š
+		·½·¨Ò»£º
 		--------------------------------------------------------------------------------------
-		0. ï¼ˆC/C++ ç¨‹åºï¼‰åŒ…å« HPTypeDef.h / HPSocket4C.h å¤´æ–‡ä»¶
-		1. è°ƒç”¨ ::Create_HP_XxxListener() å‡½æ•°åˆ›å»ºç›‘å¬å™¨å¯¹è±¡
-		2. è°ƒç”¨ ::Create_HP_Xxx(pListener) å‡½æ•°åˆ›å»º HPSocket å¯¹è±¡
-		3. è°ƒç”¨ ::HP_Set_FN_Xxx_OnYyy(pListener, ...) å‡½æ•°è®¾ç½®ç›‘å¬å™¨çš„å›è°ƒå‡½æ•°
-		4. è°ƒç”¨ç›¸å…³å¯¼å‡ºå‡½æ•°æ“ä½œ HPSocket å¯¹è±¡
+		0. £¨C/C++ ³ÌĞò£©°üº¬ HPTypeDef.h / HPSocket4C.h Í·ÎÄ¼ş
+		1. µ÷ÓÃ ::Create_HP_XxxListener() º¯Êı´´½¨¼àÌıÆ÷¶ÔÏó
+		2. µ÷ÓÃ ::Create_HP_Xxx(pListener) º¯Êı´´½¨ HPSocket ¶ÔÏó
+		3. µ÷ÓÃ ::HP_Set_FN_Xxx_OnYyy(pListener, ...) º¯ÊıÉèÖÃ¼àÌıÆ÷µÄ»Øµ÷º¯Êı
+		4. µ÷ÓÃÏà¹Øµ¼³öº¯Êı²Ù×÷ HPSocket ¶ÔÏó
 		5. ...... ......
-		6. è°ƒç”¨ ::Destroy_HP_Xxx(pSocket) å‡½æ•°é”€æ¯ HPSocket å¯¹è±¡
-		7. è°ƒç”¨ ::Destroy_HP_XxxListener(pListener) å‡½æ•°é”€æ¯ç›‘å¬å™¨å¯¹è±¡
+		6. µ÷ÓÃ ::Destroy_HP_Xxx(pSocket) º¯ÊıÏú»Ù HPSocket ¶ÔÏó
+		7. µ÷ÓÃ ::Destroy_HP_XxxListener(pListener) º¯ÊıÏú»Ù¼àÌıÆ÷¶ÔÏó
 
-		æ–¹æ³•äºŒï¼š
+		·½·¨¶ş£º
 		--------------------------------------------------------------------------------------
-		1. åº”ç”¨ç¨‹åºæŠŠéœ€è¦ç”¨åˆ°çš„å¯¼å‡ºå‡½æ•°å°è£…åˆ°ç‰¹å®šè¯­è¨€çš„åŒ…è£…ç±»ä¸­
-		2. é€šè¿‡åŒ…è£…ç±»å°è£…åï¼Œä»¥é¢å‘å¯¹è±¡çš„æ–¹å¼ä½¿ç”¨ HPSocket
+		1. Ó¦ÓÃ³ÌĞò°ÑĞèÒªÓÃµ½µÄµ¼³öº¯Êı·â×°µ½ÌØ¶¨ÓïÑÔµÄ°ü×°ÀàÖĞ
+		2. Í¨¹ı°ü×°Àà·â×°ºó£¬ÒÔÃæÏò¶ÔÏóµÄ·½Ê½Ê¹ÓÃ HPSocket
 
 Release:
-		<-- åŠ¨æ€é“¾æ¥åº“ -->
-		1. x86/libhpsocket4c.so			- (32ä½/MBCS/Release)
-		2. x86/libhpsocket4c_d.so		- (32ä½/MBCS/DeBug)
-		3. x64/libhpsocket4c.so			- (64ä½/MBCS/Release)
-		4. x64/libhpsocket4c_d.so		- (64ä½/MBCS/DeBug)
+		<-- ¶¯Ì¬Á´½Ó¿â -->
+		1. x86/libhpsocket4c.so			- (32Î»/MBCS/Release)
+		2. x86/libhpsocket4c_d.so		- (32Î»/MBCS/DeBug)
+		3. x64/libhpsocket4c.so			- (64Î»/MBCS/Release)
+		4. x64/libhpsocket4c_d.so		- (64Î»/MBCS/DeBug)
 
-		<-- é™æ€é“¾æ¥åº“ -->
-		1. x86/static/libhpsocket4c.a	- (32ä½/MBCS/Release)
-		2. x86/static/libhpsocket4c_d.a	- (32ä½/MBCS/DeBug)
-		3. x64/static/libhpsocket4c.a	- (64ä½/MBCS/Release)
-		4. x64/static/libhpsocket4c_d.a	- (64ä½/MBCS/DeBug)
+		<-- ¾²Ì¬Á´½Ó¿â -->
+		1. x86/static/libhpsocket4c.a	- (32Î»/MBCS/Release)
+		2. x86/static/libhpsocket4c_d.a	- (32Î»/MBCS/DeBug)
+		3. x64/static/libhpsocket4c.a	- (64Î»/MBCS/Release)
+		4. x64/static/libhpsocket4c_d.a	- (64Î»/MBCS/DeBug)
 
 ******************************************************************************/
 
@@ -63,8 +63,8 @@ Release:
 #include "HPTypeDef.h"
 
 /************************************************************************
-åç§°ï¼šå®šä¹‰ Socket å¯¹è±¡æŒ‡é’ˆç±»å‹åˆ«å
-æè¿°ï¼šæŠŠ Socket å¯¹è±¡æŒ‡é’ˆå®šä¹‰ä¸ºæ›´ç›´è§‚çš„åˆ«å
+Ãû³Æ£º¶¨Òå Socket ¶ÔÏóÖ¸ÕëÀàĞÍ±ğÃû
+ÃèÊö£º°Ñ Socket ¶ÔÏóÖ¸Õë¶¨ÒåÎª¸üÖ±¹ÛµÄ±ğÃû
 ************************************************************************/
 
 typedef PVOID		HP_Object;
@@ -131,11 +131,11 @@ typedef HP_Object	HP_ThreadPool;
 /*****************************************************************************************************************************************************/
 
 /****************************************************/
-/***************** TCP/UDP å›è°ƒå‡½æ•° ******************/
+/***************** TCP/UDP »Øµ÷º¯Êı ******************/
 
-/* Server å›è°ƒå‡½æ•° */
+/* Server »Øµ÷º¯Êı */
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Server_OnPrepareListen)	(HP_Server pSender, UINT_PTR soListen);
-// å¦‚æœä¸º TCP è¿æ¥ï¼ŒpClientä¸º SOCKET å¥æŸ„ï¼›å¦‚æœä¸º UDP è¿æ¥ï¼ŒpClientä¸º SOCKADDR æŒ‡é’ˆï¼›
+// Èç¹ûÎª TCP Á¬½Ó£¬pClientÎª SOCKET ¾ä±ú£»Èç¹ûÎª UDP Á¬½Ó£¬pClientÎª SOCKADDR Ö¸Õë£»
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Server_OnAccept)			(HP_Server pSender, HP_CONNID dwConnID, UINT_PTR pClient);
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Server_OnHandShake)		(HP_Server pSender, HP_CONNID dwConnID);
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Server_OnSend)				(HP_Server pSender, HP_CONNID dwConnID, const BYTE* pData, int iLength);
@@ -144,7 +144,7 @@ typedef En_HP_HandleResult (__HP_CALL *HP_FN_Server_OnPullReceive)		(HP_Server p
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Server_OnClose)			(HP_Server pSender, HP_CONNID dwConnID, En_HP_SocketOperation enOperation, int iErrorCode);
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Server_OnShutdown)			(HP_Server pSender);
 
-/* Agent å›è°ƒå‡½æ•° */
+/* Agent »Øµ÷º¯Êı */
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Agent_OnPrepareConnect)	(HP_Agent pSender, HP_CONNID dwConnID, UINT_PTR socket);
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Agent_OnConnect)			(HP_Agent pSender, HP_CONNID dwConnID);
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Agent_OnHandShake)			(HP_Agent pSender, HP_CONNID dwConnID);
@@ -154,7 +154,7 @@ typedef En_HP_HandleResult (__HP_CALL *HP_FN_Agent_OnPullReceive)		(HP_Agent pSe
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Agent_OnClose)				(HP_Agent pSender, HP_CONNID dwConnID, En_HP_SocketOperation enOperation, int iErrorCode);
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Agent_OnShutdown)			(HP_Agent pSender);
 
-/* Client å›è°ƒå‡½æ•° */
+/* Client »Øµ÷º¯Êı */
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Client_OnPrepareConnect)	(HP_Client pSender, HP_CONNID dwConnID, UINT_PTR socket);
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Client_OnConnect)			(HP_Client pSender, HP_CONNID dwConnID);
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Client_OnHandShake)		(HP_Client pSender, HP_CONNID dwConnID);
@@ -164,134 +164,134 @@ typedef En_HP_HandleResult (__HP_CALL *HP_FN_Client_OnPullReceive)		(HP_Client p
 typedef En_HP_HandleResult (__HP_CALL *HP_FN_Client_OnClose)			(HP_Client pSender, HP_CONNID dwConnID, En_HP_SocketOperation enOperation, int iErrorCode);
 
 /****************************************************/
-/*************** TCP/UDP å¯¹è±¡åˆ›å»ºå‡½æ•° ****************/
+/*************** TCP/UDP ¶ÔÏó´´½¨º¯Êı ****************/
 
-// åˆ›å»º HP_TcpServer å¯¹è±¡
+// ´´½¨ HP_TcpServer ¶ÔÏó
 HPSOCKET_API HP_TcpServer __HP_CALL Create_HP_TcpServer(HP_TcpServerListener pListener);
-// åˆ›å»º HP_TcpAgent å¯¹è±¡
+// ´´½¨ HP_TcpAgent ¶ÔÏó
 HPSOCKET_API HP_TcpAgent __HP_CALL Create_HP_TcpAgent(HP_TcpAgentListener pListener);
-// åˆ›å»º HP_TcpClient å¯¹è±¡
+// ´´½¨ HP_TcpClient ¶ÔÏó
 HPSOCKET_API HP_TcpClient __HP_CALL Create_HP_TcpClient(HP_TcpClientListener pListener);
-// åˆ›å»º HP_TcpPullServer å¯¹è±¡
+// ´´½¨ HP_TcpPullServer ¶ÔÏó
 HPSOCKET_API HP_TcpPullServer __HP_CALL Create_HP_TcpPullServer(HP_TcpPullServerListener pListener);
-// åˆ›å»º HP_TcpPullAgent å¯¹è±¡
+// ´´½¨ HP_TcpPullAgent ¶ÔÏó
 HPSOCKET_API HP_TcpPullAgent __HP_CALL Create_HP_TcpPullAgent(HP_TcpPullAgentListener pListener);
-// åˆ›å»º HP_TcpPullClient å¯¹è±¡
+// ´´½¨ HP_TcpPullClient ¶ÔÏó
 HPSOCKET_API HP_TcpPullClient __HP_CALL Create_HP_TcpPullClient(HP_TcpPullClientListener pListener);
-// åˆ›å»º HP_TcpPackServer å¯¹è±¡
+// ´´½¨ HP_TcpPackServer ¶ÔÏó
 HPSOCKET_API HP_TcpPackServer __HP_CALL Create_HP_TcpPackServer(HP_TcpServerListener pListener);
-// åˆ›å»º HP_TcpPackAgent å¯¹è±¡
+// ´´½¨ HP_TcpPackAgent ¶ÔÏó
 HPSOCKET_API HP_TcpPackAgent __HP_CALL Create_HP_TcpPackAgent(HP_TcpAgentListener pListener);
-// åˆ›å»º HP_TcpPackClient å¯¹è±¡
+// ´´½¨ HP_TcpPackClient ¶ÔÏó
 HPSOCKET_API HP_TcpPackClient __HP_CALL Create_HP_TcpPackClient(HP_TcpClientListener pListener);
 
-// é”€æ¯ HP_TcpServer å¯¹è±¡
+// Ïú»Ù HP_TcpServer ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpServer(HP_TcpServer pServer);
-// é”€æ¯ HP_TcpAgent å¯¹è±¡
+// Ïú»Ù HP_TcpAgent ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpAgent(HP_TcpAgent pAgent);
-// é”€æ¯ HP_TcpClient å¯¹è±¡
+// Ïú»Ù HP_TcpClient ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpClient(HP_TcpClient pClient);
-// é”€æ¯ HP_TcpPullServer å¯¹è±¡
+// Ïú»Ù HP_TcpPullServer ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpPullServer(HP_TcpPullServer pServer);
-// é”€æ¯ HP_TcpPullAgent å¯¹è±¡
+// Ïú»Ù HP_TcpPullAgent ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpPullAgent(HP_TcpPullAgent pAgent);
-// é”€æ¯ HP_TcpPullClient å¯¹è±¡
+// Ïú»Ù HP_TcpPullClient ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpPullClient(HP_TcpPullClient pClient);
-// é”€æ¯ HP_TcpPackServer å¯¹è±¡
+// Ïú»Ù HP_TcpPackServer ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpPackServer(HP_TcpPackServer pServer);
-// é”€æ¯ HP_TcpPackAgent å¯¹è±¡
+// Ïú»Ù HP_TcpPackAgent ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpPackAgent(HP_TcpPackAgent pAgent);
-// é”€æ¯ HP_TcpPackClient å¯¹è±¡
+// Ïú»Ù HP_TcpPackClient ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpPackClient(HP_TcpPackClient pClient);
 
-// åˆ›å»º HP_TcpServerListener å¯¹è±¡
+// ´´½¨ HP_TcpServerListener ¶ÔÏó
 HPSOCKET_API HP_TcpServerListener __HP_CALL Create_HP_TcpServerListener();
-// åˆ›å»º HP_TcpAgentListener å¯¹è±¡
+// ´´½¨ HP_TcpAgentListener ¶ÔÏó
 HPSOCKET_API HP_TcpAgentListener __HP_CALL Create_HP_TcpAgentListener();
-// åˆ›å»º HP_TcpClientListener å¯¹è±¡
+// ´´½¨ HP_TcpClientListener ¶ÔÏó
 HPSOCKET_API HP_TcpClientListener __HP_CALL Create_HP_TcpClientListener();
-// åˆ›å»º HP_TcpPullServerListener å¯¹è±¡
+// ´´½¨ HP_TcpPullServerListener ¶ÔÏó
 HPSOCKET_API HP_TcpPullServerListener __HP_CALL Create_HP_TcpPullServerListener();
-// åˆ›å»º HP_TcpPullAgentListener å¯¹è±¡
+// ´´½¨ HP_TcpPullAgentListener ¶ÔÏó
 HPSOCKET_API HP_TcpPullAgentListener __HP_CALL Create_HP_TcpPullAgentListener();
-// åˆ›å»º HP_TcpPullClientListener å¯¹è±¡
+// ´´½¨ HP_TcpPullClientListener ¶ÔÏó
 HPSOCKET_API HP_TcpPullClientListener __HP_CALL Create_HP_TcpPullClientListener();
-// åˆ›å»º HP_TcpPackServerListener å¯¹è±¡
+// ´´½¨ HP_TcpPackServerListener ¶ÔÏó
 HPSOCKET_API HP_TcpPackServerListener __HP_CALL Create_HP_TcpPackServerListener();
-// åˆ›å»º HP_TcpPackAgentListener å¯¹è±¡
+// ´´½¨ HP_TcpPackAgentListener ¶ÔÏó
 HPSOCKET_API HP_TcpPackAgentListener __HP_CALL Create_HP_TcpPackAgentListener();
-// åˆ›å»º HP_TcpPackClientListener å¯¹è±¡
+// ´´½¨ HP_TcpPackClientListener ¶ÔÏó
 HPSOCKET_API HP_TcpPackClientListener __HP_CALL Create_HP_TcpPackClientListener();
 
-// é”€æ¯ HP_TcpServerListener å¯¹è±¡
+// Ïú»Ù HP_TcpServerListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpServerListener(HP_TcpServerListener pListener);
-// é”€æ¯ HP_TcpAgentListener å¯¹è±¡
+// Ïú»Ù HP_TcpAgentListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpAgentListener(HP_TcpAgentListener pListener);
-// é”€æ¯ HP_TcpClientListener å¯¹è±¡
+// Ïú»Ù HP_TcpClientListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpClientListener(HP_TcpClientListener pListener);
-// é”€æ¯ HP_TcpPullServerListener å¯¹è±¡
+// Ïú»Ù HP_TcpPullServerListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpPullServerListener(HP_TcpPullServerListener pListener);
-// é”€æ¯ HP_TcpPullAgentListener å¯¹è±¡
+// Ïú»Ù HP_TcpPullAgentListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpPullAgentListener(HP_TcpPullAgentListener pListener);
-// é”€æ¯ HP_TcpPullClientListener å¯¹è±¡
+// Ïú»Ù HP_TcpPullClientListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpPullClientListener(HP_TcpPullClientListener pListener);
-// é”€æ¯ HP_TcpPackServerListener å¯¹è±¡
+// Ïú»Ù HP_TcpPackServerListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpPackServerListener(HP_TcpPackServerListener pListener);
-// é”€æ¯ HP_TcpPackAgentListener å¯¹è±¡
+// Ïú»Ù HP_TcpPackAgentListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpPackAgentListener(HP_TcpPackAgentListener pListener);
-// é”€æ¯ HP_TcpPackClientListener å¯¹è±¡
+// Ïú»Ù HP_TcpPackClientListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_TcpPackClientListener(HP_TcpPackClientListener pListener);
 
 #ifdef _UDP_SUPPORT
 
-// åˆ›å»º HP_UdpServer å¯¹è±¡
+// ´´½¨ HP_UdpServer ¶ÔÏó
 HPSOCKET_API HP_UdpServer __HP_CALL Create_HP_UdpServer(HP_UdpServerListener pListener);
-// åˆ›å»º HP_UdpClient å¯¹è±¡
+// ´´½¨ HP_UdpClient ¶ÔÏó
 HPSOCKET_API HP_UdpClient __HP_CALL Create_HP_UdpClient(HP_UdpClientListener pListener);
-// åˆ›å»º HP_UdpCast å¯¹è±¡
+// ´´½¨ HP_UdpCast ¶ÔÏó
 HPSOCKET_API HP_UdpCast __HP_CALL Create_HP_UdpCast(HP_UdpCastListener pListener);
-// åˆ›å»º HP_UdpArqServer å¯¹è±¡
+// ´´½¨ HP_UdpArqServer ¶ÔÏó
 HPSOCKET_API HP_UdpArqServer __HP_CALL Create_HP_UdpArqServer(HP_UdpServerListener pListener);
-// åˆ›å»º HP_UdpArqClient å¯¹è±¡
+// ´´½¨ HP_UdpArqClient ¶ÔÏó
 HPSOCKET_API HP_UdpArqClient __HP_CALL Create_HP_UdpArqClient(HP_UdpClientListener pListener);
 
-// é”€æ¯ HP_UdpServer å¯¹è±¡
+// Ïú»Ù HP_UdpServer ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_UdpServer(HP_UdpServer pServer);
-// é”€æ¯ HP_UdpClient å¯¹è±¡
+// Ïú»Ù HP_UdpClient ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_UdpClient(HP_UdpClient pClient);
-// é”€æ¯ HP_UdpCast å¯¹è±¡
+// Ïú»Ù HP_UdpCast ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_UdpCast(HP_UdpCast pCast);
-// é”€æ¯ HP_UdpArqServer å¯¹è±¡
+// Ïú»Ù HP_UdpArqServer ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_UdpArqServer(HP_UdpArqServer pServer);
-// é”€æ¯ HP_UdpArqClient å¯¹è±¡
+// Ïú»Ù HP_UdpArqClient ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_UdpArqClient(HP_UdpArqClient pClient);
 
-// åˆ›å»º HP_UdpServerListener å¯¹è±¡
+// ´´½¨ HP_UdpServerListener ¶ÔÏó
 HPSOCKET_API HP_UdpServerListener __HP_CALL Create_HP_UdpServerListener();
-// åˆ›å»º HP_UdpClientListener å¯¹è±¡
+// ´´½¨ HP_UdpClientListener ¶ÔÏó
 HPSOCKET_API HP_UdpClientListener __HP_CALL Create_HP_UdpClientListener();
-// åˆ›å»º HP_UdpCastListener å¯¹è±¡
+// ´´½¨ HP_UdpCastListener ¶ÔÏó
 HPSOCKET_API HP_UdpCastListener __HP_CALL Create_HP_UdpCastListener();
-// åˆ›å»º HP_UdpArqServerListener å¯¹è±¡
+// ´´½¨ HP_UdpArqServerListener ¶ÔÏó
 HPSOCKET_API HP_UdpArqServerListener __HP_CALL Create_HP_UdpArqServerListener();
-// åˆ›å»º HP_UdpArqClientListener å¯¹è±¡
+// ´´½¨ HP_UdpArqClientListener ¶ÔÏó
 HPSOCKET_API HP_UdpArqClientListener __HP_CALL Create_HP_UdpArqClientListener();
 
-// é”€æ¯ HP_UdpServerListener å¯¹è±¡
+// Ïú»Ù HP_UdpServerListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_UdpServerListener(HP_UdpServerListener pListener);
-// é”€æ¯ HP_UdpClientListener å¯¹è±¡
+// Ïú»Ù HP_UdpClientListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_UdpClientListener(HP_UdpClientListener pListener);
-// é”€æ¯ HP_UdpCastListener å¯¹è±¡
+// Ïú»Ù HP_UdpCastListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_UdpCastListener(HP_UdpCastListener pListener);
-// é”€æ¯ HP_UdpArqServerListener å¯¹è±¡
+// Ïú»Ù HP_UdpArqServerListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_UdpArqServerListener(HP_UdpArqServerListener pListener);
-// é”€æ¯ HP_UdpArqClientListener å¯¹è±¡
+// Ïú»Ù HP_UdpArqClientListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_UdpArqClientListener(HP_UdpArqClientListener pListener);
 
 #endif
 
 /**********************************************************************************/
-/***************************** Server å›è°ƒå‡½æ•°è®¾ç½®æ–¹æ³• *****************************/
+/***************************** Server »Øµ÷º¯ÊıÉèÖÃ·½·¨ *****************************/
 
 HPSOCKET_API void __HP_CALL HP_Set_FN_Server_OnPrepareListen(HP_ServerListener pListener	, HP_FN_Server_OnPrepareListen fn);
 HPSOCKET_API void __HP_CALL HP_Set_FN_Server_OnAccept(HP_ServerListener pListener			, HP_FN_Server_OnAccept fn);
@@ -303,7 +303,7 @@ HPSOCKET_API void __HP_CALL HP_Set_FN_Server_OnClose(HP_ServerListener pListener
 HPSOCKET_API void __HP_CALL HP_Set_FN_Server_OnShutdown(HP_ServerListener pListener			, HP_FN_Server_OnShutdown fn);
 
 /**********************************************************************************/
-/****************************** Agent å›è°ƒå‡½æ•°è®¾ç½®æ–¹æ³• *****************************/
+/****************************** Agent »Øµ÷º¯ÊıÉèÖÃ·½·¨ *****************************/
 
 HPSOCKET_API void __HP_CALL HP_Set_FN_Agent_OnPrepareConnect(HP_AgentListener pListener		, HP_FN_Agent_OnPrepareConnect fn);
 HPSOCKET_API void __HP_CALL HP_Set_FN_Agent_OnConnect(HP_AgentListener pListener			, HP_FN_Agent_OnConnect fn);
@@ -315,7 +315,7 @@ HPSOCKET_API void __HP_CALL HP_Set_FN_Agent_OnClose(HP_AgentListener pListener		
 HPSOCKET_API void __HP_CALL HP_Set_FN_Agent_OnShutdown(HP_AgentListener pListener			, HP_FN_Agent_OnShutdown fn);
 
 /**********************************************************************************/
-/***************************** Client å›è°ƒå‡½æ•°è®¾ç½®æ–¹æ³• *****************************/
+/***************************** Client »Øµ÷º¯ÊıÉèÖÃ·½·¨ *****************************/
 
 HPSOCKET_API void __HP_CALL HP_Set_FN_Client_OnPrepareConnect(HP_ClientListener pListener	, HP_FN_Client_OnPrepareConnect fn);
 HPSOCKET_API void __HP_CALL HP_Set_FN_Client_OnConnect(HP_ClientListener pListener			, HP_FN_Client_OnConnect fn);
@@ -326,1106 +326,1106 @@ HPSOCKET_API void __HP_CALL HP_Set_FN_Client_OnPullReceive(HP_ClientListener pLi
 HPSOCKET_API void __HP_CALL HP_Set_FN_Client_OnClose(HP_ClientListener pListener			, HP_FN_Client_OnClose fn);
 
 /**************************************************************************/
-/***************************** Server æ“ä½œæ–¹æ³• *****************************/
+/***************************** Server ²Ù×÷·½·¨ *****************************/
 
 /*
-* åç§°ï¼šå¯åŠ¨é€šä¿¡ç»„ä»¶
-* æè¿°ï¼šå¯åŠ¨æœåŠ¡ç«¯é€šä¿¡ç»„ä»¶ï¼Œå¯åŠ¨å®Œæˆåå¯å¼€å§‹æ¥æ”¶å®¢æˆ·ç«¯è¿æ¥å¹¶æ”¶å‘æ•°æ®
+* Ãû³Æ£ºÆô¶¯Í¨ĞÅ×é¼ş
+* ÃèÊö£ºÆô¶¯·şÎñ¶ËÍ¨ĞÅ×é¼ş£¬Æô¶¯Íê³Éºó¿É¿ªÊ¼½ÓÊÕ¿Í»§¶ËÁ¬½Ó²¢ÊÕ·¢Êı¾İ
 *		
-* å‚æ•°ï¼š		lpszBindAddress	-- ç›‘å¬åœ°å€
-*			usPort			-- ç›‘å¬ç«¯å£
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ HP_Server_GetLastError() è·å–é”™è¯¯ä»£ç 
+* ²ÎÊı£º		lpszBindAddress	-- ¼àÌıµØÖ·
+*			usPort			-- ¼àÌı¶Ë¿Ú
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı HP_Server_GetLastError() »ñÈ¡´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Server_Start(HP_Server pServer, LPCTSTR lpszBindAddress, USHORT usPort);
 
 /*
-* åç§°ï¼šå…³é—­é€šä¿¡ç»„ä»¶
-* æè¿°ï¼šå…³é—­æœåŠ¡ç«¯é€šä¿¡ç»„ä»¶ï¼Œå…³é—­å®Œæˆåæ–­å¼€æ‰€æœ‰å®¢æˆ·ç«¯è¿æ¥å¹¶é‡Šæ”¾æ‰€æœ‰èµ„æº
+* Ãû³Æ£º¹Ø±ÕÍ¨ĞÅ×é¼ş
+* ÃèÊö£º¹Ø±Õ·şÎñ¶ËÍ¨ĞÅ×é¼ş£¬¹Ø±ÕÍê³Éºó¶Ï¿ªËùÓĞ¿Í»§¶ËÁ¬½Ó²¢ÊÍ·ÅËùÓĞ×ÊÔ´
 *		
-* å‚æ•°ï¼š	
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ HP_Server_GetLastError() è·å–é”™è¯¯ä»£ç 
+* ²ÎÊı£º	
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı HP_Server_GetLastError() »ñÈ¡´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Server_Stop(HP_Server pServer);
 
 /*
-* åç§°ï¼šå‘é€æ•°æ®
-* æè¿°ï¼šå‘æŒ‡å®šè¿æ¥å‘é€æ•°æ®
+* Ãû³Æ£º·¢ËÍÊı¾İ
+* ÃèÊö£ºÏòÖ¸¶¨Á¬½Ó·¢ËÍÊı¾İ
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pBuffer		-- å‘é€ç¼“å†²åŒº
-*			iLength		-- å‘é€ç¼“å†²åŒºé•¿åº¦
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pBuffer		-- ·¢ËÍ»º³åÇø
+*			iLength		-- ·¢ËÍ»º³åÇø³¤¶È
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Server_Send(HP_Server pServer, HP_CONNID dwConnID, const BYTE* pBuffer, int iLength);
 
 /*
-* åç§°ï¼šå‘é€æ•°æ®
-* æè¿°ï¼šå‘æŒ‡å®šè¿æ¥å‘é€æ•°æ®
+* Ãû³Æ£º·¢ËÍÊı¾İ
+* ÃèÊö£ºÏòÖ¸¶¨Á¬½Ó·¢ËÍÊı¾İ
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pBuffer		-- å‘é€ç¼“å†²åŒº
-*			iLength		-- å‘é€ç¼“å†²åŒºé•¿åº¦
-*			iOffset		-- å‘é€ç¼“å†²åŒºæŒ‡é’ˆåç§»é‡
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pBuffer		-- ·¢ËÍ»º³åÇø
+*			iLength		-- ·¢ËÍ»º³åÇø³¤¶È
+*			iOffset		-- ·¢ËÍ»º³åÇøÖ¸ÕëÆ«ÒÆÁ¿
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Server_SendPart(HP_Server pServer, HP_CONNID dwConnID, const BYTE* pBuffer, int iLength, int iOffset);
 
 /*
-* åç§°ï¼šå‘é€å¤šç»„æ•°æ®
-* æè¿°ï¼šå‘æŒ‡å®šè¿æ¥å‘é€å¤šç»„æ•°æ®
-*		TCP - é¡ºåºå‘é€æ‰€æœ‰æ•°æ®åŒ… 
-*		UDP - æŠŠæ‰€æœ‰æ•°æ®åŒ…ç»„åˆæˆä¸€ä¸ªæ•°æ®åŒ…å‘é€ï¼ˆæ•°æ®åŒ…çš„æ€»é•¿åº¦ä¸èƒ½å¤§äºè®¾ç½®çš„ UDP åŒ…æœ€å¤§é•¿åº¦ï¼‰ 
+* Ãû³Æ£º·¢ËÍ¶à×éÊı¾İ
+* ÃèÊö£ºÏòÖ¸¶¨Á¬½Ó·¢ËÍ¶à×éÊı¾İ
+*		TCP - Ë³Ğò·¢ËÍËùÓĞÊı¾İ°ü 
+*		UDP - °ÑËùÓĞÊı¾İ°ü×éºÏ³ÉÒ»¸öÊı¾İ°ü·¢ËÍ£¨Êı¾İ°üµÄ×Ü³¤¶È²»ÄÜ´óÓÚÉèÖÃµÄ UDP °ü×î´ó³¤¶È£© 
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pBuffers	-- å‘é€ç¼“å†²åŒºæ•°ç»„
-*			iCount		-- å‘é€ç¼“å†²åŒºæ•°ç›®
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pBuffers	-- ·¢ËÍ»º³åÇøÊı×é
+*			iCount		-- ·¢ËÍ»º³åÇøÊıÄ¿
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Server_SendPackets(HP_Server pServer, HP_CONNID dwConnID, const WSABUF pBuffers[], int iCount);
 
 /*
-* åç§°ï¼šæš‚åœ/æ¢å¤æ¥æ”¶
-* æè¿°ï¼šæš‚åœ/æ¢å¤æŸä¸ªè¿æ¥çš„æ•°æ®æ¥æ”¶å·¥ä½œ
+* Ãû³Æ£ºÔİÍ£/»Ö¸´½ÓÊÕ
+* ÃèÊö£ºÔİÍ£/»Ö¸´Ä³¸öÁ¬½ÓµÄÊı¾İ½ÓÊÕ¹¤×÷
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			bPause		-- TRUE - æš‚åœ, FALSE - æ¢å¤
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			bPause		-- TRUE - ÔİÍ£, FALSE - »Ö¸´
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_Server_PauseReceive(HP_Server pServer, HP_CONNID dwConnID, BOOL bPause);
 
 /*
-* åç§°ï¼šæ–­å¼€è¿æ¥
-* æè¿°ï¼šæ–­å¼€ä¸æŸä¸ªå®¢æˆ·ç«¯çš„è¿æ¥
+* Ãû³Æ£º¶Ï¿ªÁ¬½Ó
+* ÃèÊö£º¶Ï¿ªÓëÄ³¸ö¿Í»§¶ËµÄÁ¬½Ó
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			bForce		-- æ˜¯å¦å¼ºåˆ¶æ–­å¼€è¿æ¥
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			bForce		-- ÊÇ·ñÇ¿ÖÆ¶Ï¿ªÁ¬½Ó
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_Server_Disconnect(HP_Server pServer, HP_CONNID dwConnID, BOOL bForce);
 
 /*
-* åç§°ï¼šæ–­å¼€è¶…æ—¶è¿æ¥
-* æè¿°ï¼šæ–­å¼€è¶…è¿‡æŒ‡å®šæ—¶é•¿çš„è¿æ¥
+* Ãû³Æ£º¶Ï¿ª³¬Ê±Á¬½Ó
+* ÃèÊö£º¶Ï¿ª³¬¹ıÖ¸¶¨Ê±³¤µÄÁ¬½Ó
 *		
-* å‚æ•°ï¼š		dwPeriod	-- æ—¶é•¿ï¼ˆæ¯«ç§’ï¼‰
-*			bForce		-- æ˜¯å¦å¼ºåˆ¶æ–­å¼€è¿æ¥
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥
+* ²ÎÊı£º		dwPeriod	-- Ê±³¤£¨ºÁÃë£©
+*			bForce		-- ÊÇ·ñÇ¿ÖÆ¶Ï¿ªÁ¬½Ó
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_Server_DisconnectLongConnections(HP_Server pServer, DWORD dwPeriod, BOOL bForce);
 
 /*
-* åç§°ï¼šæ–­å¼€é™é»˜è¿æ¥
-* æè¿°ï¼šæ–­å¼€è¶…è¿‡æŒ‡å®šæ—¶é•¿çš„é™é»˜è¿æ¥
+* Ãû³Æ£º¶Ï¿ª¾²Ä¬Á¬½Ó
+* ÃèÊö£º¶Ï¿ª³¬¹ıÖ¸¶¨Ê±³¤µÄ¾²Ä¬Á¬½Ó
 *		
-* å‚æ•°ï¼š		dwPeriod	-- æ—¶é•¿ï¼ˆæ¯«ç§’ï¼‰
-*			bForce		-- æ˜¯å¦å¼ºåˆ¶æ–­å¼€è¿æ¥
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥
+* ²ÎÊı£º		dwPeriod	-- Ê±³¤£¨ºÁÃë£©
+*			bForce		-- ÊÇ·ñÇ¿ÖÆ¶Ï¿ªÁ¬½Ó
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_Server_DisconnectSilenceConnections(HP_Server pServer, DWORD dwPeriod, BOOL bForce);
 
 /******************************************************************************/
-/***************************** Server å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** Server ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
 /*
-* åç§°ï¼šè®¾ç½®è¿æ¥çš„é™„åŠ æ•°æ®
-* æè¿°ï¼šæ˜¯å¦ä¸ºè¿æ¥ç»‘å®šé™„åŠ æ•°æ®æˆ–è€…ç»‘å®šä»€ä¹ˆæ ·çš„æ•°æ®ï¼Œå‡ç”±åº”ç”¨ç¨‹åºåªèº«å†³å®š
+* Ãû³Æ£ºÉèÖÃÁ¬½ÓµÄ¸½¼ÓÊı¾İ
+* ÃèÊö£ºÊÇ·ñÎªÁ¬½Ó°ó¶¨¸½¼ÓÊı¾İ»òÕß°ó¶¨Ê²Ã´ÑùµÄÊı¾İ£¬¾ùÓÉÓ¦ÓÃ³ÌĞòÖ»Éí¾ö¶¨
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pv			-- æ•°æ®
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼ˆæ— æ•ˆçš„è¿æ¥ IDï¼‰
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pv			-- Êı¾İ
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¨ÎŞĞ§µÄÁ¬½Ó ID£©
 */
 HPSOCKET_API BOOL __HP_CALL HP_Server_SetConnectionExtra(HP_Server pServer, HP_CONNID dwConnID, PVOID pExtra);
 
 /*
-* åç§°ï¼šè·å–è¿æ¥çš„é™„åŠ æ•°æ®
-* æè¿°ï¼šæ˜¯å¦ä¸ºè¿æ¥ç»‘å®šé™„åŠ æ•°æ®æˆ–è€…ç»‘å®šä»€ä¹ˆæ ·çš„æ•°æ®ï¼Œå‡ç”±åº”ç”¨ç¨‹åºåªèº«å†³å®š
+* Ãû³Æ£º»ñÈ¡Á¬½ÓµÄ¸½¼ÓÊı¾İ
+* ÃèÊö£ºÊÇ·ñÎªÁ¬½Ó°ó¶¨¸½¼ÓÊı¾İ»òÕß°ó¶¨Ê²Ã´ÑùµÄÊı¾İ£¬¾ùÓÉÓ¦ÓÃ³ÌĞòÖ»Éí¾ö¶¨
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			ppv			-- æ•°æ®æŒ‡é’ˆ
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼ˆæ— æ•ˆçš„è¿æ¥ IDï¼‰
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			ppv			-- Êı¾İÖ¸Õë
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¨ÎŞĞ§µÄÁ¬½Ó ID£©
 */
 HPSOCKET_API BOOL __HP_CALL HP_Server_GetConnectionExtra(HP_Server pServer, HP_CONNID dwConnID, PVOID* ppExtra);
 
-/* æ£€æµ‹æ˜¯å¦ä¸ºå®‰å…¨è¿æ¥ï¼ˆSSL/HTTPSï¼‰ */
+/* ¼ì²âÊÇ·ñÎª°²È«Á¬½Ó£¨SSL/HTTPS£© */
 HPSOCKET_API BOOL __HP_CALL HP_Server_IsSecure(HP_Server pServer);
-/* æ£€æŸ¥é€šä¿¡ç»„ä»¶æ˜¯å¦å·²å¯åŠ¨ */
+/* ¼ì²éÍ¨ĞÅ×é¼şÊÇ·ñÒÑÆô¶¯ */
 HPSOCKET_API BOOL __HP_CALL HP_Server_HasStarted(HP_Server pServer);
-/* æŸ¥çœ‹é€šä¿¡ç»„ä»¶å½“å‰çŠ¶æ€ */
+/* ²é¿´Í¨ĞÅ×é¼şµ±Ç°×´Ì¬ */
 HPSOCKET_API En_HP_ServiceState __HP_CALL HP_Server_GetState(HP_Server pServer);
-/* è·å–æœ€è¿‘ä¸€æ¬¡å¤±è´¥æ“ä½œçš„é”™è¯¯ä»£ç  */
+/* »ñÈ¡×î½üÒ»´ÎÊ§°Ü²Ù×÷µÄ´íÎó´úÂë */
 HPSOCKET_API En_HP_SocketError __HP_CALL HP_Server_GetLastError(HP_Server pServer);
-/* è·å–æœ€è¿‘ä¸€æ¬¡å¤±è´¥æ“ä½œçš„é”™è¯¯æè¿° */
+/* »ñÈ¡×î½üÒ»´ÎÊ§°Ü²Ù×÷µÄ´íÎóÃèÊö */
 HPSOCKET_API LPCTSTR __HP_CALL HP_Server_GetLastErrorDesc(HP_Server pServer);
-/* è·å–è¿æ¥ä¸­æœªå‘å‡ºæ•°æ®çš„é•¿åº¦ */
+/* »ñÈ¡Á¬½ÓÖĞÎ´·¢³öÊı¾İµÄ³¤¶È */
 HPSOCKET_API BOOL __HP_CALL HP_Server_GetPendingDataLength(HP_Server pServer, HP_CONNID dwConnID, int* piPending);
-/* è·å–è¿æ¥çš„æ•°æ®æ¥æ”¶çŠ¶æ€ */
+/* »ñÈ¡Á¬½ÓµÄÊı¾İ½ÓÊÕ×´Ì¬ */
 HPSOCKET_API BOOL __HP_CALL HP_Server_IsPauseReceive(HP_Server pServer, HP_CONNID dwConnID, BOOL* pbPaused);
-/* æ£€æµ‹æ˜¯å¦æœ‰æ•ˆè¿æ¥ */
+/* ¼ì²âÊÇ·ñÓĞĞ§Á¬½Ó */
 HPSOCKET_API BOOL __HP_CALL HP_Server_IsConnected(HP_Server pServer, HP_CONNID dwConnID);
-/* è·å–å®¢æˆ·ç«¯è¿æ¥æ•° */
+/* »ñÈ¡¿Í»§¶ËÁ¬½ÓÊı */
 HPSOCKET_API DWORD __HP_CALL HP_Server_GetConnectionCount(HP_Server pServer);
-/* è·å–æ‰€æœ‰è¿æ¥çš„ HP_CONNID */
+/* »ñÈ¡ËùÓĞÁ¬½ÓµÄ HP_CONNID */
 HPSOCKET_API BOOL __HP_CALL HP_Server_GetAllConnectionIDs(HP_Server pServer, HP_CONNID pIDs[], DWORD* pdwCount);
-/* è·å–æŸä¸ªå®¢æˆ·ç«¯è¿æ¥æ—¶é•¿ï¼ˆæ¯«ç§’ï¼‰ */
+/* »ñÈ¡Ä³¸ö¿Í»§¶ËÁ¬½ÓÊ±³¤£¨ºÁÃë£© */
 HPSOCKET_API BOOL __HP_CALL HP_Server_GetConnectPeriod(HP_Server pServer, HP_CONNID dwConnID, DWORD* pdwPeriod);
-/* è·å–æŸä¸ªè¿æ¥é™é»˜æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰ */
+/* »ñÈ¡Ä³¸öÁ¬½Ó¾²Ä¬Ê±¼ä£¨ºÁÃë£© */
 HPSOCKET_API BOOL __HP_CALL HP_Server_GetSilencePeriod(HP_Server pServer, HP_CONNID dwConnID, DWORD* pdwPeriod);
-/* è·å–ç›‘å¬ Socket çš„åœ°å€ä¿¡æ¯ */
+/* »ñÈ¡¼àÌı Socket µÄµØÖ·ĞÅÏ¢ */
 HPSOCKET_API BOOL __HP_CALL HP_Server_GetListenAddress(HP_Server pServer, TCHAR lpszAddress[], int* piAddressLen, USHORT* pusPort);
-/* è·å–æŸä¸ªè¿æ¥çš„æœ¬åœ°åœ°å€ä¿¡æ¯ */
+/* »ñÈ¡Ä³¸öÁ¬½ÓµÄ±¾µØµØÖ·ĞÅÏ¢ */
 HPSOCKET_API BOOL __HP_CALL HP_Server_GetLocalAddress(HP_Server pServer, HP_CONNID dwConnID, TCHAR lpszAddress[], int* piAddressLen, USHORT* pusPort);
-/* è·å–æŸä¸ªè¿æ¥çš„è¿œç¨‹åœ°å€ä¿¡æ¯ */
+/* »ñÈ¡Ä³¸öÁ¬½ÓµÄÔ¶³ÌµØÖ·ĞÅÏ¢ */
 HPSOCKET_API BOOL __HP_CALL HP_Server_GetRemoteAddress(HP_Server pServer, HP_CONNID dwConnID, TCHAR lpszAddress[], int* piAddressLen, USHORT* pusPort);
 
-/* è®¾ç½®æ•°æ®å‘é€ç­–ç•¥ï¼ˆå¯¹ Linux å¹³å°ç»„ä»¶æ— æ•ˆï¼‰ */
+/* ÉèÖÃÊı¾İ·¢ËÍ²ßÂÔ£¨¶Ô Linux Æ½Ì¨×é¼şÎŞĞ§£© */
 HPSOCKET_API void __HP_CALL HP_Server_SetSendPolicy(HP_Server pServer, En_HP_SendPolicy enSendPolicy);
-/* è®¾ç½® OnSend äº‹ä»¶åŒæ­¥ç­–ç•¥ï¼ˆå¯¹ Linux å¹³å°ç»„ä»¶æ— æ•ˆï¼‰ */
+/* ÉèÖÃ OnSend ÊÂ¼şÍ¬²½²ßÂÔ£¨¶Ô Linux Æ½Ì¨×é¼şÎŞĞ§£© */
 HPSOCKET_API void __HP_CALL HP_Server_SetOnSendSyncPolicy(HP_Server pServer, En_HP_OnSendSyncPolicy enSyncPolicy);
-//* è®¾ç½® Socket ç¼“å­˜å¯¹è±¡é”å®šæ—¶é—´ï¼ˆæ¯«ç§’ï¼Œåœ¨é”å®šæœŸé—´è¯¥ Socket ç¼“å­˜å¯¹è±¡ä¸èƒ½è¢«è·å–ä½¿ç”¨ï¼‰ */
+//* ÉèÖÃ Socket »º´æ¶ÔÏóËø¶¨Ê±¼ä£¨ºÁÃë£¬ÔÚËø¶¨ÆÚ¼ä¸Ã Socket »º´æ¶ÔÏó²»ÄÜ±»»ñÈ¡Ê¹ÓÃ£© */
 HPSOCKET_API void __HP_CALL HP_Server_SetFreeSocketObjLockTime(HP_Server pServer, DWORD dwFreeSocketObjLockTime);
-/* è®¾ç½® Socket ç¼“å­˜æ± å¤§å°ï¼ˆé€šå¸¸è®¾ç½®ä¸ºå¹³å‡å¹¶å‘è¿æ¥æ•°é‡çš„ 1/3 - 1/2ï¼‰ */
+/* ÉèÖÃ Socket »º´æ³Ø´óĞ¡£¨Í¨³£ÉèÖÃÎªÆ½¾ù²¢·¢Á¬½ÓÊıÁ¿µÄ 1/3 - 1/2£© */
 HPSOCKET_API void __HP_CALL HP_Server_SetFreeSocketObjPool(HP_Server pServer, DWORD dwFreeSocketObjPool);
-/* è®¾ç½®å†…å­˜å—ç¼“å­˜æ± å¤§å°ï¼ˆé€šå¸¸è®¾ç½®ä¸º Socket ç¼“å­˜æ± å¤§å°çš„ 2 - 3 å€ï¼‰ */
+/* ÉèÖÃÄÚ´æ¿é»º´æ³Ø´óĞ¡£¨Í¨³£ÉèÖÃÎª Socket »º´æ³Ø´óĞ¡µÄ 2 - 3 ±¶£© */
 HPSOCKET_API void __HP_CALL HP_Server_SetFreeBufferObjPool(HP_Server pServer, DWORD dwFreeBufferObjPool);
-/* è®¾ç½® Socket ç¼“å­˜æ± å›æ”¶é˜€å€¼ï¼ˆé€šå¸¸è®¾ç½®ä¸º Socket ç¼“å­˜æ± å¤§å°çš„ 3 å€ï¼‰ */
+/* ÉèÖÃ Socket »º´æ³Ø»ØÊÕ·§Öµ£¨Í¨³£ÉèÖÃÎª Socket »º´æ³Ø´óĞ¡µÄ 3 ±¶£© */
 HPSOCKET_API void __HP_CALL HP_Server_SetFreeSocketObjHold(HP_Server pServer, DWORD dwFreeSocketObjHold);
-/* è®¾ç½®å†…å­˜å—ç¼“å­˜æ± å›æ”¶é˜€å€¼ï¼ˆé€šå¸¸è®¾ç½®ä¸ºå†…å­˜å—ç¼“å­˜æ± å¤§å°çš„ 3 å€ï¼‰ */
+/* ÉèÖÃÄÚ´æ¿é»º´æ³Ø»ØÊÕ·§Öµ£¨Í¨³£ÉèÖÃÎªÄÚ´æ¿é»º´æ³Ø´óĞ¡µÄ 3 ±¶£© */
 HPSOCKET_API void __HP_CALL HP_Server_SetFreeBufferObjHold(HP_Server pServer, DWORD dwFreeBufferObjHold);
-/* è®¾ç½®æœ€å¤§è¿æ¥æ•°ï¼ˆç»„ä»¶ä¼šæ ¹æ®è®¾ç½®å€¼é¢„åˆ†é…å†…å­˜ï¼Œå› æ­¤éœ€è¦æ ¹æ®å®é™…æƒ…å†µè®¾ç½®ï¼Œä¸å®œè¿‡å¤§ï¼‰*/
+/* ÉèÖÃ×î´óÁ¬½ÓÊı£¨×é¼ş»á¸ù¾İÉèÖÃÖµÔ¤·ÖÅäÄÚ´æ£¬Òò´ËĞèÒª¸ù¾İÊµ¼ÊÇé¿öÉèÖÃ£¬²»ÒË¹ı´ó£©*/
 HPSOCKET_API void __HP_CALL HP_Server_SetMaxConnectionCount(HP_Server pServer, DWORD dwMaxConnectionCount);
-/* è®¾ç½®å·¥ä½œçº¿ç¨‹æ•°é‡ï¼ˆé€šå¸¸è®¾ç½®ä¸º 2 * CPU + 2ï¼‰ */
+/* ÉèÖÃ¹¤×÷Ïß³ÌÊıÁ¿£¨Í¨³£ÉèÖÃÎª 2 * CPU + 2£© */
 HPSOCKET_API void __HP_CALL HP_Server_SetWorkerThreadCount(HP_Server pServer, DWORD dwWorkerThreadCount);
-/* è®¾ç½®æ˜¯å¦æ ‡è®°é™é»˜æ—¶é—´ï¼ˆè®¾ç½®ä¸º TRUE æ—¶ DisconnectSilenceConnections() å’Œ GetSilencePeriod() æ‰æœ‰æ•ˆï¼Œé»˜è®¤ï¼šTRUEï¼‰ */
+/* ÉèÖÃÊÇ·ñ±ê¼Ç¾²Ä¬Ê±¼ä£¨ÉèÖÃÎª TRUE Ê± DisconnectSilenceConnections() ºÍ GetSilencePeriod() ²ÅÓĞĞ§£¬Ä¬ÈÏ£ºTRUE£© */
 HPSOCKET_API void __HP_CALL HP_Server_SetMarkSilence(HP_Server pServer, BOOL bMarkSilence);
 
-/* è·å–æ•°æ®å‘é€ç­–ç•¥ï¼ˆå¯¹ Linux å¹³å°ç»„ä»¶æ— æ•ˆï¼‰ */
+/* »ñÈ¡Êı¾İ·¢ËÍ²ßÂÔ£¨¶Ô Linux Æ½Ì¨×é¼şÎŞĞ§£© */
 HPSOCKET_API En_HP_SendPolicy __HP_CALL HP_Server_GetSendPolicy(HP_Server pServer);
-/* è·å– OnSend äº‹ä»¶åŒæ­¥ç­–ç•¥ï¼ˆå¯¹ Linux å¹³å°ç»„ä»¶æ— æ•ˆï¼‰ */
+/* »ñÈ¡ OnSend ÊÂ¼şÍ¬²½²ßÂÔ£¨¶Ô Linux Æ½Ì¨×é¼şÎŞĞ§£© */
 HPSOCKET_API En_HP_OnSendSyncPolicy __HP_CALL HP_Server_GetOnSendSyncPolicy(HP_Server pServer);
-//* è·å– Socket ç¼“å­˜å¯¹è±¡é”å®šæ—¶é—´ */
+//* »ñÈ¡ Socket »º´æ¶ÔÏóËø¶¨Ê±¼ä */
 HPSOCKET_API DWORD __HP_CALL HP_Server_GetFreeSocketObjLockTime(HP_Server pServer);
-/* è·å– Socket ç¼“å­˜æ± å¤§å° */
+/* »ñÈ¡ Socket »º´æ³Ø´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_Server_GetFreeSocketObjPool(HP_Server pServer);
-/* è·å–å†…å­˜å—ç¼“å­˜æ± å¤§å° */
+/* »ñÈ¡ÄÚ´æ¿é»º´æ³Ø´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_Server_GetFreeBufferObjPool(HP_Server pServer);
-/* è·å– Socket ç¼“å­˜æ± å›æ”¶é˜€å€¼ */
+/* »ñÈ¡ Socket »º´æ³Ø»ØÊÕ·§Öµ */
 HPSOCKET_API DWORD __HP_CALL HP_Server_GetFreeSocketObjHold(HP_Server pServer);
-/* è·å–å†…å­˜å—ç¼“å­˜æ± å›æ”¶é˜€å€¼ */
+/* »ñÈ¡ÄÚ´æ¿é»º´æ³Ø»ØÊÕ·§Öµ */
 HPSOCKET_API DWORD __HP_CALL HP_Server_GetFreeBufferObjHold(HP_Server pServer);
-/* è·å–æœ€å¤§è¿æ¥æ•° */
+/* »ñÈ¡×î´óÁ¬½ÓÊı */
 HPSOCKET_API DWORD __HP_CALL HP_Server_GetMaxConnectionCount(HP_Server pServer);
-/* è·å–å·¥ä½œçº¿ç¨‹æ•°é‡ */
+/* »ñÈ¡¹¤×÷Ïß³ÌÊıÁ¿ */
 HPSOCKET_API DWORD __HP_CALL HP_Server_GetWorkerThreadCount(HP_Server pServer);
-/* æ£€æµ‹æ˜¯å¦æ ‡è®°é™é»˜æ—¶é—´ */
+/* ¼ì²âÊÇ·ñ±ê¼Ç¾²Ä¬Ê±¼ä */
 HPSOCKET_API BOOL __HP_CALL HP_Server_IsMarkSilence(HP_Server pServer);
 
 /**********************************************************************************/
-/******************************* TCP Server æ“ä½œæ–¹æ³• *******************************/
+/******************************* TCP Server ²Ù×÷·½·¨ *******************************/
 
 /*
-* åç§°ï¼šå‘é€å°æ–‡ä»¶
-* æè¿°ï¼šå‘æŒ‡å®šè¿æ¥å‘é€ 4096 KB ä»¥ä¸‹çš„å°æ–‡ä»¶
+* Ãû³Æ£º·¢ËÍĞ¡ÎÄ¼ş
+* ÃèÊö£ºÏòÖ¸¶¨Á¬½Ó·¢ËÍ 4096 KB ÒÔÏÂµÄĞ¡ÎÄ¼ş
 *		
-* å‚æ•°ï¼š		dwConnID		-- è¿æ¥ ID
-*			lpszFileName	-- æ–‡ä»¶è·¯å¾„
-*			pHead			-- å¤´éƒ¨é™„åŠ æ•°æ®
-*			pTail			-- å°¾éƒ¨é™„åŠ æ•°æ®
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		dwConnID		-- Á¬½Ó ID
+*			lpszFileName	-- ÎÄ¼şÂ·¾¶
+*			pHead			-- Í·²¿¸½¼ÓÊı¾İ
+*			pTail			-- Î²²¿¸½¼ÓÊı¾İ
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_TcpServer_SendSmallFile(HP_Server pServer, HP_CONNID dwConnID, LPCTSTR lpszFileName, const LPWSABUF pHead, const LPWSABUF pTail);
 
 /**********************************************************************************/
-/***************************** TCP Server å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** TCP Server ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
-/* è®¾ç½®ç›‘å¬ Socket çš„ç­‰å€™é˜Ÿåˆ—å¤§å°ï¼ˆæ ¹æ®å¹¶å‘è¿æ¥æ•°é‡è°ƒæ•´è®¾ç½®ï¼‰ */
+/* ÉèÖÃ¼àÌı Socket µÄµÈºò¶ÓÁĞ´óĞ¡£¨¸ù¾İ²¢·¢Á¬½ÓÊıÁ¿µ÷ÕûÉèÖÃ£© */
 HPSOCKET_API void __HP_CALL HP_TcpServer_SetSocketListenQueue(HP_TcpServer pServer, DWORD dwSocketListenQueue);
-/* è®¾ç½® EPOLL ç­‰å¾…äº‹ä»¶çš„æœ€å¤§æ•°é‡ */
+/* ÉèÖÃ EPOLL µÈ´ıÊÂ¼şµÄ×î´óÊıÁ¿ */
 HPSOCKET_API void __HP_CALL HP_TcpServer_SetAcceptSocketCount(HP_TcpServer pServer, DWORD dwAcceptSocketCount);
-/* è®¾ç½®é€šä¿¡æ•°æ®ç¼“å†²åŒºå¤§å°ï¼ˆæ ¹æ®å¹³å‡é€šä¿¡æ•°æ®åŒ…å¤§å°è°ƒæ•´è®¾ç½®ï¼Œé€šå¸¸è®¾ç½®ä¸º 1024 çš„å€æ•°ï¼‰ */
+/* ÉèÖÃÍ¨ĞÅÊı¾İ»º³åÇø´óĞ¡£¨¸ù¾İÆ½¾ùÍ¨ĞÅÊı¾İ°ü´óĞ¡µ÷ÕûÉèÖÃ£¬Í¨³£ÉèÖÃÎª 1024 µÄ±¶Êı£© */
 HPSOCKET_API void __HP_CALL HP_TcpServer_SetSocketBufferSize(HP_TcpServer pServer, DWORD dwSocketBufferSize);
-/* è®¾ç½®æ­£å¸¸å¿ƒè·³åŒ…é—´éš”ï¼ˆæ¯«ç§’ï¼Œ0 åˆ™ä¸å‘é€å¿ƒè·³åŒ…ï¼Œé»˜è®¤ï¼š60 * 1000ï¼‰ */
+/* ÉèÖÃÕı³£ĞÄÌø°ü¼ä¸ô£¨ºÁÃë£¬0 Ôò²»·¢ËÍĞÄÌø°ü£¬Ä¬ÈÏ£º60 * 1000£© */
 HPSOCKET_API void __HP_CALL HP_TcpServer_SetKeepAliveTime(HP_TcpServer pServer, DWORD dwKeepAliveTime);
-/* è®¾ç½®å¼‚å¸¸å¿ƒè·³åŒ…é—´éš”ï¼ˆæ¯«ç§’ï¼Œ0 ä¸å‘é€å¿ƒè·³åŒ…ï¼Œï¼Œé»˜è®¤ï¼š20 * 1000ï¼Œå¦‚æœè¶…è¿‡è‹¥å¹²æ¬¡ [é»˜è®¤ï¼šWinXP 5 æ¬¡, Win7 10 æ¬¡] æ£€æµ‹ä¸åˆ°å¿ƒè·³ç¡®è®¤åŒ…åˆ™è®¤ä¸ºå·²æ–­çº¿ï¼‰ */
+/* ÉèÖÃÒì³£ĞÄÌø°ü¼ä¸ô£¨ºÁÃë£¬0 ²»·¢ËÍĞÄÌø°ü£¬£¬Ä¬ÈÏ£º20 * 1000£¬Èç¹û³¬¹ıÈô¸É´Î [Ä¬ÈÏ£ºWinXP 5 ´Î, Win7 10 ´Î] ¼ì²â²»µ½ĞÄÌøÈ·ÈÏ°üÔòÈÏÎªÒÑ¶ÏÏß£© */
 HPSOCKET_API void __HP_CALL HP_TcpServer_SetKeepAliveInterval(HP_TcpServer pServer, DWORD dwKeepAliveInterval);
 
-/* è·å– EPOLL ç­‰å¾…äº‹ä»¶çš„æœ€å¤§æ•°é‡ */
+/* »ñÈ¡ EPOLL µÈ´ıÊÂ¼şµÄ×î´óÊıÁ¿ */
 HPSOCKET_API DWORD __HP_CALL HP_TcpServer_GetAcceptSocketCount(HP_TcpServer pServer);
-/* è·å–é€šä¿¡æ•°æ®ç¼“å†²åŒºå¤§å° */
+/* »ñÈ¡Í¨ĞÅÊı¾İ»º³åÇø´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_TcpServer_GetSocketBufferSize(HP_TcpServer pServer);
-/* è·å–ç›‘å¬ Socket çš„ç­‰å€™é˜Ÿåˆ—å¤§å° */
+/* »ñÈ¡¼àÌı Socket µÄµÈºò¶ÓÁĞ´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_TcpServer_GetSocketListenQueue(HP_TcpServer pServer);
-/* è·å–æ­£å¸¸å¿ƒè·³åŒ…é—´éš” */
+/* »ñÈ¡Õı³£ĞÄÌø°ü¼ä¸ô */
 HPSOCKET_API DWORD __HP_CALL HP_TcpServer_GetKeepAliveTime(HP_TcpServer pServer);
-/* è·å–å¼‚å¸¸å¿ƒè·³åŒ…é—´éš” */
+/* »ñÈ¡Òì³£ĞÄÌø°ü¼ä¸ô */
 HPSOCKET_API DWORD __HP_CALL HP_TcpServer_GetKeepAliveInterval(HP_TcpServer pServer);
 
 #ifdef _UDP_SUPPORT
 
 /**********************************************************************************/
-/***************************** UDP Server å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** UDP Server ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
-/* è®¾ç½®æ•°æ®æŠ¥æ–‡æœ€å¤§é•¿åº¦ï¼ˆå»ºè®®åœ¨å±€åŸŸç½‘ç¯å¢ƒä¸‹ä¸è¶…è¿‡ 1472 å­—èŠ‚ï¼Œåœ¨å¹¿åŸŸç½‘ç¯å¢ƒä¸‹ä¸è¶…è¿‡ 548 å­—èŠ‚ï¼‰ */
+/* ÉèÖÃÊı¾İ±¨ÎÄ×î´ó³¤¶È£¨½¨ÒéÔÚ¾ÖÓòÍø»·¾³ÏÂ²»³¬¹ı 1472 ×Ö½Ú£¬ÔÚ¹ãÓòÍø»·¾³ÏÂ²»³¬¹ı 548 ×Ö½Ú£© */
 HPSOCKET_API void __HP_CALL HP_UdpServer_SetMaxDatagramSize(HP_UdpServer pServer, DWORD dwMaxDatagramSize);
-/* è·å–æ•°æ®æŠ¥æ–‡æœ€å¤§é•¿åº¦ */
+/* »ñÈ¡Êı¾İ±¨ÎÄ×î´ó³¤¶È */
 HPSOCKET_API DWORD __HP_CALL HP_UdpServer_GetMaxDatagramSize(HP_UdpServer pServer);
 
-/* è®¾ç½® Receive é¢„æŠ•é€’æ•°é‡ï¼ˆæ ¹æ®è´Ÿè½½è°ƒæ•´è®¾ç½®ï¼ŒReceive é¢„æŠ•é€’æ•°é‡è¶Šå¤§åˆ™ä¸¢åŒ…æ¦‚ç‡è¶Šå°ï¼‰ */
+/* ÉèÖÃ Receive Ô¤Í¶µİÊıÁ¿£¨¸ù¾İ¸ºÔØµ÷ÕûÉèÖÃ£¬Receive Ô¤Í¶µİÊıÁ¿Ô½´óÔò¶ª°ü¸ÅÂÊÔ½Ğ¡£© */
 HPSOCKET_API void __HP_CALL HP_UdpServer_SetPostReceiveCount(HP_UdpServer pServer, DWORD dwPostReceiveCount);
-/* è·å– Receive é¢„æŠ•é€’æ•°é‡ */
+/* »ñÈ¡ Receive Ô¤Í¶µİÊıÁ¿ */
 HPSOCKET_API DWORD __HP_CALL HP_UdpServer_GetPostReceiveCount(HP_UdpServer pServer);
 
-/* è®¾ç½®ç›‘æµ‹åŒ…å°è¯•æ¬¡æ•°ï¼ˆ0 åˆ™ä¸å‘é€ç›‘æµ‹è·³åŒ…ï¼Œå¦‚æœè¶…è¿‡æœ€å¤§å°è¯•æ¬¡æ•°åˆ™è®¤ä¸ºå·²æ–­çº¿ï¼‰ */
+/* ÉèÖÃ¼à²â°ü³¢ÊÔ´ÎÊı£¨0 Ôò²»·¢ËÍ¼à²âÌø°ü£¬Èç¹û³¬¹ı×î´ó³¢ÊÔ´ÎÊıÔòÈÏÎªÒÑ¶ÏÏß£© */
 HPSOCKET_API void __HP_CALL HP_UdpServer_SetDetectAttempts(HP_UdpServer pServer, DWORD dwDetectAttempts);
-/* è®¾ç½®ç›‘æµ‹åŒ…å‘é€é—´éš”ï¼ˆæ¯«ç§’ï¼Œ0 ä¸å‘é€ç›‘æµ‹åŒ…ï¼‰ */
+/* ÉèÖÃ¼à²â°ü·¢ËÍ¼ä¸ô£¨ºÁÃë£¬0 ²»·¢ËÍ¼à²â°ü£© */
 HPSOCKET_API void __HP_CALL HP_UdpServer_SetDetectInterval(HP_UdpServer pServer, DWORD dwDetectInterval);
-/* è·å–å¿ƒè·³æ£€æŸ¥æ¬¡æ•° */
+/* »ñÈ¡ĞÄÌø¼ì²é´ÎÊı */
 HPSOCKET_API DWORD __HP_CALL HP_UdpServer_GetDetectAttempts(HP_UdpServer pServer);
-/* è·å–å¿ƒè·³æ£€æŸ¥é—´éš” */
+/* »ñÈ¡ĞÄÌø¼ì²é¼ä¸ô */
 HPSOCKET_API DWORD __HP_CALL HP_UdpServer_GetDetectInterval(HP_UdpServer pServer);
 
 /**********************************************************************************/
-/*************************** UDP ARQ Server å±æ€§è®¿é—®æ–¹æ³• ***************************/
+/*************************** UDP ARQ Server ÊôĞÔ·ÃÎÊ·½·¨ ***************************/
 
-/* è®¾ç½®æ˜¯å¦å¼€å¯ nodelay æ¨¡å¼ï¼ˆé»˜è®¤ï¼šFALSEï¼Œä¸å¼€å¯ï¼‰ */
+/* ÉèÖÃÊÇ·ñ¿ªÆô nodelay Ä£Ê½£¨Ä¬ÈÏ£ºFALSE£¬²»¿ªÆô£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqServer_SetNoDelay(HP_UdpArqServer pServer, BOOL bNoDelay);
-/* è®¾ç½®æ˜¯å¦å…³é—­æ‹¥å¡æ§åˆ¶ï¼ˆé»˜è®¤ï¼šFALSEï¼Œä¸å…³é—­ï¼‰ */
+/* ÉèÖÃÊÇ·ñ¹Ø±ÕÓµÈû¿ØÖÆ£¨Ä¬ÈÏ£ºFALSE£¬²»¹Ø±Õ£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqServer_SetTurnoffCongestCtrl(HP_UdpArqServer pServer, BOOL bTurnOff);
-/* è®¾ç½®æ•°æ®åˆ·æ–°é—´éš”ï¼ˆæ¯«ç§’ï¼Œé»˜è®¤ï¼š60ï¼‰ */
+/* ÉèÖÃÊı¾İË¢ĞÂ¼ä¸ô£¨ºÁÃë£¬Ä¬ÈÏ£º60£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqServer_SetFlushInterval(HP_UdpArqServer pServer, DWORD dwFlushInterval);
-/* è®¾ç½®å¿«é€Ÿé‡ä¼  ACK è·¨è¶Šæ¬¡æ•°ï¼ˆé»˜è®¤ï¼š0ï¼Œå…³é—­å¿«é€Ÿé‡ä¼ ï¼‰ */
+/* ÉèÖÃ¿ìËÙÖØ´« ACK ¿çÔ½´ÎÊı£¨Ä¬ÈÏ£º0£¬¹Ø±Õ¿ìËÙÖØ´«£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqServer_SetResendByAcks(HP_UdpArqServer pServer, DWORD dwResendByAcks);
-/* è®¾ç½®å‘é€çª—å£å¤§å°ï¼ˆæ•°æ®åŒ…æ•°é‡ï¼Œé»˜è®¤ï¼š128ï¼‰ */
+/* ÉèÖÃ·¢ËÍ´°¿Ú´óĞ¡£¨Êı¾İ°üÊıÁ¿£¬Ä¬ÈÏ£º128£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqServer_SetSendWndSize(HP_UdpArqServer pServer, DWORD dwSendWndSize);
-/* è®¾ç½®æ¥æ”¶çª—å£å¤§å°ï¼ˆæ•°æ®åŒ…æ•°é‡ï¼Œé»˜è®¤ï¼š512ï¼‰ */
+/* ÉèÖÃ½ÓÊÕ´°¿Ú´óĞ¡£¨Êı¾İ°üÊıÁ¿£¬Ä¬ÈÏ£º512£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqServer_SetRecvWndSize(HP_UdpArqServer pServer, DWORD dwRecvWndSize);
-/* è®¾ç½®æœ€å°é‡ä¼ è¶…æ—¶æ—¶é—´ï¼ˆæ¯«ç§’ï¼Œé»˜è®¤ï¼š30ï¼‰ */
+/* ÉèÖÃ×îĞ¡ÖØ´«³¬Ê±Ê±¼ä£¨ºÁÃë£¬Ä¬ÈÏ£º30£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqServer_SetMinRto(HP_UdpArqServer pServer, DWORD dwMinRto);
-/* è®¾ç½®æœ€å¤§ä¼ è¾“å•å…ƒï¼ˆé»˜è®¤ï¼š0ï¼Œä¸ SetMaxDatagramSize() ä¸€è‡´ï¼‰ */
+/* ÉèÖÃ×î´ó´«Êäµ¥Ôª£¨Ä¬ÈÏ£º0£¬Óë SetMaxDatagramSize() Ò»ÖÂ£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqServer_SetMaxTransUnit(HP_UdpArqServer pServer, DWORD dwMaxTransUnit);
-/* è®¾ç½®æœ€å¤§æ•°æ®åŒ…å¤§å°ï¼ˆé»˜è®¤ï¼š4096ï¼‰ */
+/* ÉèÖÃ×î´óÊı¾İ°ü´óĞ¡£¨Ä¬ÈÏ£º4096£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqServer_SetMaxMessageSize(HP_UdpArqServer pServer, DWORD dwMaxMessageSize);
-/* è®¾ç½®æ¡æ‰‹è¶…æ—¶æ—¶é—´ï¼ˆæ¯«ç§’ï¼Œé»˜è®¤ï¼š5000ï¼‰ */
+/* ÉèÖÃÎÕÊÖ³¬Ê±Ê±¼ä£¨ºÁÃë£¬Ä¬ÈÏ£º5000£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqServer_SetHandShakeTimeout(HP_UdpArqServer pServer, DWORD dwHandShakeTimeout);
 
-/* æ£€æµ‹æ˜¯å¦å¼€å¯ nodelay æ¨¡å¼ */
+/* ¼ì²âÊÇ·ñ¿ªÆô nodelay Ä£Ê½ */
 HPSOCKET_API BOOL __HP_CALL HP_UdpArqServer_IsNoDelay(HP_UdpArqServer pServer);
-/* æ£€æµ‹æ˜¯å¦å…³é—­æ‹¥å¡æ§åˆ¶ */
+/* ¼ì²âÊÇ·ñ¹Ø±ÕÓµÈû¿ØÖÆ */
 HPSOCKET_API BOOL __HP_CALL HP_UdpArqServer_IsTurnoffCongestCtrl(HP_UdpArqServer pServer);
-/* è·å–æ•°æ®åˆ·æ–°é—´éš” */
+/* »ñÈ¡Êı¾İË¢ĞÂ¼ä¸ô */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqServer_GetFlushInterval(HP_UdpArqServer pServer);
-/* è·å–å¿«é€Ÿé‡ä¼  ACK è·¨è¶Šæ¬¡æ•° */
+/* »ñÈ¡¿ìËÙÖØ´« ACK ¿çÔ½´ÎÊı */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqServer_GetResendByAcks(HP_UdpArqServer pServer);
-/* è·å–å‘é€çª—å£å¤§å° */
+/* »ñÈ¡·¢ËÍ´°¿Ú´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqServer_GetSendWndSize(HP_UdpArqServer pServer);
-/* è·å–æ¥æ”¶çª—å£å¤§å° */
+/* »ñÈ¡½ÓÊÕ´°¿Ú´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqServer_GetRecvWndSize(HP_UdpArqServer pServer);
-/* è·å–æœ€å°é‡ä¼ è¶…æ—¶æ—¶é—´ */
+/* »ñÈ¡×îĞ¡ÖØ´«³¬Ê±Ê±¼ä */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqServer_GetMinRto(HP_UdpArqServer pServer);
-/* è·å–æœ€å¤§ä¼ è¾“å•å…ƒ */
+/* »ñÈ¡×î´ó´«Êäµ¥Ôª */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqServer_GetMaxTransUnit(HP_UdpArqServer pServer);
-/* è·å–æœ€å¤§æ•°æ®åŒ…å¤§å° */
+/* »ñÈ¡×î´óÊı¾İ°ü´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqServer_GetMaxMessageSize(HP_UdpArqServer pServer);
-/* è·å–æ¡æ‰‹è¶…æ—¶æ—¶é—´ */
+/* »ñÈ¡ÎÕÊÖ³¬Ê±Ê±¼ä */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqServer_GetHandShakeTimeout(HP_UdpArqServer pServer);
 
-/* è·å–ç­‰å¾…å‘é€åŒ…æ•°é‡ */
+/* »ñÈ¡µÈ´ı·¢ËÍ°üÊıÁ¿ */
 HPSOCKET_API BOOL __HP_CALL HP_UdpArqServer_GetWaitingSendMessageCount(HP_UdpArqServer pServer, HP_CONNID dwConnID, int* piCount);
 
 #endif
 
 /**************************************************************************/
-/***************************** Agent æ“ä½œæ–¹æ³• *****************************/
+/***************************** Agent ²Ù×÷·½·¨ *****************************/
 
 /*
-* åç§°ï¼šå¯åŠ¨é€šä¿¡ç»„ä»¶
-* æè¿°ï¼šå¯åŠ¨é€šä¿¡ä»£ç†ç»„ä»¶ï¼Œå¯åŠ¨å®Œæˆåå¯å¼€å§‹è¿æ¥è¿œç¨‹æœåŠ¡å™¨
+* Ãû³Æ£ºÆô¶¯Í¨ĞÅ×é¼ş
+* ÃèÊö£ºÆô¶¯Í¨ĞÅ´úÀí×é¼ş£¬Æô¶¯Íê³Éºó¿É¿ªÊ¼Á¬½ÓÔ¶³Ì·şÎñÆ÷
 *		
-* å‚æ•°ï¼š		lpszBindAddress	-- ç»‘å®šåœ°å€ï¼ˆé»˜è®¤ï¼šnullptrï¼Œç»‘å®šä»»æ„åœ°å€ï¼‰
-*			bAsyncConnect	-- æ˜¯å¦é‡‡ç”¨å¼‚æ­¥ Connect
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ HP_Agent_GetLastError() è·å–é”™è¯¯ä»£ç 
+* ²ÎÊı£º		lpszBindAddress	-- °ó¶¨µØÖ·£¨Ä¬ÈÏ£ºnullptr£¬°ó¶¨ÈÎÒâµØÖ·£©
+*			bAsyncConnect	-- ÊÇ·ñ²ÉÓÃÒì²½ Connect
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı HP_Agent_GetLastError() »ñÈ¡´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_Start(HP_Agent pAgent, LPCTSTR lpszBindAddress, BOOL bAsyncConnect);
 
 /*
-* åç§°ï¼šå…³é—­é€šä¿¡ç»„ä»¶
-* æè¿°ï¼šå…³é—­é€šä¿¡ç»„ä»¶ï¼Œå…³é—­å®Œæˆåæ–­å¼€æ‰€æœ‰è¿æ¥å¹¶é‡Šæ”¾æ‰€æœ‰èµ„æº
+* Ãû³Æ£º¹Ø±ÕÍ¨ĞÅ×é¼ş
+* ÃèÊö£º¹Ø±ÕÍ¨ĞÅ×é¼ş£¬¹Ø±ÕÍê³Éºó¶Ï¿ªËùÓĞÁ¬½Ó²¢ÊÍ·ÅËùÓĞ×ÊÔ´
 *		
-* å‚æ•°ï¼š	
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ HP_Agent_GetLastError() è·å–é”™è¯¯ä»£ç 
+* ²ÎÊı£º	
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı HP_Agent_GetLastError() »ñÈ¡´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_Stop(HP_Agent pAgent);
 
 /*
-* åç§°ï¼šè¿æ¥æœåŠ¡å™¨
-* æè¿°ï¼šè¿æ¥æœåŠ¡å™¨ï¼Œè¿æ¥æˆåŠŸå IAgentListener ä¼šæ¥æ”¶åˆ° OnConnect() / OnHandShake() äº‹ä»¶
+* Ãû³Æ£ºÁ¬½Ó·şÎñÆ÷
+* ÃèÊö£ºÁ¬½Ó·şÎñÆ÷£¬Á¬½Ó³É¹¦ºó IAgentListener »á½ÓÊÕµ½ OnConnect() / OnHandShake() ÊÂ¼ş
 *		
-* å‚æ•°ï¼š		lpszRemoteAddress	-- æœåŠ¡ç«¯åœ°å€
-*			usPort				-- æœåŠ¡ç«¯ç«¯å£
-*			pdwConnID			-- è¿æ¥ IDï¼ˆé»˜è®¤ï¼šnullptrï¼Œä¸è·å–è¿æ¥ IDï¼‰
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡å‡½æ•° SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		lpszRemoteAddress	-- ·şÎñ¶ËµØÖ·
+*			usPort				-- ·şÎñ¶Ë¶Ë¿Ú
+*			pdwConnID			-- Á¬½Ó ID£¨Ä¬ÈÏ£ºnullptr£¬²»»ñÈ¡Á¬½Ó ID£©
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ıº¯Êı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_Connect(HP_Agent pAgent, LPCTSTR lpszRemoteAddress, USHORT usPort, HP_CONNID* pdwConnID);
 
 /*
-* åç§°ï¼šè¿æ¥æœåŠ¡å™¨
-* æè¿°ï¼šè¿æ¥æœåŠ¡å™¨ï¼Œè¿æ¥æˆåŠŸå IAgentListener ä¼šæ¥æ”¶åˆ° OnConnect() / OnHandShake() äº‹ä»¶
+* Ãû³Æ£ºÁ¬½Ó·şÎñÆ÷
+* ÃèÊö£ºÁ¬½Ó·şÎñÆ÷£¬Á¬½Ó³É¹¦ºó IAgentListener »á½ÓÊÕµ½ OnConnect() / OnHandShake() ÊÂ¼ş
 *		
-* å‚æ•°ï¼š		lpszRemoteAddress	-- æœåŠ¡ç«¯åœ°å€
-*			usPort				-- æœåŠ¡ç«¯ç«¯å£
-*			pdwConnID			-- è¿æ¥ IDï¼ˆé»˜è®¤ï¼šnullptrï¼Œä¸è·å–è¿æ¥ IDï¼‰
-*			pExtra				-- è¿æ¥é™„åŠ æ•°æ®ï¼ˆé»˜è®¤ï¼šnullptrï¼‰
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡å‡½æ•° SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		lpszRemoteAddress	-- ·şÎñ¶ËµØÖ·
+*			usPort				-- ·şÎñ¶Ë¶Ë¿Ú
+*			pdwConnID			-- Á¬½Ó ID£¨Ä¬ÈÏ£ºnullptr£¬²»»ñÈ¡Á¬½Ó ID£©
+*			pExtra				-- Á¬½Ó¸½¼ÓÊı¾İ£¨Ä¬ÈÏ£ºnullptr£©
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ıº¯Êı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_ConnectWithExtra(HP_Agent pAgent, LPCTSTR lpszRemoteAddress, USHORT usPort, HP_CONNID* pdwConnID, PVOID pExtra);
 
 /*
-* åç§°ï¼šè¿æ¥æœåŠ¡å™¨
-* æè¿°ï¼šè¿æ¥æœåŠ¡å™¨ï¼Œè¿æ¥æˆåŠŸå IAgentListener ä¼šæ¥æ”¶åˆ° OnConnect() / OnHandShake() äº‹ä»¶
+* Ãû³Æ£ºÁ¬½Ó·şÎñÆ÷
+* ÃèÊö£ºÁ¬½Ó·şÎñÆ÷£¬Á¬½Ó³É¹¦ºó IAgentListener »á½ÓÊÕµ½ OnConnect() / OnHandShake() ÊÂ¼ş
 *
-* å‚æ•°ï¼š		lpszRemoteAddress	-- æœåŠ¡ç«¯åœ°å€
-*			usPort				-- æœåŠ¡ç«¯ç«¯å£
-*			pdwConnID			-- è¿æ¥ IDï¼ˆé»˜è®¤ï¼šnullptrï¼Œä¸è·å–è¿æ¥ IDï¼‰
-*			usLocalPort			-- æœ¬åœ°ç«¯å£ï¼ˆé»˜è®¤ï¼š0ï¼‰
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡å‡½æ•° SYS_GetLastError() è·å– Windows é”™è¯¯ä»£ç 
+* ²ÎÊı£º		lpszRemoteAddress	-- ·şÎñ¶ËµØÖ·
+*			usPort				-- ·şÎñ¶Ë¶Ë¿Ú
+*			pdwConnID			-- Á¬½Ó ID£¨Ä¬ÈÏ£ºnullptr£¬²»»ñÈ¡Á¬½Ó ID£©
+*			usLocalPort			-- ±¾µØ¶Ë¿Ú£¨Ä¬ÈÏ£º0£©
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ıº¯Êı SYS_GetLastError() »ñÈ¡ Windows ´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_ConnectWithLocalPort(HP_Agent pAgent, LPCTSTR lpszRemoteAddress, USHORT usPort, HP_CONNID* pdwConnID, USHORT usLocalPort);
 
 /*
-* åç§°ï¼šè¿æ¥æœåŠ¡å™¨
-* æè¿°ï¼šè¿æ¥æœåŠ¡å™¨ï¼Œè¿æ¥æˆåŠŸå IAgentListener ä¼šæ¥æ”¶åˆ° OnConnect() / OnHandShake() äº‹ä»¶
+* Ãû³Æ£ºÁ¬½Ó·şÎñÆ÷
+* ÃèÊö£ºÁ¬½Ó·şÎñÆ÷£¬Á¬½Ó³É¹¦ºó IAgentListener »á½ÓÊÕµ½ OnConnect() / OnHandShake() ÊÂ¼ş
 *		
-* å‚æ•°ï¼š		lpszRemoteAddress	-- æœåŠ¡ç«¯åœ°å€
-*			usPort				-- æœåŠ¡ç«¯ç«¯å£
-*			pdwConnID			-- è¿æ¥ IDï¼ˆé»˜è®¤ï¼šnullptrï¼Œä¸è·å–è¿æ¥ IDï¼‰
-*			lpszLocalAddress	-- æœ¬åœ°åœ°å€ï¼ˆé»˜è®¤ï¼šnullptrï¼Œä½¿ç”¨ Start() æ–¹æ³•ä¸­ç»‘å®šçš„åœ°å€ï¼‰
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡å‡½æ•° SYS_GetLastError() è·å– Windows é”™è¯¯ä»£ç 
+* ²ÎÊı£º		lpszRemoteAddress	-- ·şÎñ¶ËµØÖ·
+*			usPort				-- ·şÎñ¶Ë¶Ë¿Ú
+*			pdwConnID			-- Á¬½Ó ID£¨Ä¬ÈÏ£ºnullptr£¬²»»ñÈ¡Á¬½Ó ID£©
+*			lpszLocalAddress	-- ±¾µØµØÖ·£¨Ä¬ÈÏ£ºnullptr£¬Ê¹ÓÃ Start() ·½·¨ÖĞ°ó¶¨µÄµØÖ·£©
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ıº¯Êı SYS_GetLastError() »ñÈ¡ Windows ´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_ConnectWithLocalAddress(HP_Agent pAgent, LPCTSTR lpszRemoteAddress, USHORT usPort, HP_CONNID* pdwConnID, LPCTSTR lpszLocalAddress);
 
 /*
-* åç§°ï¼šè¿æ¥æœåŠ¡å™¨
-* æè¿°ï¼šè¿æ¥æœåŠ¡å™¨ï¼Œè¿æ¥æˆåŠŸå IAgentListener ä¼šæ¥æ”¶åˆ° OnConnect() / OnHandShake() äº‹ä»¶
+* Ãû³Æ£ºÁ¬½Ó·şÎñÆ÷
+* ÃèÊö£ºÁ¬½Ó·şÎñÆ÷£¬Á¬½Ó³É¹¦ºó IAgentListener »á½ÓÊÕµ½ OnConnect() / OnHandShake() ÊÂ¼ş
 *
-* å‚æ•°ï¼š		lpszRemoteAddress	-- æœåŠ¡ç«¯åœ°å€
-*			usPort				-- æœåŠ¡ç«¯ç«¯å£
-*			pdwConnID			-- è¿æ¥ IDï¼ˆé»˜è®¤ï¼šnullptrï¼Œä¸è·å–è¿æ¥ IDï¼‰
-*			pExtra				-- è¿æ¥é™„åŠ æ•°æ®ï¼ˆé»˜è®¤ï¼šnullptrï¼‰
-*			usLocalPort			-- æœ¬åœ°ç«¯å£ï¼ˆé»˜è®¤ï¼š0ï¼‰
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡å‡½æ•° SYS_GetLastError() è·å– Windows é”™è¯¯ä»£ç 
+* ²ÎÊı£º		lpszRemoteAddress	-- ·şÎñ¶ËµØÖ·
+*			usPort				-- ·şÎñ¶Ë¶Ë¿Ú
+*			pdwConnID			-- Á¬½Ó ID£¨Ä¬ÈÏ£ºnullptr£¬²»»ñÈ¡Á¬½Ó ID£©
+*			pExtra				-- Á¬½Ó¸½¼ÓÊı¾İ£¨Ä¬ÈÏ£ºnullptr£©
+*			usLocalPort			-- ±¾µØ¶Ë¿Ú£¨Ä¬ÈÏ£º0£©
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ıº¯Êı SYS_GetLastError() »ñÈ¡ Windows ´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_ConnectWithExtraAndLocalPort(HP_Agent pAgent, LPCTSTR lpszRemoteAddress, USHORT usPort, HP_CONNID* pdwConnID, PVOID pExtra, USHORT usLocalPort);
 
 /* 
-* åç§°ï¼šè¿æ¥æœåŠ¡å™¨
-* æè¿°ï¼šè¿æ¥æœåŠ¡å™¨ï¼Œè¿æ¥æˆåŠŸå IAgentListener ä¼šæ¥æ”¶åˆ° OnConnect() / OnHandShake() äº‹ä»¶
+* Ãû³Æ£ºÁ¬½Ó·şÎñÆ÷
+* ÃèÊö£ºÁ¬½Ó·şÎñÆ÷£¬Á¬½Ó³É¹¦ºó IAgentListener »á½ÓÊÕµ½ OnConnect() / OnHandShake() ÊÂ¼ş
 *		
-* å‚æ•°ï¼š		lpszRemoteAddress	-- æœåŠ¡ç«¯åœ°å€
-*			usPort				-- æœåŠ¡ç«¯ç«¯å£
-*			pdwConnID			-- è¿æ¥ IDï¼ˆé»˜è®¤ï¼šnullptrï¼Œä¸è·å–è¿æ¥ IDï¼‰
-*			pExtra				-- è¿æ¥é™„åŠ æ•°æ®ï¼ˆé»˜è®¤ï¼šnullptrï¼‰
-*			usLocalPort			-- æœ¬åœ°ç«¯å£ï¼ˆé»˜è®¤ï¼š0ï¼‰
-*			lpszLocalAddress	-- æœ¬åœ°åœ°å€ï¼ˆé»˜è®¤ï¼šnullptrï¼Œä½¿ç”¨ Start() æ–¹æ³•ä¸­ç»‘å®šçš„åœ°å€ï¼‰
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡å‡½æ•° SYS_GetLastError() è·å– Windows é”™è¯¯ä»£ç 
+* ²ÎÊı£º		lpszRemoteAddress	-- ·şÎñ¶ËµØÖ·
+*			usPort				-- ·şÎñ¶Ë¶Ë¿Ú
+*			pdwConnID			-- Á¬½Ó ID£¨Ä¬ÈÏ£ºnullptr£¬²»»ñÈ¡Á¬½Ó ID£©
+*			pExtra				-- Á¬½Ó¸½¼ÓÊı¾İ£¨Ä¬ÈÏ£ºnullptr£©
+*			usLocalPort			-- ±¾µØ¶Ë¿Ú£¨Ä¬ÈÏ£º0£©
+*			lpszLocalAddress	-- ±¾µØµØÖ·£¨Ä¬ÈÏ£ºnullptr£¬Ê¹ÓÃ Start() ·½·¨ÖĞ°ó¶¨µÄµØÖ·£©
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ıº¯Êı SYS_GetLastError() »ñÈ¡ Windows ´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_ConnectWithExtraAndLocalAddressPort(HP_Agent pAgent, LPCTSTR lpszRemoteAddress, USHORT usPort, HP_CONNID* pdwConnID, PVOID pExtra, USHORT usLocalPort, LPCTSTR lpszLocalAddress);
 
 /*
-* åç§°ï¼šå‘é€æ•°æ®
-* æè¿°ï¼šå‘æŒ‡å®šè¿æ¥å‘é€æ•°æ®
+* Ãû³Æ£º·¢ËÍÊı¾İ
+* ÃèÊö£ºÏòÖ¸¶¨Á¬½Ó·¢ËÍÊı¾İ
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pBuffer		-- å‘é€ç¼“å†²åŒº
-*			iLength		-- å‘é€ç¼“å†²åŒºé•¿åº¦
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pBuffer		-- ·¢ËÍ»º³åÇø
+*			iLength		-- ·¢ËÍ»º³åÇø³¤¶È
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_Send(HP_Agent pAgent, HP_CONNID dwConnID, const BYTE* pBuffer, int iLength);
 
 /*
-* åç§°ï¼šå‘é€æ•°æ®
-* æè¿°ï¼šå‘æŒ‡å®šè¿æ¥å‘é€æ•°æ®
+* Ãû³Æ£º·¢ËÍÊı¾İ
+* ÃèÊö£ºÏòÖ¸¶¨Á¬½Ó·¢ËÍÊı¾İ
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pBuffer		-- å‘é€ç¼“å†²åŒº
-*			iLength		-- å‘é€ç¼“å†²åŒºé•¿åº¦
-*			iOffset		-- å‘é€ç¼“å†²åŒºæŒ‡é’ˆåç§»é‡
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pBuffer		-- ·¢ËÍ»º³åÇø
+*			iLength		-- ·¢ËÍ»º³åÇø³¤¶È
+*			iOffset		-- ·¢ËÍ»º³åÇøÖ¸ÕëÆ«ÒÆÁ¿
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_SendPart(HP_Agent pAgent, HP_CONNID dwConnID, const BYTE* pBuffer, int iLength, int iOffset);
 
 /*
-* åç§°ï¼šå‘é€å¤šç»„æ•°æ®
-* æè¿°ï¼šå‘æŒ‡å®šè¿æ¥å‘é€å¤šç»„æ•°æ®
-*		TCP - é¡ºåºå‘é€æ‰€æœ‰æ•°æ®åŒ… 
-*		UDP - æŠŠæ‰€æœ‰æ•°æ®åŒ…ç»„åˆæˆä¸€ä¸ªæ•°æ®åŒ…å‘é€ï¼ˆæ•°æ®åŒ…çš„æ€»é•¿åº¦ä¸èƒ½å¤§äºè®¾ç½®çš„ UDP åŒ…æœ€å¤§é•¿åº¦ï¼‰ 
+* Ãû³Æ£º·¢ËÍ¶à×éÊı¾İ
+* ÃèÊö£ºÏòÖ¸¶¨Á¬½Ó·¢ËÍ¶à×éÊı¾İ
+*		TCP - Ë³Ğò·¢ËÍËùÓĞÊı¾İ°ü 
+*		UDP - °ÑËùÓĞÊı¾İ°ü×éºÏ³ÉÒ»¸öÊı¾İ°ü·¢ËÍ£¨Êı¾İ°üµÄ×Ü³¤¶È²»ÄÜ´óÓÚÉèÖÃµÄ UDP °ü×î´ó³¤¶È£© 
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pBuffers	-- å‘é€ç¼“å†²åŒºæ•°ç»„
-*			iCount		-- å‘é€ç¼“å†²åŒºæ•°ç›®
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pBuffers	-- ·¢ËÍ»º³åÇøÊı×é
+*			iCount		-- ·¢ËÍ»º³åÇøÊıÄ¿
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_SendPackets(HP_Agent pAgent, HP_CONNID dwConnID, const WSABUF pBuffers[], int iCount);
 
 /*
-* åç§°ï¼šæš‚åœ/æ¢å¤æ¥æ”¶
-* æè¿°ï¼šæš‚åœ/æ¢å¤æŸä¸ªè¿æ¥çš„æ•°æ®æ¥æ”¶å·¥ä½œ
+* Ãû³Æ£ºÔİÍ£/»Ö¸´½ÓÊÕ
+* ÃèÊö£ºÔİÍ£/»Ö¸´Ä³¸öÁ¬½ÓµÄÊı¾İ½ÓÊÕ¹¤×÷
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			bPause		-- TRUE - æš‚åœ, FALSE - æ¢å¤
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			bPause		-- TRUE - ÔİÍ£, FALSE - »Ö¸´
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_PauseReceive(HP_Agent pAgent, HP_CONNID dwConnID, BOOL bPause);
 
 /*
-* åç§°ï¼šæ–­å¼€è¿æ¥
-* æè¿°ï¼šæ–­å¼€æŸä¸ªè¿æ¥
+* Ãû³Æ£º¶Ï¿ªÁ¬½Ó
+* ÃèÊö£º¶Ï¿ªÄ³¸öÁ¬½Ó
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			bForce		-- æ˜¯å¦å¼ºåˆ¶æ–­å¼€è¿æ¥
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			bForce		-- ÊÇ·ñÇ¿ÖÆ¶Ï¿ªÁ¬½Ó
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_Disconnect(HP_Agent pAgent, HP_CONNID dwConnID, BOOL bForce);
 
 /*
-* åç§°ï¼šæ–­å¼€è¶…æ—¶è¿æ¥
-* æè¿°ï¼šæ–­å¼€è¶…è¿‡æŒ‡å®šæ—¶é•¿çš„è¿æ¥
+* Ãû³Æ£º¶Ï¿ª³¬Ê±Á¬½Ó
+* ÃèÊö£º¶Ï¿ª³¬¹ıÖ¸¶¨Ê±³¤µÄÁ¬½Ó
 *		
-* å‚æ•°ï¼š		dwPeriod	-- æ—¶é•¿ï¼ˆæ¯«ç§’ï¼‰
-*			bForce		-- æ˜¯å¦å¼ºåˆ¶æ–­å¼€è¿æ¥
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥
+* ²ÎÊı£º		dwPeriod	-- Ê±³¤£¨ºÁÃë£©
+*			bForce		-- ÊÇ·ñÇ¿ÖÆ¶Ï¿ªÁ¬½Ó
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_DisconnectLongConnections(HP_Agent pAgent, DWORD dwPeriod, BOOL bForce);
 
 /*
-* åç§°ï¼šæ–­å¼€é™é»˜è¿æ¥
-* æè¿°ï¼šæ–­å¼€è¶…è¿‡æŒ‡å®šæ—¶é•¿çš„é™é»˜è¿æ¥
+* Ãû³Æ£º¶Ï¿ª¾²Ä¬Á¬½Ó
+* ÃèÊö£º¶Ï¿ª³¬¹ıÖ¸¶¨Ê±³¤µÄ¾²Ä¬Á¬½Ó
 *		
-* å‚æ•°ï¼š		dwPeriod	-- æ—¶é•¿ï¼ˆæ¯«ç§’ï¼‰
-*			bForce		-- æ˜¯å¦å¼ºåˆ¶æ–­å¼€è¿æ¥
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥
+* ²ÎÊı£º		dwPeriod	-- Ê±³¤£¨ºÁÃë£©
+*			bForce		-- ÊÇ·ñÇ¿ÖÆ¶Ï¿ªÁ¬½Ó
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_DisconnectSilenceConnections(HP_Agent pAgent, DWORD dwPeriod, BOOL bForce);
 
 /******************************************************************************/
-/***************************** Agent å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** Agent ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
 /*
-* åç§°ï¼šè®¾ç½®è¿æ¥çš„é™„åŠ æ•°æ®
-* æè¿°ï¼šæ˜¯å¦ä¸ºè¿æ¥ç»‘å®šé™„åŠ æ•°æ®æˆ–è€…ç»‘å®šä»€ä¹ˆæ ·çš„æ•°æ®ï¼Œå‡ç”±åº”ç”¨ç¨‹åºåªèº«å†³å®š
+* Ãû³Æ£ºÉèÖÃÁ¬½ÓµÄ¸½¼ÓÊı¾İ
+* ÃèÊö£ºÊÇ·ñÎªÁ¬½Ó°ó¶¨¸½¼ÓÊı¾İ»òÕß°ó¶¨Ê²Ã´ÑùµÄÊı¾İ£¬¾ùÓÉÓ¦ÓÃ³ÌĞòÖ»Éí¾ö¶¨
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pv			-- æ•°æ®
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼ˆæ— æ•ˆçš„è¿æ¥ IDï¼‰
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pv			-- Êı¾İ
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¨ÎŞĞ§µÄÁ¬½Ó ID£©
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_SetConnectionExtra(HP_Agent pAgent, HP_CONNID dwConnID, PVOID pExtra);
 
 /*
-* åç§°ï¼šè·å–è¿æ¥çš„é™„åŠ æ•°æ®
-* æè¿°ï¼šæ˜¯å¦ä¸ºè¿æ¥ç»‘å®šé™„åŠ æ•°æ®æˆ–è€…ç»‘å®šä»€ä¹ˆæ ·çš„æ•°æ®ï¼Œå‡ç”±åº”ç”¨ç¨‹åºåªèº«å†³å®š
+* Ãû³Æ£º»ñÈ¡Á¬½ÓµÄ¸½¼ÓÊı¾İ
+* ÃèÊö£ºÊÇ·ñÎªÁ¬½Ó°ó¶¨¸½¼ÓÊı¾İ»òÕß°ó¶¨Ê²Ã´ÑùµÄÊı¾İ£¬¾ùÓÉÓ¦ÓÃ³ÌĞòÖ»Éí¾ö¶¨
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			ppv			-- æ•°æ®æŒ‡é’ˆ
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼ˆæ— æ•ˆçš„è¿æ¥ IDï¼‰
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			ppv			-- Êı¾İÖ¸Õë
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¨ÎŞĞ§µÄÁ¬½Ó ID£©
 */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_GetConnectionExtra(HP_Agent pAgent, HP_CONNID dwConnID, PVOID* ppExtra);
 
-/* æ£€æµ‹æ˜¯å¦ä¸ºå®‰å…¨è¿æ¥ï¼ˆSSL/HTTPSï¼‰ */
+/* ¼ì²âÊÇ·ñÎª°²È«Á¬½Ó£¨SSL/HTTPS£© */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_IsSecure(HP_Agent pAgent);
-/* æ£€æŸ¥é€šä¿¡ç»„ä»¶æ˜¯å¦å·²å¯åŠ¨ */
+/* ¼ì²éÍ¨ĞÅ×é¼şÊÇ·ñÒÑÆô¶¯ */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_HasStarted(HP_Agent pAgent);
-/* æŸ¥çœ‹é€šä¿¡ç»„ä»¶å½“å‰çŠ¶æ€ */
+/* ²é¿´Í¨ĞÅ×é¼şµ±Ç°×´Ì¬ */
 HPSOCKET_API En_HP_ServiceState __HP_CALL HP_Agent_GetState(HP_Agent pAgent);
-/* è·å–è¿æ¥æ•° */
+/* »ñÈ¡Á¬½ÓÊı */
 HPSOCKET_API DWORD __HP_CALL HP_Agent_GetConnectionCount(HP_Agent pAgent);
-/* è·å–æ‰€æœ‰è¿æ¥çš„ HP_CONNID */
+/* »ñÈ¡ËùÓĞÁ¬½ÓµÄ HP_CONNID */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_GetAllConnectionIDs(HP_Agent pAgent, HP_CONNID pIDs[], DWORD* pdwCount);
-/* è·å–æŸä¸ªè¿æ¥æ—¶é•¿ï¼ˆæ¯«ç§’ï¼‰ */
+/* »ñÈ¡Ä³¸öÁ¬½ÓÊ±³¤£¨ºÁÃë£© */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_GetConnectPeriod(HP_Agent pAgent, HP_CONNID dwConnID, DWORD* pdwPeriod);
-/* è·å–æŸä¸ªè¿æ¥é™é»˜æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰ */
+/* »ñÈ¡Ä³¸öÁ¬½Ó¾²Ä¬Ê±¼ä£¨ºÁÃë£© */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_GetSilencePeriod(HP_Agent pAgent, HP_CONNID dwConnID, DWORD* pdwPeriod);
-/* è·å–æŸä¸ªè¿æ¥çš„æœ¬åœ°åœ°å€ä¿¡æ¯ */
+/* »ñÈ¡Ä³¸öÁ¬½ÓµÄ±¾µØµØÖ·ĞÅÏ¢ */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_GetLocalAddress(HP_Agent pAgent, HP_CONNID dwConnID, TCHAR lpszAddress[], int* piAddressLen, USHORT* pusPort);
-/* è·å–æŸä¸ªè¿æ¥çš„è¿œç¨‹åœ°å€ä¿¡æ¯ */
+/* »ñÈ¡Ä³¸öÁ¬½ÓµÄÔ¶³ÌµØÖ·ĞÅÏ¢ */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_GetRemoteAddress(HP_Agent pAgent, HP_CONNID dwConnID, TCHAR lpszAddress[], int* piAddressLen, USHORT* pusPort);
-/* è·å–æŸä¸ªè¿æ¥çš„è¿œç¨‹ä¸»æœºä¿¡æ¯ */
+/* »ñÈ¡Ä³¸öÁ¬½ÓµÄÔ¶³ÌÖ÷»úĞÅÏ¢ */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_GetRemoteHost(HP_Agent pAgent, HP_CONNID dwConnID, TCHAR lpszHost[], int* piHostLen, USHORT* pusPort);
-/* è·å–æœ€è¿‘ä¸€æ¬¡å¤±è´¥æ“ä½œçš„é”™è¯¯ä»£ç  */
+/* »ñÈ¡×î½üÒ»´ÎÊ§°Ü²Ù×÷µÄ´íÎó´úÂë */
 HPSOCKET_API En_HP_SocketError __HP_CALL HP_Agent_GetLastError(HP_Agent pAgent);
-/* è·å–æœ€è¿‘ä¸€æ¬¡å¤±è´¥æ“ä½œçš„é”™è¯¯æè¿° */
+/* »ñÈ¡×î½üÒ»´ÎÊ§°Ü²Ù×÷µÄ´íÎóÃèÊö */
 HPSOCKET_API LPCTSTR __HP_CALL HP_Agent_GetLastErrorDesc(HP_Agent pAgent);
-/* è·å–è¿æ¥ä¸­æœªå‘å‡ºæ•°æ®çš„é•¿åº¦ */
+/* »ñÈ¡Á¬½ÓÖĞÎ´·¢³öÊı¾İµÄ³¤¶È */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_GetPendingDataLength(HP_Agent pAgent, HP_CONNID dwConnID, int* piPending);
-/* è·å–è¿æ¥çš„æ•°æ®æ¥æ”¶çŠ¶æ€ */
+/* »ñÈ¡Á¬½ÓµÄÊı¾İ½ÓÊÕ×´Ì¬ */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_IsPauseReceive(HP_Agent pAgent, HP_CONNID dwConnID, BOOL* pbPaused);
-/* æ£€æµ‹æ˜¯å¦æœ‰æ•ˆè¿æ¥ */
+/* ¼ì²âÊÇ·ñÓĞĞ§Á¬½Ó */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_IsConnected(HP_Agent pAgent, HP_CONNID dwConnID);
 
-/* è®¾ç½®æ•°æ®å‘é€ç­–ç•¥ï¼ˆå¯¹ Linux å¹³å°ç»„ä»¶æ— æ•ˆï¼‰ */
+/* ÉèÖÃÊı¾İ·¢ËÍ²ßÂÔ£¨¶Ô Linux Æ½Ì¨×é¼şÎŞĞ§£© */
 HPSOCKET_API void __HP_CALL HP_Agent_SetSendPolicy(HP_Agent pAgent, En_HP_SendPolicy enSendPolicy);
-/* è®¾ç½® OnSend äº‹ä»¶åŒæ­¥ç­–ç•¥ï¼ˆå¯¹ Linux å¹³å°ç»„ä»¶æ— æ•ˆï¼‰ */
+/* ÉèÖÃ OnSend ÊÂ¼şÍ¬²½²ßÂÔ£¨¶Ô Linux Æ½Ì¨×é¼şÎŞĞ§£© */
 HPSOCKET_API void __HP_CALL HP_Agent_SetOnSendSyncPolicy(HP_Agent pAgent, En_HP_OnSendSyncPolicy enSyncPolicy);
-/* è®¾ç½® Socket ç¼“å­˜å¯¹è±¡é”å®šæ—¶é—´ï¼ˆæ¯«ç§’ï¼Œåœ¨é”å®šæœŸé—´è¯¥ Socket ç¼“å­˜å¯¹è±¡ä¸èƒ½è¢«è·å–ä½¿ç”¨ï¼‰ */
+/* ÉèÖÃ Socket »º´æ¶ÔÏóËø¶¨Ê±¼ä£¨ºÁÃë£¬ÔÚËø¶¨ÆÚ¼ä¸Ã Socket »º´æ¶ÔÏó²»ÄÜ±»»ñÈ¡Ê¹ÓÃ£© */
 HPSOCKET_API void __HP_CALL HP_Agent_SetFreeSocketObjLockTime(HP_Agent pAgent, DWORD dwFreeSocketObjLockTime);
-/* è®¾ç½® Socket ç¼“å­˜æ± å¤§å°ï¼ˆé€šå¸¸è®¾ç½®ä¸ºå¹³å‡å¹¶å‘è¿æ¥æ•°é‡çš„ 1/3 - 1/2ï¼‰ */
+/* ÉèÖÃ Socket »º´æ³Ø´óĞ¡£¨Í¨³£ÉèÖÃÎªÆ½¾ù²¢·¢Á¬½ÓÊıÁ¿µÄ 1/3 - 1/2£© */
 HPSOCKET_API void __HP_CALL HP_Agent_SetFreeSocketObjPool(HP_Agent pAgent, DWORD dwFreeSocketObjPool);
-/* è®¾ç½®å†…å­˜å—ç¼“å­˜æ± å¤§å°ï¼ˆé€šå¸¸è®¾ç½®ä¸º Socket ç¼“å­˜æ± å¤§å°çš„ 2 - 3 å€ï¼‰ */
+/* ÉèÖÃÄÚ´æ¿é»º´æ³Ø´óĞ¡£¨Í¨³£ÉèÖÃÎª Socket »º´æ³Ø´óĞ¡µÄ 2 - 3 ±¶£© */
 HPSOCKET_API void __HP_CALL HP_Agent_SetFreeBufferObjPool(HP_Agent pAgent, DWORD dwFreeBufferObjPool);
-/* è®¾ç½® Socket ç¼“å­˜æ± å›æ”¶é˜€å€¼ï¼ˆé€šå¸¸è®¾ç½®ä¸º Socket ç¼“å­˜æ± å¤§å°çš„ 3 å€ï¼‰ */
+/* ÉèÖÃ Socket »º´æ³Ø»ØÊÕ·§Öµ£¨Í¨³£ÉèÖÃÎª Socket »º´æ³Ø´óĞ¡µÄ 3 ±¶£© */
 HPSOCKET_API void __HP_CALL HP_Agent_SetFreeSocketObjHold(HP_Agent pAgent, DWORD dwFreeSocketObjHold);
-/* è®¾ç½®å†…å­˜å—ç¼“å­˜æ± å›æ”¶é˜€å€¼ï¼ˆé€šå¸¸è®¾ç½®ä¸ºå†…å­˜å—ç¼“å­˜æ± å¤§å°çš„ 3 å€ï¼‰ */
+/* ÉèÖÃÄÚ´æ¿é»º´æ³Ø»ØÊÕ·§Öµ£¨Í¨³£ÉèÖÃÎªÄÚ´æ¿é»º´æ³Ø´óĞ¡µÄ 3 ±¶£© */
 HPSOCKET_API void __HP_CALL HP_Agent_SetFreeBufferObjHold(HP_Agent pAgent, DWORD dwFreeBufferObjHold);
-/* è®¾ç½®æœ€å¤§è¿æ¥æ•°ï¼ˆç»„ä»¶ä¼šæ ¹æ®è®¾ç½®å€¼é¢„åˆ†é…å†…å­˜ï¼Œå› æ­¤éœ€è¦æ ¹æ®å®é™…æƒ…å†µè®¾ç½®ï¼Œä¸å®œè¿‡å¤§ï¼‰*/
+/* ÉèÖÃ×î´óÁ¬½ÓÊı£¨×é¼ş»á¸ù¾İÉèÖÃÖµÔ¤·ÖÅäÄÚ´æ£¬Òò´ËĞèÒª¸ù¾İÊµ¼ÊÇé¿öÉèÖÃ£¬²»ÒË¹ı´ó£©*/
 HPSOCKET_API void __HP_CALL HP_Agent_SetMaxConnectionCount(HP_Agent pAgent, DWORD dwMaxConnectionCount);
-/* è®¾ç½®å·¥ä½œçº¿ç¨‹æ•°é‡ï¼ˆé€šå¸¸è®¾ç½®ä¸º 2 * CPU + 2ï¼‰ */
+/* ÉèÖÃ¹¤×÷Ïß³ÌÊıÁ¿£¨Í¨³£ÉèÖÃÎª 2 * CPU + 2£© */
 HPSOCKET_API void __HP_CALL HP_Agent_SetWorkerThreadCount(HP_Agent pAgent, DWORD dwWorkerThreadCount);
-/* è®¾ç½®æ˜¯å¦æ ‡è®°é™é»˜æ—¶é—´ï¼ˆè®¾ç½®ä¸º TRUE æ—¶ DisconnectSilenceConnections() å’Œ GetSilencePeriod() æ‰æœ‰æ•ˆï¼Œé»˜è®¤ï¼šTRUEï¼‰ */
+/* ÉèÖÃÊÇ·ñ±ê¼Ç¾²Ä¬Ê±¼ä£¨ÉèÖÃÎª TRUE Ê± DisconnectSilenceConnections() ºÍ GetSilencePeriod() ²ÅÓĞĞ§£¬Ä¬ÈÏ£ºTRUE£© */
 HPSOCKET_API void __HP_CALL HP_Agent_SetMarkSilence(HP_Agent pAgent, BOOL bMarkSilence);
 
-/* è·å–æ•°æ®å‘é€ç­–ç•¥ï¼ˆå¯¹ Linux å¹³å°ç»„ä»¶æ— æ•ˆï¼‰ */
+/* »ñÈ¡Êı¾İ·¢ËÍ²ßÂÔ£¨¶Ô Linux Æ½Ì¨×é¼şÎŞĞ§£© */
 HPSOCKET_API En_HP_SendPolicy __HP_CALL HP_Agent_GetSendPolicy(HP_Agent pAgent);
-/* è·å– OnSend äº‹ä»¶åŒæ­¥ç­–ç•¥ï¼ˆå¯¹ Linux å¹³å°ç»„ä»¶æ— æ•ˆï¼‰ */
+/* »ñÈ¡ OnSend ÊÂ¼şÍ¬²½²ßÂÔ£¨¶Ô Linux Æ½Ì¨×é¼şÎŞĞ§£© */
 HPSOCKET_API En_HP_OnSendSyncPolicy __HP_CALL HP_Agent_GetOnSendSyncPolicy(HP_Agent pAgent);
-/* è·å– Socket ç¼“å­˜å¯¹è±¡é”å®šæ—¶é—´ */
+/* »ñÈ¡ Socket »º´æ¶ÔÏóËø¶¨Ê±¼ä */
 HPSOCKET_API DWORD __HP_CALL HP_Agent_GetFreeSocketObjLockTime(HP_Agent pAgent);
-/* è·å– Socket ç¼“å­˜æ± å¤§å° */
+/* »ñÈ¡ Socket »º´æ³Ø´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_Agent_GetFreeSocketObjPool(HP_Agent pAgent);
-/* è·å–å†…å­˜å—ç¼“å­˜æ± å¤§å° */
+/* »ñÈ¡ÄÚ´æ¿é»º´æ³Ø´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_Agent_GetFreeBufferObjPool(HP_Agent pAgent);
-/* è·å– Socket ç¼“å­˜æ± å›æ”¶é˜€å€¼ */
+/* »ñÈ¡ Socket »º´æ³Ø»ØÊÕ·§Öµ */
 HPSOCKET_API DWORD __HP_CALL HP_Agent_GetFreeSocketObjHold(HP_Agent pAgent);
-/* è·å–å†…å­˜å—ç¼“å­˜æ± å›æ”¶é˜€å€¼ */
+/* »ñÈ¡ÄÚ´æ¿é»º´æ³Ø»ØÊÕ·§Öµ */
 HPSOCKET_API DWORD __HP_CALL HP_Agent_GetFreeBufferObjHold(HP_Agent pAgent);
-/* è·å–æœ€å¤§è¿æ¥æ•° */
+/* »ñÈ¡×î´óÁ¬½ÓÊı */
 HPSOCKET_API DWORD __HP_CALL HP_Agent_GetMaxConnectionCount(HP_Agent pAgent);
-/* è·å–å·¥ä½œçº¿ç¨‹æ•°é‡ */
+/* »ñÈ¡¹¤×÷Ïß³ÌÊıÁ¿ */
 HPSOCKET_API DWORD __HP_CALL HP_Agent_GetWorkerThreadCount(HP_Agent pAgent);
-/* æ£€æµ‹æ˜¯å¦æ ‡è®°é™é»˜æ—¶é—´ */
+/* ¼ì²âÊÇ·ñ±ê¼Ç¾²Ä¬Ê±¼ä */
 HPSOCKET_API BOOL __HP_CALL HP_Agent_IsMarkSilence(HP_Agent pAgent);
 
 /**********************************************************************************/
-/******************************* TCP Agent æ“ä½œæ–¹æ³• *******************************/
+/******************************* TCP Agent ²Ù×÷·½·¨ *******************************/
 
 /*
-* åç§°ï¼šå‘é€å°æ–‡ä»¶
-* æè¿°ï¼šå‘æŒ‡å®šè¿æ¥å‘é€ 4096 KB ä»¥ä¸‹çš„å°æ–‡ä»¶
+* Ãû³Æ£º·¢ËÍĞ¡ÎÄ¼ş
+* ÃèÊö£ºÏòÖ¸¶¨Á¬½Ó·¢ËÍ 4096 KB ÒÔÏÂµÄĞ¡ÎÄ¼ş
 *		
-* å‚æ•°ï¼š		dwConnID		-- è¿æ¥ ID
-*			lpszFileName	-- æ–‡ä»¶è·¯å¾„
-*			pHead			-- å¤´éƒ¨é™„åŠ æ•°æ®
-*			pTail			-- å°¾éƒ¨é™„åŠ æ•°æ®
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		dwConnID		-- Á¬½Ó ID
+*			lpszFileName	-- ÎÄ¼şÂ·¾¶
+*			pHead			-- Í·²¿¸½¼ÓÊı¾İ
+*			pTail			-- Î²²¿¸½¼ÓÊı¾İ
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_TcpAgent_SendSmallFile(HP_Agent pAgent, HP_CONNID dwConnID, LPCTSTR lpszFileName, const LPWSABUF pHead, const LPWSABUF pTail);
 
 /**********************************************************************************/
-/***************************** TCP Agent å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** TCP Agent ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
-/* è®¾ç½®æ˜¯å¦å¯ç”¨åœ°å€é‡ç”¨æœºåˆ¶ï¼ˆé»˜è®¤ï¼šä¸å¯ç”¨ï¼‰ */
+/* ÉèÖÃÊÇ·ñÆôÓÃµØÖ·ÖØÓÃ»úÖÆ£¨Ä¬ÈÏ£º²»ÆôÓÃ£© */
 HPSOCKET_API void __HP_CALL HP_TcpAgent_SetReuseAddress(HP_TcpAgent pAgent, BOOL bReuseAddress);
-/* æ£€æµ‹æ˜¯å¦å¯ç”¨åœ°å€é‡ç”¨æœºåˆ¶ */
+/* ¼ì²âÊÇ·ñÆôÓÃµØÖ·ÖØÓÃ»úÖÆ */
 HPSOCKET_API BOOL __HP_CALL HP_TcpAgent_IsReuseAddress(HP_TcpAgent pAgent);
 
-/* è®¾ç½®é€šä¿¡æ•°æ®ç¼“å†²åŒºå¤§å°ï¼ˆæ ¹æ®å¹³å‡é€šä¿¡æ•°æ®åŒ…å¤§å°è°ƒæ•´è®¾ç½®ï¼Œé€šå¸¸è®¾ç½®ä¸º 1024 çš„å€æ•°ï¼‰ */
+/* ÉèÖÃÍ¨ĞÅÊı¾İ»º³åÇø´óĞ¡£¨¸ù¾İÆ½¾ùÍ¨ĞÅÊı¾İ°ü´óĞ¡µ÷ÕûÉèÖÃ£¬Í¨³£ÉèÖÃÎª 1024 µÄ±¶Êı£© */
 HPSOCKET_API void __HP_CALL HP_TcpAgent_SetSocketBufferSize(HP_TcpAgent pAgent, DWORD dwSocketBufferSize);
-/* è®¾ç½®æ­£å¸¸å¿ƒè·³åŒ…é—´éš”ï¼ˆæ¯«ç§’ï¼Œ0 åˆ™ä¸å‘é€å¿ƒè·³åŒ…ï¼Œé»˜è®¤ï¼š60 * 1000ï¼‰ */
+/* ÉèÖÃÕı³£ĞÄÌø°ü¼ä¸ô£¨ºÁÃë£¬0 Ôò²»·¢ËÍĞÄÌø°ü£¬Ä¬ÈÏ£º60 * 1000£© */
 HPSOCKET_API void __HP_CALL HP_TcpAgent_SetKeepAliveTime(HP_TcpAgent pAgent, DWORD dwKeepAliveTime);
-/* è®¾ç½®å¼‚å¸¸å¿ƒè·³åŒ…é—´éš”ï¼ˆæ¯«ç§’ï¼Œ0 ä¸å‘é€å¿ƒè·³åŒ…ï¼Œï¼Œé»˜è®¤ï¼š20 * 1000ï¼Œå¦‚æœè¶…è¿‡è‹¥å¹²æ¬¡ [é»˜è®¤ï¼šWinXP 5 æ¬¡, Win7 10 æ¬¡] æ£€æµ‹ä¸åˆ°å¿ƒè·³ç¡®è®¤åŒ…åˆ™è®¤ä¸ºå·²æ–­çº¿ï¼‰ */
+/* ÉèÖÃÒì³£ĞÄÌø°ü¼ä¸ô£¨ºÁÃë£¬0 ²»·¢ËÍĞÄÌø°ü£¬£¬Ä¬ÈÏ£º20 * 1000£¬Èç¹û³¬¹ıÈô¸É´Î [Ä¬ÈÏ£ºWinXP 5 ´Î, Win7 10 ´Î] ¼ì²â²»µ½ĞÄÌøÈ·ÈÏ°üÔòÈÏÎªÒÑ¶ÏÏß£© */
 HPSOCKET_API void __HP_CALL HP_TcpAgent_SetKeepAliveInterval(HP_TcpAgent pAgent, DWORD dwKeepAliveInterval);
 
-/* è·å–é€šä¿¡æ•°æ®ç¼“å†²åŒºå¤§å° */
+/* »ñÈ¡Í¨ĞÅÊı¾İ»º³åÇø´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_TcpAgent_GetSocketBufferSize(HP_TcpAgent pAgent);
-/* è·å–æ­£å¸¸å¿ƒè·³åŒ…é—´éš” */
+/* »ñÈ¡Õı³£ĞÄÌø°ü¼ä¸ô */
 HPSOCKET_API DWORD __HP_CALL HP_TcpAgent_GetKeepAliveTime(HP_TcpAgent pAgent);
-/* è·å–å¼‚å¸¸å¿ƒè·³åŒ…é—´éš” */
+/* »ñÈ¡Òì³£ĞÄÌø°ü¼ä¸ô */
 HPSOCKET_API DWORD __HP_CALL HP_TcpAgent_GetKeepAliveInterval(HP_TcpAgent pAgent);
 
 /******************************************************************************/
-/***************************** Client ç»„ä»¶æ“ä½œæ–¹æ³• *****************************/
+/***************************** Client ×é¼ş²Ù×÷·½·¨ *****************************/
 
 /*
-* åç§°ï¼šå¯åŠ¨é€šä¿¡ç»„ä»¶
-* æè¿°ï¼šå¯åŠ¨å®¢æˆ·ç«¯é€šä¿¡ç»„ä»¶å¹¶è¿æ¥æœåŠ¡ç«¯ï¼Œå¯åŠ¨å®Œæˆåå¯å¼€å§‹æ”¶å‘æ•°æ®
+* Ãû³Æ£ºÆô¶¯Í¨ĞÅ×é¼ş
+* ÃèÊö£ºÆô¶¯¿Í»§¶ËÍ¨ĞÅ×é¼ş²¢Á¬½Ó·şÎñ¶Ë£¬Æô¶¯Íê³Éºó¿É¿ªÊ¼ÊÕ·¢Êı¾İ
 *		
-* å‚æ•°ï¼š		lpszRemoteAddress	-- æœåŠ¡ç«¯åœ°å€
-*			usPort				-- æœåŠ¡ç«¯ç«¯å£
-*			bAsyncConnect		-- æ˜¯å¦é‡‡ç”¨å¼‚æ­¥ Connect
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ HP_Client_GetLastError() è·å–é”™è¯¯ä»£ç 
+* ²ÎÊı£º		lpszRemoteAddress	-- ·şÎñ¶ËµØÖ·
+*			usPort				-- ·şÎñ¶Ë¶Ë¿Ú
+*			bAsyncConnect		-- ÊÇ·ñ²ÉÓÃÒì²½ Connect
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı HP_Client_GetLastError() »ñÈ¡´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Client_Start(HP_Client pClient, LPCTSTR lpszRemoteAddress, USHORT usPort, BOOL bAsyncConnect);
 
 /*
-* åç§°ï¼šå¯åŠ¨é€šä¿¡ç»„ä»¶ï¼ˆå¹¶æŒ‡å®šç»‘å®šåœ°å€ï¼‰
-* æè¿°ï¼šå¯åŠ¨å®¢æˆ·ç«¯é€šä¿¡ç»„ä»¶å¹¶è¿æ¥æœåŠ¡ç«¯ï¼Œå¯åŠ¨å®Œæˆåå¯å¼€å§‹æ”¶å‘æ•°æ®
+* Ãû³Æ£ºÆô¶¯Í¨ĞÅ×é¼ş£¨²¢Ö¸¶¨°ó¶¨µØÖ·£©
+* ÃèÊö£ºÆô¶¯¿Í»§¶ËÍ¨ĞÅ×é¼ş²¢Á¬½Ó·şÎñ¶Ë£¬Æô¶¯Íê³Éºó¿É¿ªÊ¼ÊÕ·¢Êı¾İ
 *		
-* å‚æ•°ï¼š		lpszRemoteAddress	-- æœåŠ¡ç«¯åœ°å€
-*			usPort				-- æœåŠ¡ç«¯ç«¯å£
-*			bAsyncConnect		-- æ˜¯å¦é‡‡ç”¨å¼‚æ­¥ Connect
-*			lpszBindAddress		-- ç»‘å®šåœ°å€ï¼ˆé»˜è®¤ï¼šnullptrï¼ŒTcpClient/UdpClient -> ä¸æ‰§è¡Œç»‘å®šæ“ä½œï¼ŒUdpCast ç»‘å®š -> ä»»æ„åœ°å€ï¼‰
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ HP_Client_GetLastError() è·å–é”™è¯¯ä»£ç 
+* ²ÎÊı£º		lpszRemoteAddress	-- ·şÎñ¶ËµØÖ·
+*			usPort				-- ·şÎñ¶Ë¶Ë¿Ú
+*			bAsyncConnect		-- ÊÇ·ñ²ÉÓÃÒì²½ Connect
+*			lpszBindAddress		-- °ó¶¨µØÖ·£¨Ä¬ÈÏ£ºnullptr£¬TcpClient/UdpClient -> ²»Ö´ĞĞ°ó¶¨²Ù×÷£¬UdpCast °ó¶¨ -> ÈÎÒâµØÖ·£©
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı HP_Client_GetLastError() »ñÈ¡´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Client_StartWithBindAddress(HP_Client pClient, LPCTSTR lpszRemoteAddress, USHORT usPort, BOOL bAsyncConnect, LPCTSTR lpszBindAddress);
 
 /*
-* åç§°ï¼šå¯åŠ¨é€šä¿¡ç»„ä»¶ï¼ˆå¹¶æŒ‡å®šç»‘å®šåœ°å€ï¼‰
-* æè¿°ï¼šå¯åŠ¨å®¢æˆ·ç«¯é€šä¿¡ç»„ä»¶å¹¶è¿æ¥æœåŠ¡ç«¯ï¼Œå¯åŠ¨å®Œæˆåå¯å¼€å§‹æ”¶å‘æ•°æ®
+* Ãû³Æ£ºÆô¶¯Í¨ĞÅ×é¼ş£¨²¢Ö¸¶¨°ó¶¨µØÖ·£©
+* ÃèÊö£ºÆô¶¯¿Í»§¶ËÍ¨ĞÅ×é¼ş²¢Á¬½Ó·şÎñ¶Ë£¬Æô¶¯Íê³Éºó¿É¿ªÊ¼ÊÕ·¢Êı¾İ
 *		
-* å‚æ•°ï¼š		lpszRemoteAddress	-- æœåŠ¡ç«¯åœ°å€
-*			usPort				-- æœåŠ¡ç«¯ç«¯å£
-*			bAsyncConnect		-- æ˜¯å¦é‡‡ç”¨å¼‚æ­¥ Connect
-*			lpszBindAddress		-- ç»‘å®šåœ°å€ï¼ˆé»˜è®¤ï¼šnullptrï¼ŒTcpClient/UdpClient -> ä¸æ‰§è¡Œç»‘å®šæ“ä½œï¼ŒUdpCast ç»‘å®š -> ä»»æ„åœ°å€ï¼‰
-*			usLocalPort			-- æœ¬åœ°ç«¯å£ï¼ˆé»˜è®¤ï¼š0ï¼‰
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ HP_Client_GetLastError() è·å–é”™è¯¯ä»£ç 
+* ²ÎÊı£º		lpszRemoteAddress	-- ·şÎñ¶ËµØÖ·
+*			usPort				-- ·şÎñ¶Ë¶Ë¿Ú
+*			bAsyncConnect		-- ÊÇ·ñ²ÉÓÃÒì²½ Connect
+*			lpszBindAddress		-- °ó¶¨µØÖ·£¨Ä¬ÈÏ£ºnullptr£¬TcpClient/UdpClient -> ²»Ö´ĞĞ°ó¶¨²Ù×÷£¬UdpCast °ó¶¨ -> ÈÎÒâµØÖ·£©
+*			usLocalPort			-- ±¾µØ¶Ë¿Ú£¨Ä¬ÈÏ£º0£©
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı HP_Client_GetLastError() »ñÈ¡´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Client_StartWithBindAddressAndLocalPort(HP_Client pClient, LPCTSTR lpszRemoteAddress, USHORT usPort, BOOL bAsyncConnect, LPCTSTR lpszBindAddress, USHORT usLocalPort);
 
 /*
-* åç§°ï¼šå…³é—­é€šä¿¡ç»„ä»¶
-* æè¿°ï¼šå…³é—­å®¢æˆ·ç«¯é€šä¿¡ç»„ä»¶ï¼Œå…³é—­å®Œæˆåæ–­å¼€ä¸æœåŠ¡ç«¯çš„è¿æ¥å¹¶é‡Šæ”¾æ‰€æœ‰èµ„æº
+* Ãû³Æ£º¹Ø±ÕÍ¨ĞÅ×é¼ş
+* ÃèÊö£º¹Ø±Õ¿Í»§¶ËÍ¨ĞÅ×é¼ş£¬¹Ø±ÕÍê³Éºó¶Ï¿ªÓë·şÎñ¶ËµÄÁ¬½Ó²¢ÊÍ·ÅËùÓĞ×ÊÔ´
 *		
-* å‚æ•°ï¼š	
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ HP_Client_GetLastError() è·å–é”™è¯¯ä»£ç 
+* ²ÎÊı£º	
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı HP_Client_GetLastError() »ñÈ¡´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Client_Stop(HP_Client pClient);
 
 /*
-* åç§°ï¼šå‘é€æ•°æ®
-* æè¿°ï¼šå‘æœåŠ¡ç«¯å‘é€æ•°æ®
+* Ãû³Æ£º·¢ËÍÊı¾İ
+* ÃèÊö£ºÏò·şÎñ¶Ë·¢ËÍÊı¾İ
 *		
-* å‚æ•°ï¼š		pBuffer		-- å‘é€ç¼“å†²åŒº
-*			iLength		-- å‘é€ç¼“å†²åŒºé•¿åº¦
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		pBuffer		-- ·¢ËÍ»º³åÇø
+*			iLength		-- ·¢ËÍ»º³åÇø³¤¶È
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Client_Send(HP_Client pClient, const BYTE* pBuffer, int iLength);
 
 /*
-* åç§°ï¼šå‘é€æ•°æ®
-* æè¿°ï¼šå‘æœåŠ¡ç«¯å‘é€æ•°æ®
+* Ãû³Æ£º·¢ËÍÊı¾İ
+* ÃèÊö£ºÏò·şÎñ¶Ë·¢ËÍÊı¾İ
 *		
-* å‚æ•°ï¼š		pBuffer		-- å‘é€ç¼“å†²åŒº
-*			iLength		-- å‘é€ç¼“å†²åŒºé•¿åº¦
-*			iOffset		-- å‘é€ç¼“å†²åŒºæŒ‡é’ˆåç§»é‡
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		pBuffer		-- ·¢ËÍ»º³åÇø
+*			iLength		-- ·¢ËÍ»º³åÇø³¤¶È
+*			iOffset		-- ·¢ËÍ»º³åÇøÖ¸ÕëÆ«ÒÆÁ¿
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Client_SendPart(HP_Client pClient, const BYTE* pBuffer, int iLength, int iOffset);
 
 /*
-* åç§°ï¼šå‘é€å¤šç»„æ•°æ®
-* æè¿°ï¼šå‘æœåŠ¡ç«¯å‘é€å¤šç»„æ•°æ®
-*		TCP - é¡ºåºå‘é€æ‰€æœ‰æ•°æ®åŒ… 
-*		UDP - æŠŠæ‰€æœ‰æ•°æ®åŒ…ç»„åˆæˆä¸€ä¸ªæ•°æ®åŒ…å‘é€ï¼ˆæ•°æ®åŒ…çš„æ€»é•¿åº¦ä¸èƒ½å¤§äºè®¾ç½®çš„ UDP åŒ…æœ€å¤§é•¿åº¦ï¼‰ 
+* Ãû³Æ£º·¢ËÍ¶à×éÊı¾İ
+* ÃèÊö£ºÏò·şÎñ¶Ë·¢ËÍ¶à×éÊı¾İ
+*		TCP - Ë³Ğò·¢ËÍËùÓĞÊı¾İ°ü 
+*		UDP - °ÑËùÓĞÊı¾İ°ü×éºÏ³ÉÒ»¸öÊı¾İ°ü·¢ËÍ£¨Êı¾İ°üµÄ×Ü³¤¶È²»ÄÜ´óÓÚÉèÖÃµÄ UDP °ü×î´ó³¤¶È£© 
 *		
-* å‚æ•°ï¼š		pBuffers	-- å‘é€ç¼“å†²åŒºæ•°ç»„
-*			iCount		-- å‘é€ç¼“å†²åŒºæ•°ç›®
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		pBuffers	-- ·¢ËÍ»º³åÇøÊı×é
+*			iCount		-- ·¢ËÍ»º³åÇøÊıÄ¿
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_Client_SendPackets(HP_Client pClient, const WSABUF pBuffers[], int iCount);
 
 /*
-* åç§°ï¼šæš‚åœ/æ¢å¤æ¥æ”¶
-* æè¿°ï¼šæš‚åœ/æ¢å¤æŸä¸ªè¿æ¥çš„æ•°æ®æ¥æ”¶å·¥ä½œ
+* Ãû³Æ£ºÔİÍ£/»Ö¸´½ÓÊÕ
+* ÃèÊö£ºÔİÍ£/»Ö¸´Ä³¸öÁ¬½ÓµÄÊı¾İ½ÓÊÕ¹¤×÷
 *		
-*			bPause	-- TRUE - æš‚åœ, FALSE - æ¢å¤
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥
+*			bPause	-- TRUE - ÔİÍ£, FALSE - »Ö¸´
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_Client_PauseReceive(HP_Client pClient, BOOL bPause);
 
 /******************************************************************************/
-/***************************** Client å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** Client ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
-/* è®¾ç½®è¿æ¥çš„é™„åŠ æ•°æ® */
+/* ÉèÖÃÁ¬½ÓµÄ¸½¼ÓÊı¾İ */
 HPSOCKET_API void __HP_CALL HP_Client_SetExtra(HP_Client pClient, PVOID pExtra);
-/* è·å–è¿æ¥çš„é™„åŠ æ•°æ® */
+/* »ñÈ¡Á¬½ÓµÄ¸½¼ÓÊı¾İ */
 HPSOCKET_API PVOID __HP_CALL HP_Client_GetExtra(HP_Client pClient);
 
-/* æ£€æµ‹æ˜¯å¦ä¸ºå®‰å…¨è¿æ¥ï¼ˆSSL/HTTPSï¼‰ */
+/* ¼ì²âÊÇ·ñÎª°²È«Á¬½Ó£¨SSL/HTTPS£© */
 HPSOCKET_API BOOL __HP_CALL HP_Client_IsSecure(HP_Client pClient);
-/* æ£€æŸ¥é€šä¿¡ç»„ä»¶æ˜¯å¦å·²å¯åŠ¨ */
+/* ¼ì²éÍ¨ĞÅ×é¼şÊÇ·ñÒÑÆô¶¯ */
 HPSOCKET_API BOOL __HP_CALL HP_Client_HasStarted(HP_Client pClient);
-/* æŸ¥çœ‹é€šä¿¡ç»„ä»¶å½“å‰çŠ¶æ€ */
+/* ²é¿´Í¨ĞÅ×é¼şµ±Ç°×´Ì¬ */
 HPSOCKET_API En_HP_ServiceState	__HP_CALL HP_Client_GetState(HP_Client pClient);
-/* è·å–æœ€è¿‘ä¸€æ¬¡å¤±è´¥æ“ä½œçš„é”™è¯¯ä»£ç  */
+/* »ñÈ¡×î½üÒ»´ÎÊ§°Ü²Ù×÷µÄ´íÎó´úÂë */
 HPSOCKET_API En_HP_SocketError	__HP_CALL HP_Client_GetLastError(HP_Client pClient);
-/* è·å–æœ€è¿‘ä¸€æ¬¡å¤±è´¥æ“ä½œçš„é”™è¯¯æè¿° */
+/* »ñÈ¡×î½üÒ»´ÎÊ§°Ü²Ù×÷µÄ´íÎóÃèÊö */
 HPSOCKET_API LPCTSTR __HP_CALL HP_Client_GetLastErrorDesc(HP_Client pClient);
-/* è·å–è¯¥ç»„ä»¶å¯¹è±¡çš„è¿æ¥ ID */
+/* »ñÈ¡¸Ã×é¼ş¶ÔÏóµÄÁ¬½Ó ID */
 HPSOCKET_API HP_CONNID __HP_CALL HP_Client_GetConnectionID(HP_Client pClient);
-/* è·å– Client Socket çš„åœ°å€ä¿¡æ¯ */
+/* »ñÈ¡ Client Socket µÄµØÖ·ĞÅÏ¢ */
 HPSOCKET_API BOOL __HP_CALL HP_Client_GetLocalAddress(HP_Client pClient, TCHAR lpszAddress[], int* piAddressLen, USHORT* pusPort);
-/* è·å–è¿æ¥çš„è¿œç¨‹ä¸»æœºä¿¡æ¯ */
+/* »ñÈ¡Á¬½ÓµÄÔ¶³ÌÖ÷»úĞÅÏ¢ */
 HPSOCKET_API BOOL __HP_CALL HP_Client_GetRemoteHost(HP_Client pClient, TCHAR lpszHost[], int* piHostLen, USHORT* pusPort);
-/* è·å–è¿æ¥ä¸­æœªå‘å‡ºæ•°æ®çš„é•¿åº¦ */
+/* »ñÈ¡Á¬½ÓÖĞÎ´·¢³öÊı¾İµÄ³¤¶È */
 HPSOCKET_API BOOL __HP_CALL HP_Client_GetPendingDataLength(HP_Client pClient, int* piPending);
-/* è·å–è¿æ¥çš„æ•°æ®æ¥æ”¶çŠ¶æ€ */
+/* »ñÈ¡Á¬½ÓµÄÊı¾İ½ÓÊÕ×´Ì¬ */
 HPSOCKET_API BOOL __HP_CALL HP_Client_IsPauseReceive(HP_Client pClient, BOOL* pbPaused);
-/* æ£€æµ‹æ˜¯å¦æœ‰æ•ˆè¿æ¥ */
+/* ¼ì²âÊÇ·ñÓĞĞ§Á¬½Ó */
 HPSOCKET_API BOOL __HP_CALL HP_Client_IsConnected(HP_Client pClient);
-/* è®¾ç½®å†…å­˜å—ç¼“å­˜æ± å¤§å°ï¼ˆé€šå¸¸è®¾ç½®ä¸º -> PUSH æ¨¡å‹ï¼š5 - 10ï¼›PULL æ¨¡å‹ï¼š10 - 20 ï¼‰ */
+/* ÉèÖÃÄÚ´æ¿é»º´æ³Ø´óĞ¡£¨Í¨³£ÉèÖÃÎª -> PUSH Ä£ĞÍ£º5 - 10£»PULL Ä£ĞÍ£º10 - 20 £© */
 HPSOCKET_API void __HP_CALL HP_Client_SetFreeBufferPoolSize(HP_Client pClient, DWORD dwFreeBufferPoolSize);
-/* è®¾ç½®å†…å­˜å—ç¼“å­˜æ± å›æ”¶é˜€å€¼ï¼ˆé€šå¸¸è®¾ç½®ä¸ºå†…å­˜å—ç¼“å­˜æ± å¤§å°çš„ 3 å€ï¼‰ */
+/* ÉèÖÃÄÚ´æ¿é»º´æ³Ø»ØÊÕ·§Öµ£¨Í¨³£ÉèÖÃÎªÄÚ´æ¿é»º´æ³Ø´óĞ¡µÄ 3 ±¶£© */
 HPSOCKET_API void __HP_CALL HP_Client_SetFreeBufferPoolHold(HP_Client pClient, DWORD dwFreeBufferPoolHold);
-/* è·å–å†…å­˜å—ç¼“å­˜æ± å¤§å° */
+/* »ñÈ¡ÄÚ´æ¿é»º´æ³Ø´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_Client_GetFreeBufferPoolSize(HP_Client pClient);
-/* è·å–å†…å­˜å—ç¼“å­˜æ± å›æ”¶é˜€å€¼ */
+/* »ñÈ¡ÄÚ´æ¿é»º´æ³Ø»ØÊÕ·§Öµ */
 HPSOCKET_API DWORD __HP_CALL HP_Client_GetFreeBufferPoolHold(HP_Client pClient);
 
 /**********************************************************************************/
-/******************************* TCP Client æ“ä½œæ–¹æ³• *******************************/
+/******************************* TCP Client ²Ù×÷·½·¨ *******************************/
 
 /*
-* åç§°ï¼šå‘é€å°æ–‡ä»¶
-* æè¿°ï¼šå‘æœåŠ¡ç«¯å‘é€ 4096 KB ä»¥ä¸‹çš„å°æ–‡ä»¶
+* Ãû³Æ£º·¢ËÍĞ¡ÎÄ¼ş
+* ÃèÊö£ºÏò·şÎñ¶Ë·¢ËÍ 4096 KB ÒÔÏÂµÄĞ¡ÎÄ¼ş
 *		
-* å‚æ•°ï¼š		lpszFileName	-- æ–‡ä»¶è·¯å¾„
-*			pHead			-- å¤´éƒ¨é™„åŠ æ•°æ®
-*			pTail			-- å°¾éƒ¨é™„åŠ æ•°æ®
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		lpszFileName	-- ÎÄ¼şÂ·¾¶
+*			pHead			-- Í·²¿¸½¼ÓÊı¾İ
+*			pTail			-- Î²²¿¸½¼ÓÊı¾İ
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_TcpClient_SendSmallFile(HP_Client pClient, LPCTSTR lpszFileName, const LPWSABUF pHead, const LPWSABUF pTail);
 
 /**********************************************************************************/
-/***************************** TCP Client å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** TCP Client ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
-/* è®¾ç½®é€šä¿¡æ•°æ®ç¼“å†²åŒºå¤§å°ï¼ˆæ ¹æ®å¹³å‡é€šä¿¡æ•°æ®åŒ…å¤§å°è°ƒæ•´è®¾ç½®ï¼Œé€šå¸¸è®¾ç½®ä¸ºï¼š(N * 1024) - sizeof(TBufferObj)ï¼‰ */
+/* ÉèÖÃÍ¨ĞÅÊı¾İ»º³åÇø´óĞ¡£¨¸ù¾İÆ½¾ùÍ¨ĞÅÊı¾İ°ü´óĞ¡µ÷ÕûÉèÖÃ£¬Í¨³£ÉèÖÃÎª£º(N * 1024) - sizeof(TBufferObj)£© */
 HPSOCKET_API void __HP_CALL HP_TcpClient_SetSocketBufferSize(HP_TcpClient pClient, DWORD dwSocketBufferSize);
-/* è®¾ç½®æ­£å¸¸å¿ƒè·³åŒ…é—´éš”ï¼ˆæ¯«ç§’ï¼Œ0 åˆ™ä¸å‘é€å¿ƒè·³åŒ…ï¼Œé»˜è®¤ï¼š60 * 1000ï¼‰ */
+/* ÉèÖÃÕı³£ĞÄÌø°ü¼ä¸ô£¨ºÁÃë£¬0 Ôò²»·¢ËÍĞÄÌø°ü£¬Ä¬ÈÏ£º60 * 1000£© */
 HPSOCKET_API void __HP_CALL HP_TcpClient_SetKeepAliveTime(HP_TcpClient pClient, DWORD dwKeepAliveTime);
-/* è®¾ç½®å¼‚å¸¸å¿ƒè·³åŒ…é—´éš”ï¼ˆæ¯«ç§’ï¼Œ0 ä¸å‘é€å¿ƒè·³åŒ…ï¼Œï¼Œé»˜è®¤ï¼š20 * 1000ï¼Œå¦‚æœè¶…è¿‡è‹¥å¹²æ¬¡ [é»˜è®¤ï¼šWinXP 5 æ¬¡, Win7 10 æ¬¡] æ£€æµ‹ä¸åˆ°å¿ƒè·³ç¡®è®¤åŒ…åˆ™è®¤ä¸ºå·²æ–­çº¿ï¼‰ */
+/* ÉèÖÃÒì³£ĞÄÌø°ü¼ä¸ô£¨ºÁÃë£¬0 ²»·¢ËÍĞÄÌø°ü£¬£¬Ä¬ÈÏ£º20 * 1000£¬Èç¹û³¬¹ıÈô¸É´Î [Ä¬ÈÏ£ºWinXP 5 ´Î, Win7 10 ´Î] ¼ì²â²»µ½ĞÄÌøÈ·ÈÏ°üÔòÈÏÎªÒÑ¶ÏÏß£© */
 HPSOCKET_API void __HP_CALL HP_TcpClient_SetKeepAliveInterval(HP_TcpClient pClient, DWORD dwKeepAliveInterval);
 
-/* è·å–é€šä¿¡æ•°æ®ç¼“å†²åŒºå¤§å° */
+/* »ñÈ¡Í¨ĞÅÊı¾İ»º³åÇø´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_TcpClient_GetSocketBufferSize(HP_TcpClient pClient);
-/* è·å–æ­£å¸¸å¿ƒè·³åŒ…é—´éš” */
+/* »ñÈ¡Õı³£ĞÄÌø°ü¼ä¸ô */
 HPSOCKET_API DWORD __HP_CALL HP_TcpClient_GetKeepAliveTime(HP_TcpClient pClient);
-/* è·å–å¼‚å¸¸å¿ƒè·³åŒ…é—´éš” */
+/* »ñÈ¡Òì³£ĞÄÌø°ü¼ä¸ô */
 HPSOCKET_API DWORD __HP_CALL HP_TcpClient_GetKeepAliveInterval(HP_TcpClient pClient);
 
 #ifdef _UDP_SUPPORT
 
 /**********************************************************************************/
-/***************************** UDP Client å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** UDP Client ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
-/* è®¾ç½®æ•°æ®æŠ¥æ–‡æœ€å¤§é•¿åº¦ï¼ˆå»ºè®®åœ¨å±€åŸŸç½‘ç¯å¢ƒä¸‹ä¸è¶…è¿‡ 1472 å­—èŠ‚ï¼Œåœ¨å¹¿åŸŸç½‘ç¯å¢ƒä¸‹ä¸è¶…è¿‡ 548 å­—èŠ‚ï¼‰ */
+/* ÉèÖÃÊı¾İ±¨ÎÄ×î´ó³¤¶È£¨½¨ÒéÔÚ¾ÖÓòÍø»·¾³ÏÂ²»³¬¹ı 1472 ×Ö½Ú£¬ÔÚ¹ãÓòÍø»·¾³ÏÂ²»³¬¹ı 548 ×Ö½Ú£© */
 HPSOCKET_API void __HP_CALL HP_UdpClient_SetMaxDatagramSize(HP_UdpClient pClient, DWORD dwMaxDatagramSize);
-/* è·å–æ•°æ®æŠ¥æ–‡æœ€å¤§é•¿åº¦ */
+/* »ñÈ¡Êı¾İ±¨ÎÄ×î´ó³¤¶È */
 HPSOCKET_API DWORD __HP_CALL HP_UdpClient_GetMaxDatagramSize(HP_UdpClient pClient);
 
-/* è®¾ç½®ç›‘æµ‹åŒ…å°è¯•æ¬¡æ•°ï¼ˆ0 åˆ™ä¸å‘é€ç›‘æµ‹è·³åŒ…ï¼Œå¦‚æœè¶…è¿‡æœ€å¤§å°è¯•æ¬¡æ•°åˆ™è®¤ä¸ºå·²æ–­çº¿ï¼‰ */
+/* ÉèÖÃ¼à²â°ü³¢ÊÔ´ÎÊı£¨0 Ôò²»·¢ËÍ¼à²âÌø°ü£¬Èç¹û³¬¹ı×î´ó³¢ÊÔ´ÎÊıÔòÈÏÎªÒÑ¶ÏÏß£© */
 HPSOCKET_API void __HP_CALL HP_UdpClient_SetDetectAttempts(HP_UdpClient pClient, DWORD dwDetectAttempts);
-/* è®¾ç½®ç›‘æµ‹åŒ…å‘é€é—´éš”ï¼ˆæ¯«ç§’ï¼Œ0 ä¸å‘é€ç›‘æµ‹åŒ…ï¼‰ */
+/* ÉèÖÃ¼à²â°ü·¢ËÍ¼ä¸ô£¨ºÁÃë£¬0 ²»·¢ËÍ¼à²â°ü£© */
 HPSOCKET_API void __HP_CALL HP_UdpClient_SetDetectInterval(HP_UdpClient pClient, DWORD dwDetectInterval);
-/* è·å–å¿ƒè·³æ£€æŸ¥æ¬¡æ•° */
+/* »ñÈ¡ĞÄÌø¼ì²é´ÎÊı */
 HPSOCKET_API DWORD __HP_CALL HP_UdpClient_GetDetectAttempts(HP_UdpClient pClient);
-/* è·å–å¿ƒè·³æ£€æŸ¥é—´éš” */
+/* »ñÈ¡ĞÄÌø¼ì²é¼ä¸ô */
 HPSOCKET_API DWORD __HP_CALL HP_UdpClient_GetDetectInterval(HP_UdpClient pClient);
 
 /**********************************************************************************/
-/*************************** UDP ARQ Client å±æ€§è®¿é—®æ–¹æ³• ***************************/
+/*************************** UDP ARQ Client ÊôĞÔ·ÃÎÊ·½·¨ ***************************/
 
-/* è®¾ç½®æ˜¯å¦å¼€å¯ nodelay æ¨¡å¼ï¼ˆé»˜è®¤ï¼šFALSEï¼Œä¸å¼€å¯ï¼‰ */
+/* ÉèÖÃÊÇ·ñ¿ªÆô nodelay Ä£Ê½£¨Ä¬ÈÏ£ºFALSE£¬²»¿ªÆô£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqClient_SetNoDelay(HP_UdpArqClient pClient, BOOL bNoDelay);
-/* è®¾ç½®æ˜¯å¦å…³é—­æ‹¥å¡æ§åˆ¶ï¼ˆé»˜è®¤ï¼šFALSEï¼Œä¸å…³é—­ï¼‰ */
+/* ÉèÖÃÊÇ·ñ¹Ø±ÕÓµÈû¿ØÖÆ£¨Ä¬ÈÏ£ºFALSE£¬²»¹Ø±Õ£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqClient_SetTurnoffCongestCtrl(HP_UdpArqClient pClient, BOOL bTurnOff);
-/* è®¾ç½®æ•°æ®åˆ·æ–°é—´éš”ï¼ˆæ¯«ç§’ï¼Œé»˜è®¤ï¼š60ï¼‰ */
+/* ÉèÖÃÊı¾İË¢ĞÂ¼ä¸ô£¨ºÁÃë£¬Ä¬ÈÏ£º60£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqClient_SetFlushInterval(HP_UdpArqClient pClient, DWORD dwFlushInterval);
-/* è®¾ç½®å¿«é€Ÿé‡ä¼  ACK è·¨è¶Šæ¬¡æ•°ï¼ˆé»˜è®¤ï¼š0ï¼Œå…³é—­å¿«é€Ÿé‡ä¼ ï¼‰ */
+/* ÉèÖÃ¿ìËÙÖØ´« ACK ¿çÔ½´ÎÊı£¨Ä¬ÈÏ£º0£¬¹Ø±Õ¿ìËÙÖØ´«£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqClient_SetResendByAcks(HP_UdpArqClient pClient, DWORD dwResendByAcks);
-/* è®¾ç½®å‘é€çª—å£å¤§å°ï¼ˆæ•°æ®åŒ…æ•°é‡ï¼Œé»˜è®¤ï¼š128ï¼‰ */
+/* ÉèÖÃ·¢ËÍ´°¿Ú´óĞ¡£¨Êı¾İ°üÊıÁ¿£¬Ä¬ÈÏ£º128£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqClient_SetSendWndSize(HP_UdpArqClient pClient, DWORD dwSendWndSize);
-/* è®¾ç½®æ¥æ”¶çª—å£å¤§å°ï¼ˆæ•°æ®åŒ…æ•°é‡ï¼Œé»˜è®¤ï¼š512ï¼‰ */
+/* ÉèÖÃ½ÓÊÕ´°¿Ú´óĞ¡£¨Êı¾İ°üÊıÁ¿£¬Ä¬ÈÏ£º512£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqClient_SetRecvWndSize(HP_UdpArqClient pClient, DWORD dwRecvWndSize);
-/* è®¾ç½®æœ€å°é‡ä¼ è¶…æ—¶æ—¶é—´ï¼ˆæ¯«ç§’ï¼Œé»˜è®¤ï¼š30ï¼‰ */
+/* ÉèÖÃ×îĞ¡ÖØ´«³¬Ê±Ê±¼ä£¨ºÁÃë£¬Ä¬ÈÏ£º30£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqClient_SetMinRto(HP_UdpArqClient pClient, DWORD dwMinRto);
-/* è®¾ç½®æœ€å¤§ä¼ è¾“å•å…ƒï¼ˆé»˜è®¤ï¼š0ï¼Œä¸ SetMaxDatagramSize() ä¸€è‡´ï¼‰ */
+/* ÉèÖÃ×î´ó´«Êäµ¥Ôª£¨Ä¬ÈÏ£º0£¬Óë SetMaxDatagramSize() Ò»ÖÂ£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqClient_SetMaxTransUnit(HP_UdpArqClient pClient, DWORD dwMaxTransUnit);
-/* è®¾ç½®æœ€å¤§æ•°æ®åŒ…å¤§å°ï¼ˆé»˜è®¤ï¼š4096ï¼‰ */
+/* ÉèÖÃ×î´óÊı¾İ°ü´óĞ¡£¨Ä¬ÈÏ£º4096£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqClient_SetMaxMessageSize(HP_UdpArqClient pClient, DWORD dwMaxMessageSize);
-/* è®¾ç½®æ¡æ‰‹è¶…æ—¶æ—¶é—´ï¼ˆæ¯«ç§’ï¼Œé»˜è®¤ï¼š5000ï¼‰ */
+/* ÉèÖÃÎÕÊÖ³¬Ê±Ê±¼ä£¨ºÁÃë£¬Ä¬ÈÏ£º5000£© */
 HPSOCKET_API void __HP_CALL HP_UdpArqClient_SetHandShakeTimeout(HP_UdpArqClient pClient, DWORD dwHandShakeTimeout);
 
-/* æ£€æµ‹æ˜¯å¦å¼€å¯ nodelay æ¨¡å¼ */
+/* ¼ì²âÊÇ·ñ¿ªÆô nodelay Ä£Ê½ */
 HPSOCKET_API BOOL __HP_CALL HP_UdpArqClient_IsNoDelay(HP_UdpArqClient pClient);
-/* æ£€æµ‹æ˜¯å¦å…³é—­æ‹¥å¡æ§åˆ¶ */
+/* ¼ì²âÊÇ·ñ¹Ø±ÕÓµÈû¿ØÖÆ */
 HPSOCKET_API BOOL __HP_CALL HP_UdpArqClient_IsTurnoffCongestCtrl(HP_UdpArqClient pClient);
-/* è·å–æ•°æ®åˆ·æ–°é—´éš” */
+/* »ñÈ¡Êı¾İË¢ĞÂ¼ä¸ô */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqClient_GetFlushInterval(HP_UdpArqClient pClient);
-/* è·å–å¿«é€Ÿé‡ä¼  ACK è·¨è¶Šæ¬¡æ•° */
+/* »ñÈ¡¿ìËÙÖØ´« ACK ¿çÔ½´ÎÊı */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqClient_GetResendByAcks(HP_UdpArqClient pClient);
-/* è·å–å‘é€çª—å£å¤§å° */
+/* »ñÈ¡·¢ËÍ´°¿Ú´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqClient_GetSendWndSize(HP_UdpArqClient pClient);
-/* è·å–æ¥æ”¶çª—å£å¤§å° */
+/* »ñÈ¡½ÓÊÕ´°¿Ú´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqClient_GetRecvWndSize(HP_UdpArqClient pClient);
-/* è·å–æœ€å°é‡ä¼ è¶…æ—¶æ—¶é—´ */
+/* »ñÈ¡×îĞ¡ÖØ´«³¬Ê±Ê±¼ä */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqClient_GetMinRto(HP_UdpArqClient pClient);
-/* è·å–æœ€å¤§ä¼ è¾“å•å…ƒ */
+/* »ñÈ¡×î´ó´«Êäµ¥Ôª */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqClient_GetMaxTransUnit(HP_UdpArqClient pClient);
-/* è·å–æœ€å¤§æ•°æ®åŒ…å¤§å° */
+/* »ñÈ¡×î´óÊı¾İ°ü´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqClient_GetMaxMessageSize(HP_UdpArqClient pClient);
-/* è·å–æ¡æ‰‹è¶…æ—¶æ—¶é—´ */
+/* »ñÈ¡ÎÕÊÖ³¬Ê±Ê±¼ä */
 HPSOCKET_API DWORD __HP_CALL HP_UdpArqClient_GetHandShakeTimeout(HP_UdpArqClient pClient);
 
-/* è·å–ç­‰å¾…å‘é€åŒ…æ•°é‡ */
+/* »ñÈ¡µÈ´ı·¢ËÍ°üÊıÁ¿ */
 HPSOCKET_API BOOL __HP_CALL HP_UdpArqClient_GetWaitingSendMessageCount(HP_UdpArqClient pClient, int* piCount);
 
 /**********************************************************************************/
-/****************************** UDP Cast å±æ€§è®¿é—®æ–¹æ³• ******************************/
+/****************************** UDP Cast ÊôĞÔ·ÃÎÊ·½·¨ ******************************/
 
-/* è®¾ç½®æ•°æ®æŠ¥æ–‡æœ€å¤§é•¿åº¦ï¼ˆå»ºè®®åœ¨å±€åŸŸç½‘ç¯å¢ƒä¸‹ä¸è¶…è¿‡ 1472 å­—èŠ‚ï¼Œåœ¨å¹¿åŸŸç½‘ç¯å¢ƒä¸‹ä¸è¶…è¿‡ 548 å­—èŠ‚ï¼‰ */
+/* ÉèÖÃÊı¾İ±¨ÎÄ×î´ó³¤¶È£¨½¨ÒéÔÚ¾ÖÓòÍø»·¾³ÏÂ²»³¬¹ı 1472 ×Ö½Ú£¬ÔÚ¹ãÓòÍø»·¾³ÏÂ²»³¬¹ı 548 ×Ö½Ú£© */
 HPSOCKET_API void __HP_CALL HP_UdpCast_SetMaxDatagramSize(HP_UdpCast pCast, DWORD dwMaxDatagramSize);
-/* è·å–æ•°æ®æŠ¥æ–‡æœ€å¤§é•¿åº¦ */
+/* »ñÈ¡Êı¾İ±¨ÎÄ×î´ó³¤¶È */
 HPSOCKET_API DWORD __HP_CALL HP_UdpCast_GetMaxDatagramSize(HP_UdpCast pCast);
-/* è·å–å½“å‰æ•°æ®æŠ¥çš„è¿œç¨‹åœ°å€ä¿¡æ¯ï¼ˆé€šå¸¸åœ¨ OnReceive äº‹ä»¶ä¸­è°ƒç”¨ï¼‰ */
+/* »ñÈ¡µ±Ç°Êı¾İ±¨µÄÔ¶³ÌµØÖ·ĞÅÏ¢£¨Í¨³£ÔÚ OnReceive ÊÂ¼şÖĞµ÷ÓÃ£© */
 HPSOCKET_API BOOL __HP_CALL HP_UdpCast_GetRemoteAddress(HP_UdpCast pCast, TCHAR lpszAddress[], int* piAddressLen, USHORT* pusPort);
-/* è®¾ç½®æ˜¯å¦å¯ç”¨åœ°å€é‡ç”¨æœºåˆ¶ï¼ˆé»˜è®¤ï¼šä¸å¯ç”¨ï¼‰ */
+/* ÉèÖÃÊÇ·ñÆôÓÃµØÖ·ÖØÓÃ»úÖÆ£¨Ä¬ÈÏ£º²»ÆôÓÃ£© */
 HPSOCKET_API void __HP_CALL HP_UdpCast_SetReuseAddress(HP_UdpCast pCast, BOOL bReuseAddress);
-/* æ£€æµ‹æ˜¯å¦å¯ç”¨åœ°å€é‡ç”¨æœºåˆ¶ */
+/* ¼ì²âÊÇ·ñÆôÓÃµØÖ·ÖØÓÃ»úÖÆ */
 HPSOCKET_API BOOL __HP_CALL HP_UdpCast_IsReuseAddress(HP_UdpCast pCast);
-/* è®¾ç½®ä¼ æ’­æ¨¡å¼ï¼ˆç»„æ’­æˆ–å¹¿æ’­ï¼‰ */
+/* ÉèÖÃ´«²¥Ä£Ê½£¨×é²¥»ò¹ã²¥£© */
 HPSOCKET_API void __HP_CALL HP_UdpCast_SetCastMode(HP_UdpCast pCast, En_HP_CastMode enCastMode);
-/* è·å–ä¼ æ’­æ¨¡å¼ */
+/* »ñÈ¡´«²¥Ä£Ê½ */
 HPSOCKET_API En_HP_CastMode __HP_CALL HP_UdpCast_GetCastMode(HP_UdpCast pCast);
-/* è®¾ç½®ç»„æ’­æŠ¥æ–‡çš„ TTLï¼ˆ0 - 255ï¼‰ */
+/* ÉèÖÃ×é²¥±¨ÎÄµÄ TTL£¨0 - 255£© */
 HPSOCKET_API void __HP_CALL HP_UdpCast_SetMultiCastTtl(HP_UdpCast pCast, int iMCTtl);
-/* è·å–ç»„æ’­æŠ¥æ–‡çš„ TTL */
+/* »ñÈ¡×é²¥±¨ÎÄµÄ TTL */
 HPSOCKET_API int __HP_CALL HP_UdpCast_GetMultiCastTtl(HP_UdpCast pCast);
-/* è®¾ç½®æ˜¯å¦å¯ç”¨ç»„æ’­ç¯è·¯ï¼ˆTRUE or FALSEï¼‰ */
+/* ÉèÖÃÊÇ·ñÆôÓÃ×é²¥»·Â·£¨TRUE or FALSE£© */
 HPSOCKET_API void __HP_CALL HP_UdpCast_SetMultiCastLoop(HP_UdpCast pCast, BOOL bMCLoop);
-/* æ£€æµ‹æ˜¯å¦å¯ç”¨ç»„æ’­ç¯è·¯ */
+/* ¼ì²âÊÇ·ñÆôÓÃ×é²¥»·Â· */
 HPSOCKET_API BOOL __HP_CALL HP_UdpCast_IsMultiCastLoop(HP_UdpCast pCast);
 
 #endif
 
 /***************************************************************************************/
-/***************************** TCP Pull Server ç»„ä»¶æ“ä½œæ–¹æ³• *****************************/
+/***************************** TCP Pull Server ×é¼ş²Ù×÷·½·¨ *****************************/
 
 /*
-* åç§°ï¼šæŠ“å–æ•°æ®
-* æè¿°ï¼šç”¨æˆ·é€šè¿‡è¯¥æ–¹æ³•ä» Socket ç»„ä»¶ä¸­æŠ“å–æ•°æ®
+* Ãû³Æ£º×¥È¡Êı¾İ
+* ÃèÊö£ºÓÃ»§Í¨¹ı¸Ã·½·¨´Ó Socket ×é¼şÖĞ×¥È¡Êı¾İ
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pData		-- æŠ“å–ç¼“å†²åŒº
-*			iLength		-- æŠ“å–æ•°æ®é•¿åº¦
-* è¿”å›å€¼ï¼š	En_HP_FetchResult
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pData		-- ×¥È¡»º³åÇø
+*			iLength		-- ×¥È¡Êı¾İ³¤¶È
+* ·µ»ØÖµ£º	En_HP_FetchResult
 */
 HPSOCKET_API En_HP_FetchResult __HP_CALL HP_TcpPullServer_Fetch(HP_TcpPullServer pServer, HP_CONNID dwConnID, BYTE* pData, int iLength);
 
 /*
-* åç§°ï¼šçª¥æ¢æ•°æ®ï¼ˆä¸ä¼šç§»é™¤ç¼“å†²åŒºæ•°æ®ï¼‰
-* æè¿°ï¼šç”¨æˆ·é€šè¿‡è¯¥æ–¹æ³•ä» Socket ç»„ä»¶ä¸­çª¥æ¢æ•°æ®
+* Ãû³Æ£º¿úÌ½Êı¾İ£¨²»»áÒÆ³ı»º³åÇøÊı¾İ£©
+* ÃèÊö£ºÓÃ»§Í¨¹ı¸Ã·½·¨´Ó Socket ×é¼şÖĞ¿úÌ½Êı¾İ
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pData		-- çª¥æ¢ç¼“å†²åŒº
-*			iLength		-- çª¥æ¢æ•°æ®é•¿åº¦
-* è¿”å›å€¼ï¼š	En_HP_FetchResult
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pData		-- ¿úÌ½»º³åÇø
+*			iLength		-- ¿úÌ½Êı¾İ³¤¶È
+* ·µ»ØÖµ£º	En_HP_FetchResult
 */
 HPSOCKET_API En_HP_FetchResult __HP_CALL HP_TcpPullServer_Peek(HP_TcpPullServer pServer, HP_CONNID dwConnID, BYTE* pData, int iLength);
 
 /***************************************************************************************/
-/***************************** TCP Pull Server å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** TCP Pull Server ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
 /***************************************************************************************/
-/***************************** TCP Pull Agent ç»„ä»¶æ“ä½œæ–¹æ³• *****************************/
+/***************************** TCP Pull Agent ×é¼ş²Ù×÷·½·¨ *****************************/
 
 /*
-* åç§°ï¼šæŠ“å–æ•°æ®
-* æè¿°ï¼šç”¨æˆ·é€šè¿‡è¯¥æ–¹æ³•ä» Socket ç»„ä»¶ä¸­æŠ“å–æ•°æ®
+* Ãû³Æ£º×¥È¡Êı¾İ
+* ÃèÊö£ºÓÃ»§Í¨¹ı¸Ã·½·¨´Ó Socket ×é¼şÖĞ×¥È¡Êı¾İ
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pData		-- æŠ“å–ç¼“å†²åŒº
-*			iLength		-- æŠ“å–æ•°æ®é•¿åº¦
-* è¿”å›å€¼ï¼š	En_HP_FetchResult
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pData		-- ×¥È¡»º³åÇø
+*			iLength		-- ×¥È¡Êı¾İ³¤¶È
+* ·µ»ØÖµ£º	En_HP_FetchResult
 */
 HPSOCKET_API En_HP_FetchResult __HP_CALL HP_TcpPullAgent_Fetch(HP_TcpPullAgent pAgent, HP_CONNID dwConnID, BYTE* pData, int iLength);
 
 /*
-* åç§°ï¼šçª¥æ¢æ•°æ®ï¼ˆä¸ä¼šç§»é™¤ç¼“å†²åŒºæ•°æ®ï¼‰
-* æè¿°ï¼šç”¨æˆ·é€šè¿‡è¯¥æ–¹æ³•ä» Socket ç»„ä»¶ä¸­çª¥æ¢æ•°æ®
+* Ãû³Æ£º¿úÌ½Êı¾İ£¨²»»áÒÆ³ı»º³åÇøÊı¾İ£©
+* ÃèÊö£ºÓÃ»§Í¨¹ı¸Ã·½·¨´Ó Socket ×é¼şÖĞ¿úÌ½Êı¾İ
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pData		-- çª¥æ¢ç¼“å†²åŒº
-*			iLength		-- çª¥æ¢æ•°æ®é•¿åº¦
-* è¿”å›å€¼ï¼š	En_HP_FetchResult
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pData		-- ¿úÌ½»º³åÇø
+*			iLength		-- ¿úÌ½Êı¾İ³¤¶È
+* ·µ»ØÖµ£º	En_HP_FetchResult
 */
 HPSOCKET_API En_HP_FetchResult __HP_CALL HP_TcpPullAgent_Peek(HP_TcpPullAgent pAgent, HP_CONNID dwConnID, BYTE* pData, int iLength);
 
 /***************************************************************************************/
-/***************************** TCP Pull Agent å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** TCP Pull Agent ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
 /***************************************************************************************/
-/***************************** TCP Pull Client ç»„ä»¶æ“ä½œæ–¹æ³• *****************************/
+/***************************** TCP Pull Client ×é¼ş²Ù×÷·½·¨ *****************************/
 
 /*
-* åç§°ï¼šæŠ“å–æ•°æ®
-* æè¿°ï¼šç”¨æˆ·é€šè¿‡è¯¥æ–¹æ³•ä» Socket ç»„ä»¶ä¸­æŠ“å–æ•°æ®
+* Ãû³Æ£º×¥È¡Êı¾İ
+* ÃèÊö£ºÓÃ»§Í¨¹ı¸Ã·½·¨´Ó Socket ×é¼şÖĞ×¥È¡Êı¾İ
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pData		-- æŠ“å–ç¼“å†²åŒº
-*			iLength		-- æŠ“å–æ•°æ®é•¿åº¦
-* è¿”å›å€¼ï¼š	En_HP_FetchResult
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pData		-- ×¥È¡»º³åÇø
+*			iLength		-- ×¥È¡Êı¾İ³¤¶È
+* ·µ»ØÖµ£º	En_HP_FetchResult
 */
 HPSOCKET_API En_HP_FetchResult __HP_CALL HP_TcpPullClient_Fetch(HP_TcpPullClient pClient, BYTE* pData, int iLength);
 
 /*
-* åç§°ï¼šçª¥æ¢æ•°æ®ï¼ˆä¸ä¼šç§»é™¤ç¼“å†²åŒºæ•°æ®ï¼‰
-* æè¿°ï¼šç”¨æˆ·é€šè¿‡è¯¥æ–¹æ³•ä» Socket ç»„ä»¶ä¸­çª¥æ¢æ•°æ®
+* Ãû³Æ£º¿úÌ½Êı¾İ£¨²»»áÒÆ³ı»º³åÇøÊı¾İ£©
+* ÃèÊö£ºÓÃ»§Í¨¹ı¸Ã·½·¨´Ó Socket ×é¼şÖĞ¿úÌ½Êı¾İ
 *		
-* å‚æ•°ï¼š		dwConnID	-- è¿æ¥ ID
-*			pData		-- çª¥æ¢ç¼“å†²åŒº
-*			iLength		-- çª¥æ¢æ•°æ®é•¿åº¦
-* è¿”å›å€¼ï¼š	En_HP_FetchResult
+* ²ÎÊı£º		dwConnID	-- Á¬½Ó ID
+*			pData		-- ¿úÌ½»º³åÇø
+*			iLength		-- ¿úÌ½Êı¾İ³¤¶È
+* ·µ»ØÖµ£º	En_HP_FetchResult
 */
 HPSOCKET_API En_HP_FetchResult __HP_CALL HP_TcpPullClient_Peek(HP_TcpPullClient pClient, BYTE* pData, int iLength);
 
 /***************************************************************************************/
-/***************************** TCP Pull Client å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** TCP Pull Client ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
 /***************************************************************************************/
-/***************************** TCP Pack Server ç»„ä»¶æ“ä½œæ–¹æ³• *****************************/
+/***************************** TCP Pack Server ×é¼ş²Ù×÷·½·¨ *****************************/
 
 /***************************************************************************************/
-/***************************** TCP Pack Server å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** TCP Pack Server ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
-/* è®¾ç½®æ•°æ®åŒ…æœ€å¤§é•¿åº¦ï¼ˆæœ‰æ•ˆæ•°æ®åŒ…æœ€å¤§é•¿åº¦ä¸èƒ½è¶…è¿‡ 4194303/0x3FFFFF å­—èŠ‚ï¼Œé»˜è®¤ï¼š262144/0x40000ï¼‰ */
+/* ÉèÖÃÊı¾İ°ü×î´ó³¤¶È£¨ÓĞĞ§Êı¾İ°ü×î´ó³¤¶È²»ÄÜ³¬¹ı 4194303/0x3FFFFF ×Ö½Ú£¬Ä¬ÈÏ£º262144/0x40000£© */
 HPSOCKET_API void __HP_CALL HP_TcpPackServer_SetMaxPackSize(HP_TcpPackServer pServer, DWORD dwMaxPackSize);
-/* è®¾ç½®åŒ…å¤´æ ‡è¯†ï¼ˆæœ‰æ•ˆåŒ…å¤´æ ‡è¯†å–å€¼èŒƒå›´ 0 ~ 1023/0x3FFï¼Œå½“åŒ…å¤´æ ‡è¯†ä¸º 0 æ—¶ä¸æ ¡éªŒåŒ…å¤´ï¼Œé»˜è®¤ï¼š0ï¼‰ */
+/* ÉèÖÃ°üÍ·±êÊ¶£¨ÓĞĞ§°üÍ·±êÊ¶È¡Öµ·¶Î§ 0 ~ 1023/0x3FF£¬µ±°üÍ·±êÊ¶Îª 0 Ê±²»Ğ£Ñé°üÍ·£¬Ä¬ÈÏ£º0£© */
 HPSOCKET_API void __HP_CALL HP_TcpPackServer_SetPackHeaderFlag(HP_TcpPackServer pServer, USHORT usPackHeaderFlag);
 
-/* è·å–æ•°æ®åŒ…æœ€å¤§é•¿åº¦ */
+/* »ñÈ¡Êı¾İ°ü×î´ó³¤¶È */
 HPSOCKET_API DWORD __HP_CALL HP_TcpPackServer_GetMaxPackSize(HP_TcpPackServer pServer);
-/* è·å–åŒ…å¤´æ ‡è¯† */
+/* »ñÈ¡°üÍ·±êÊ¶ */
 HPSOCKET_API USHORT __HP_CALL HP_TcpPackServer_GetPackHeaderFlag(HP_TcpPackServer pServer);
 
 /***************************************************************************************/
-/***************************** TCP Pack Agent ç»„ä»¶æ“ä½œæ–¹æ³• *****************************/
+/***************************** TCP Pack Agent ×é¼ş²Ù×÷·½·¨ *****************************/
 
 /***************************************************************************************/
-/***************************** TCP Pack Agent å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** TCP Pack Agent ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
-/* è®¾ç½®æ•°æ®åŒ…æœ€å¤§é•¿åº¦ï¼ˆæœ‰æ•ˆæ•°æ®åŒ…æœ€å¤§é•¿åº¦ä¸èƒ½è¶…è¿‡ 4194303/0x3FFFFF å­—èŠ‚ï¼Œé»˜è®¤ï¼š262144/0x40000ï¼‰ */
+/* ÉèÖÃÊı¾İ°ü×î´ó³¤¶È£¨ÓĞĞ§Êı¾İ°ü×î´ó³¤¶È²»ÄÜ³¬¹ı 4194303/0x3FFFFF ×Ö½Ú£¬Ä¬ÈÏ£º262144/0x40000£© */
 HPSOCKET_API void __HP_CALL HP_TcpPackAgent_SetMaxPackSize(HP_TcpPackAgent pAgent, DWORD dwMaxPackSize);
-/* è®¾ç½®åŒ…å¤´æ ‡è¯†ï¼ˆæœ‰æ•ˆåŒ…å¤´æ ‡è¯†å–å€¼èŒƒå›´ 0 ~ 1023/0x3FFï¼Œå½“åŒ…å¤´æ ‡è¯†ä¸º 0 æ—¶ä¸æ ¡éªŒåŒ…å¤´ï¼Œé»˜è®¤ï¼š0ï¼‰ */
+/* ÉèÖÃ°üÍ·±êÊ¶£¨ÓĞĞ§°üÍ·±êÊ¶È¡Öµ·¶Î§ 0 ~ 1023/0x3FF£¬µ±°üÍ·±êÊ¶Îª 0 Ê±²»Ğ£Ñé°üÍ·£¬Ä¬ÈÏ£º0£© */
 HPSOCKET_API void __HP_CALL HP_TcpPackAgent_SetPackHeaderFlag(HP_TcpPackAgent pAgent, USHORT usPackHeaderFlag);
 
-/* è·å–æ•°æ®åŒ…æœ€å¤§é•¿åº¦ */
+/* »ñÈ¡Êı¾İ°ü×î´ó³¤¶È */
 HPSOCKET_API DWORD __HP_CALL HP_TcpPackAgent_GetMaxPackSize(HP_TcpPackAgent pAgent);
-/* è·å–åŒ…å¤´æ ‡è¯† */
+/* »ñÈ¡°üÍ·±êÊ¶ */
 HPSOCKET_API USHORT __HP_CALL HP_TcpPackAgent_GetPackHeaderFlag(HP_TcpPackAgent pAgent);
 
 /***************************************************************************************/
-/***************************** TCP Pack Client ç»„ä»¶æ“ä½œæ–¹æ³• *****************************/
+/***************************** TCP Pack Client ×é¼ş²Ù×÷·½·¨ *****************************/
 
 /***************************************************************************************/
-/***************************** TCP Pack Client å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** TCP Pack Client ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
-/* è®¾ç½®æ•°æ®åŒ…æœ€å¤§é•¿åº¦ï¼ˆæœ‰æ•ˆæ•°æ®åŒ…æœ€å¤§é•¿åº¦ä¸èƒ½è¶…è¿‡ 4194303/0x3FFFFF å­—èŠ‚ï¼Œé»˜è®¤ï¼š262144/0x40000ï¼‰ */
+/* ÉèÖÃÊı¾İ°ü×î´ó³¤¶È£¨ÓĞĞ§Êı¾İ°ü×î´ó³¤¶È²»ÄÜ³¬¹ı 4194303/0x3FFFFF ×Ö½Ú£¬Ä¬ÈÏ£º262144/0x40000£© */
 HPSOCKET_API void __HP_CALL HP_TcpPackClient_SetMaxPackSize(HP_TcpPackClient pClient, DWORD dwMaxPackSize);
-/* è®¾ç½®åŒ…å¤´æ ‡è¯†ï¼ˆæœ‰æ•ˆåŒ…å¤´æ ‡è¯†å–å€¼èŒƒå›´ 0 ~ 1023/0x3FFï¼Œå½“åŒ…å¤´æ ‡è¯†ä¸º 0 æ—¶ä¸æ ¡éªŒåŒ…å¤´ï¼Œé»˜è®¤ï¼š0ï¼‰ */
+/* ÉèÖÃ°üÍ·±êÊ¶£¨ÓĞĞ§°üÍ·±êÊ¶È¡Öµ·¶Î§ 0 ~ 1023/0x3FF£¬µ±°üÍ·±êÊ¶Îª 0 Ê±²»Ğ£Ñé°üÍ·£¬Ä¬ÈÏ£º0£© */
 HPSOCKET_API void __HP_CALL HP_TcpPackClient_SetPackHeaderFlag(HP_TcpPackClient pClient, USHORT usPackHeaderFlag);
 
-/* è·å–æ•°æ®åŒ…æœ€å¤§é•¿åº¦ */
+/* »ñÈ¡Êı¾İ°ü×î´ó³¤¶È */
 HPSOCKET_API DWORD __HP_CALL HP_TcpPackClient_GetMaxPackSize(HP_TcpPackClient pClient);
-/* è·å–åŒ…å¤´æ ‡è¯† */
+/* »ñÈ¡°üÍ·±êÊ¶ */
 HPSOCKET_API USHORT __HP_CALL HP_TcpPackClient_GetPackHeaderFlag(HP_TcpPackClient pClient);
 
 /*****************************************************************************************************************************************************/
 /*************************************************************** Global Function Exports *************************************************************/
 /*****************************************************************************************************************************************************/
 
-// è·å– HPSocket ç‰ˆæœ¬å·ï¼ˆ4 ä¸ªå­—èŠ‚åˆ†åˆ«ä¸ºï¼šä¸»ç‰ˆæœ¬å·ï¼Œå­ç‰ˆæœ¬å·ï¼Œä¿®æ­£ç‰ˆæœ¬å·ï¼Œæ„å»ºç¼–å·ï¼‰
+// »ñÈ¡ HPSocket °æ±¾ºÅ£¨4 ¸ö×Ö½Ú·Ö±ğÎª£ºÖ÷°æ±¾ºÅ£¬×Ó°æ±¾ºÅ£¬ĞŞÕı°æ±¾ºÅ£¬¹¹½¨±àºÅ£©
 HPSOCKET_API DWORD __HP_CALL HP_GetHPSocketVersion();
 
-/* è·å–é”™è¯¯æè¿°æ–‡æœ¬ */
+/* »ñÈ¡´íÎóÃèÊöÎÄ±¾ */
 HPSOCKET_API LPCTSTR __HP_CALL HP_GetSocketErrorDesc(En_HP_SocketError enCode);
-// è°ƒç”¨ç³»ç»Ÿçš„ errno æ–¹æ³•è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+// µ÷ÓÃÏµÍ³µÄ errno ·½·¨»ñÈ¡ÏµÍ³´íÎó´úÂë
 HPSOCKET_API DWORD __HP_CALL SYS_GetLastError();
-// è°ƒç”¨ç³»ç»Ÿçš„ strerror() æ–¹æ³•è·å–ç³»ç»Ÿé”™è¯¯ä»£ç æè¿°
+// µ÷ÓÃÏµÍ³µÄ strerror() ·½·¨»ñÈ¡ÏµÍ³´íÎó´úÂëÃèÊö
 HPSOCKET_API LPCSTR __HP_CALL SYS_GetLastErrorStr();
-// è°ƒç”¨ç³»ç»Ÿçš„ setsockopt()
+// µ÷ÓÃÏµÍ³µÄ setsockopt()
 HPSOCKET_API int __HP_CALL SYS_SetSocketOption(SOCKET sock, int level, int name, LPVOID val, int len);
-// è°ƒç”¨ç³»ç»Ÿçš„ getsockopt()
+// µ÷ÓÃÏµÍ³µÄ getsockopt()
 HPSOCKET_API int __HP_CALL SYS_GetSocketOption(SOCKET sock, int level, int name, LPVOID val, int* len);
-// è°ƒç”¨ç³»ç»Ÿçš„ ioctlsocket()
+// µ÷ÓÃÏµÍ³µÄ ioctlsocket()
 HPSOCKET_API int __HP_CALL SYS_IoctlSocket(SOCKET sock, long cmd, ULONG* arg);
 
-// è°ƒç”¨ç³»ç»Ÿçš„ fcntl() è®¾ç½® F_SETFL å±æ€§
+// µ÷ÓÃÏµÍ³µÄ fcntl() ÉèÖÃ F_SETFL ÊôĞÔ
 HPSOCKET_API BOOL __HP_CALL SYS_fcntl_SETFL(FD fd, INT fl, BOOL bSet);
 
-// è®¾ç½® FD é€‰é¡¹ï¼šO_NONBLOCK
+// ÉèÖÃ FD Ñ¡Ïî£ºO_NONBLOCK
 HPSOCKET_API int __HP_CALL SYS_SSO_NoBlock(SOCKET sock, BOOL bNoBlock);
-// è®¾ç½® socket é€‰é¡¹ï¼šIPPROTO_TCP -> TCP_NODELAY
+// ÉèÖÃ socket Ñ¡Ïî£ºIPPROTO_TCP -> TCP_NODELAY
 HPSOCKET_API int __HP_CALL SYS_SSO_NoDelay(SOCKET sock, BOOL bNoDelay);
-// è®¾ç½® socket é€‰é¡¹ï¼šSOL_SOCKET -> SO_DONTLINGER
+// ÉèÖÃ socket Ñ¡Ïî£ºSOL_SOCKET -> SO_DONTLINGER
 HPSOCKET_API int __HP_CALL SYS_SSO_DontLinger(SOCKET sock, BOOL bDont);
-// è®¾ç½® socket é€‰é¡¹ï¼šSOL_SOCKET -> SO_LINGER
+// ÉèÖÃ socket Ñ¡Ïî£ºSOL_SOCKET -> SO_LINGER
 HPSOCKET_API int __HP_CALL SYS_SSO_Linger(SOCKET sock, USHORT l_onoff, USHORT l_linger);
-// è®¾ç½® socket é€‰é¡¹ï¼šSOL_SOCKET -> SO_RCVBUF
+// ÉèÖÃ socket Ñ¡Ïî£ºSOL_SOCKET -> SO_RCVBUF
 HPSOCKET_API int __HP_CALL SYS_SSO_RecvBuffSize(SOCKET sock, int size);
-// è®¾ç½® socket é€‰é¡¹ï¼šSOL_SOCKET -> SO_SNDBUF
+// ÉèÖÃ socket Ñ¡Ïî£ºSOL_SOCKET -> SO_SNDBUF
 HPSOCKET_API int __HP_CALL SYS_SSO_SendBuffSize(SOCKET sock, int size);
-// è®¾ç½® socket é€‰é¡¹ï¼šSOL_SOCKET -> SO_REUSEADDR
+// ÉèÖÃ socket Ñ¡Ïî£ºSOL_SOCKET -> SO_REUSEADDR
 HPSOCKET_API int __HP_CALL SYS_SSO_ReuseAddress(SOCKET sock, BOOL bReuse);
 
-// è·å– SOCKET æœ¬åœ°åœ°å€ä¿¡æ¯
+// »ñÈ¡ SOCKET ±¾µØµØÖ·ĞÅÏ¢
 HPSOCKET_API BOOL __HP_CALL SYS_GetSocketLocalAddress(SOCKET socket, TCHAR lpszAddress[], int* piAddressLen, USHORT* pusPort);
-// è·å– SOCKET è¿œç¨‹åœ°å€ä¿¡æ¯
+// »ñÈ¡ SOCKET Ô¶³ÌµØÖ·ĞÅÏ¢
 HPSOCKET_API BOOL __HP_CALL SYS_GetSocketRemoteAddress(SOCKET socket, TCHAR lpszAddress[], int* piAddressLen, USHORT* pusPort);
 
-/* æšä¸¾ä¸»æœº IP åœ°å€ */
+/* Ã¶¾ÙÖ÷»ú IP µØÖ· */
 HPSOCKET_API BOOL __HP_CALL SYS_EnumHostIPAddresses(LPCTSTR lpszHost, En_HP_IPAddrType enType, HP_LPTIPAddr** lpppIPAddr, int* piIPAddrCount);
-/* é‡Šæ”¾ HP_LPTIPAddr* */
+/* ÊÍ·Å HP_LPTIPAddr* */
 HPSOCKET_API BOOL __HP_CALL SYS_FreeHostIPAddresses(HP_LPTIPAddr* lppIPAddr);
-/* æ£€æŸ¥å­—ç¬¦ä¸²æ˜¯å¦ç¬¦åˆ IP åœ°å€æ ¼å¼ */
+/* ¼ì²é×Ö·û´®ÊÇ·ñ·ûºÏ IP µØÖ·¸ñÊ½ */
 HPSOCKET_API BOOL __HP_CALL SYS_IsIPAddress(LPCTSTR lpszAddress, En_HP_IPAddrType* penType);
-/* é€šè¿‡ä¸»æœºåè·å– IP åœ°å€ */
+/* Í¨¹ıÖ÷»úÃû»ñÈ¡ IP µØÖ· */
 HPSOCKET_API BOOL __HP_CALL SYS_GetIPAddress(LPCTSTR lpszHost, TCHAR lpszIP[], int* piIPLenth, En_HP_IPAddrType* penType);
 
-/* 64 ä½ç½‘ç»œå­—èŠ‚åºè½¬ä¸»æœºå­—èŠ‚åº */
+/* 64 Î»ÍøÂç×Ö½ÚĞò×ªÖ÷»ú×Ö½ÚĞò */
 HPSOCKET_API ULONGLONG __HP_CALL SYS_NToH64(ULONGLONG value);
-/* 64 ä½ä¸»æœºå­—èŠ‚åºè½¬ç½‘ç»œå­—èŠ‚åº */
+/* 64 Î»Ö÷»ú×Ö½ÚĞò×ªÍøÂç×Ö½ÚĞò */
 HPSOCKET_API ULONGLONG __HP_CALL SYS_HToN64(ULONGLONG value);
 
-/* åˆ†é…å†…å­˜ */
+/* ·ÖÅäÄÚ´æ */
 HPSOCKET_API LPBYTE __HP_CALL SYS_Malloc(int size);
-/* é‡æ–°åˆ†é…å†…å­˜ */
+/* ÖØĞÂ·ÖÅäÄÚ´æ */
 HPSOCKET_API LPBYTE __HP_CALL SYS_Realloc(LPBYTE p, int size);
-/* é‡Šæ”¾å†…å­˜ */
+/* ÊÍ·ÅÄÚ´æ */
 HPSOCKET_API VOID __HP_CALL SYS_Free(LPBYTE p);
 
 #ifdef _ICONV_SUPPORT
@@ -1449,42 +1449,42 @@ HPSOCKET_API BOOL __HP_CALL SYS_Utf8ToGbk(const char szSrc[], char szDest[], int
 
 #ifdef _ZLIB_SUPPORT
 
-// æ™®é€šå‹ç¼©
+// ÆÕÍ¨Ñ¹Ëõ
 HPSOCKET_API int __HP_CALL SYS_Compress(const BYTE* lpszSrc, DWORD dwSrcLen, BYTE* lpszDest, DWORD* pdwDestLen);
-// é«˜çº§å‹ç¼©ï¼ˆé»˜è®¤å€¼ï¼šiLevel -> -1ï¼ŒiMethod -> 8ï¼ŒiWindowBits -> 15ï¼ŒiMemLevel -> 8ï¼ŒiStrategy -> 0ï¼‰
+// ¸ß¼¶Ñ¹Ëõ£¨Ä¬ÈÏÖµ£ºiLevel -> -1£¬iMethod -> 8£¬iWindowBits -> 15£¬iMemLevel -> 8£¬iStrategy -> 0£©
 HPSOCKET_API int __HP_CALL SYS_CompressEx(const BYTE* lpszSrc, DWORD dwSrcLen, BYTE* lpszDest, DWORD* pdwDestLen, int iLevel, int iMethod, int iWindowBits, int iMemLevel, int iStrategy);
-// æ™®é€šè§£å‹
+// ÆÕÍ¨½âÑ¹
 HPSOCKET_API int __HP_CALL SYS_Uncompress(const BYTE* lpszSrc, DWORD dwSrcLen, BYTE* lpszDest, DWORD* pdwDestLen);
-// é«˜çº§è§£å‹ï¼ˆé»˜è®¤å€¼ï¼šiWindowBits -> 15ï¼‰
+// ¸ß¼¶½âÑ¹£¨Ä¬ÈÏÖµ£ºiWindowBits -> 15£©
 HPSOCKET_API int __HP_CALL SYS_UncompressEx(const BYTE* lpszSrc, DWORD dwSrcLen, BYTE* lpszDest, DWORD* pdwDestLen, int iWindowBits);
-// æ¨æµ‹å‹ç¼©ç»“æœé•¿åº¦
+// ÍÆ²âÑ¹Ëõ½á¹û³¤¶È
 HPSOCKET_API DWORD __HP_CALL SYS_GuessCompressBound(DWORD dwSrcLen, BOOL bGZip);
 
-// Gzip å‹ç¼©
+// Gzip Ñ¹Ëõ
 HPSOCKET_API int __HP_CALL SYS_GZipCompress(const BYTE* lpszSrc, DWORD dwSrcLen, BYTE* lpszDest, DWORD* pdwDestLen);
-// Gzip è§£å‹
+// Gzip ½âÑ¹
 HPSOCKET_API int __HP_CALL SYS_GZipUncompress(const BYTE* lpszSrc, DWORD dwSrcLen, BYTE* lpszDest, DWORD* pdwDestLen);
-// æ¨æµ‹ Gzip è§£å‹ç»“æœé•¿åº¦ï¼ˆå¦‚æœè¿”å› 0 æˆ–ä¸åˆç†å€¼åˆ™è¯´æ˜è¾“å…¥å†…å®¹å¹¶éæœ‰æ•ˆçš„ Gzip æ ¼å¼ï¼‰
+// ÍÆ²â Gzip ½âÑ¹½á¹û³¤¶È£¨Èç¹û·µ»Ø 0 »ò²»ºÏÀíÖµÔòËµÃ÷ÊäÈëÄÚÈİ²¢·ÇÓĞĞ§µÄ Gzip ¸ñÊ½£©
 HPSOCKET_API DWORD __HP_CALL SYS_GZipGuessUncompressBound(const BYTE* lpszSrc, DWORD dwSrcLen);
 
 #endif
 
-// è®¡ç®— Base64 ç¼–ç åé•¿åº¦
+// ¼ÆËã Base64 ±àÂëºó³¤¶È
 HPSOCKET_API DWORD __HP_CALL SYS_GuessBase64EncodeBound(DWORD dwSrcLen);
-// è®¡ç®— Base64 è§£ç åé•¿åº¦
+// ¼ÆËã Base64 ½âÂëºó³¤¶È
 HPSOCKET_API DWORD __HP_CALL SYS_GuessBase64DecodeBound(const BYTE* lpszSrc, DWORD dwSrcLen);
-// Base64 ç¼–ç ï¼ˆè¿”å›å€¼ï¼š0 -> æˆåŠŸï¼Œ-3 -> è¾“å…¥æ•°æ®ä¸æ­£ç¡®ï¼Œ-5 -> è¾“å‡ºç¼“å†²åŒºä¸è¶³ï¼‰
+// Base64 ±àÂë£¨·µ»ØÖµ£º0 -> ³É¹¦£¬-3 -> ÊäÈëÊı¾İ²»ÕıÈ·£¬-5 -> Êä³ö»º³åÇø²»×ã£©
 HPSOCKET_API int __HP_CALL SYS_Base64Encode(const BYTE* lpszSrc, DWORD dwSrcLen, BYTE* lpszDest, DWORD* pdwDestLen);
-// Base64 è§£ç ï¼ˆè¿”å›å€¼ï¼š0 -> æˆåŠŸï¼Œ-3 -> è¾“å…¥æ•°æ®ä¸æ­£ç¡®ï¼Œ-5 -> è¾“å‡ºç¼“å†²åŒºä¸è¶³ï¼‰
+// Base64 ½âÂë£¨·µ»ØÖµ£º0 -> ³É¹¦£¬-3 -> ÊäÈëÊı¾İ²»ÕıÈ·£¬-5 -> Êä³ö»º³åÇø²»×ã£©
 HPSOCKET_API int __HP_CALL SYS_Base64Decode(const BYTE* lpszSrc, DWORD dwSrcLen, BYTE* lpszDest, DWORD* pdwDestLen);
 
-// è®¡ç®— URL ç¼–ç åé•¿åº¦
+// ¼ÆËã URL ±àÂëºó³¤¶È
 HPSOCKET_API DWORD __HP_CALL SYS_GuessUrlEncodeBound(const BYTE* lpszSrc, DWORD dwSrcLen);
-// è®¡ç®— URL è§£ç åé•¿åº¦
+// ¼ÆËã URL ½âÂëºó³¤¶È
 HPSOCKET_API DWORD __HP_CALL SYS_GuessUrlDecodeBound(const BYTE* lpszSrc, DWORD dwSrcLen);
-// URL ç¼–ç ï¼ˆè¿”å›å€¼ï¼š0 -> æˆåŠŸï¼Œ-3 -> è¾“å…¥æ•°æ®ä¸æ­£ç¡®ï¼Œ-5 -> è¾“å‡ºç¼“å†²åŒºä¸è¶³ï¼‰
+// URL ±àÂë£¨·µ»ØÖµ£º0 -> ³É¹¦£¬-3 -> ÊäÈëÊı¾İ²»ÕıÈ·£¬-5 -> Êä³ö»º³åÇø²»×ã£©
 HPSOCKET_API int __HP_CALL SYS_UrlEncode(BYTE* lpszSrc, DWORD dwSrcLen, BYTE* lpszDest, DWORD* pdwDestLen);
-// URL è§£ç ï¼ˆè¿”å›å€¼ï¼š0 -> æˆåŠŸï¼Œ-3 -> è¾“å…¥æ•°æ®ä¸æ­£ç¡®ï¼Œ-5 -> è¾“å‡ºç¼“å†²åŒºä¸è¶³ï¼‰
+// URL ½âÂë£¨·µ»ØÖµ£º0 -> ³É¹¦£¬-3 -> ÊäÈëÊı¾İ²»ÕıÈ·£¬-5 -> Êä³ö»º³åÇø²»×ã£©
 HPSOCKET_API int __HP_CALL SYS_UrlDecode(BYTE* lpszSrc, DWORD dwSrcLen, BYTE* lpszDest, DWORD* pdwDestLen);
 
 /*****************************************************************************************************************************************************/
@@ -1494,9 +1494,9 @@ HPSOCKET_API int __HP_CALL SYS_UrlDecode(BYTE* lpszSrc, DWORD dwSrcLen, BYTE* lp
 #ifdef _HTTP_SUPPORT
 
 /****************************************************/
-/******************* HTTP å›è°ƒå‡½æ•° *******************/
+/******************* HTTP »Øµ÷º¯Êı *******************/
 
-/* HTTP å›è°ƒå‡½æ•° */
+/* HTTP »Øµ÷º¯Êı */
 typedef En_HP_HttpParseResult (__HP_CALL *HP_FN_Http_OnMessageBegin)	(HP_Http pSender, HP_CONNID dwConnID);
 typedef En_HP_HttpParseResult (__HP_CALL *HP_FN_Http_OnRequestLine)		(HP_Http pSender, HP_CONNID dwConnID, LPCSTR lpszMethod, LPCSTR lpszUrl);
 typedef En_HP_HttpParseResult (__HP_CALL *HP_FN_Http_OnStatusLine)		(HP_Http pSender, HP_CONNID dwConnID, USHORT usStatusCode, LPCSTR lpszDesc);
@@ -1513,7 +1513,7 @@ typedef En_HP_HandleResult	 (__HP_CALL *HP_FN_Http_OnWSMessageHeader)	(HP_Http p
 typedef En_HP_HandleResult	 (__HP_CALL *HP_FN_Http_OnWSMessageBody)	(HP_Http pSender, HP_CONNID dwConnID, const BYTE* pData, int iLength);
 typedef En_HP_HandleResult	 (__HP_CALL *HP_FN_Http_OnWSMessageComplete)(HP_Http pSender, HP_CONNID dwConnID);
 
-/* HTTP Server å›è°ƒå‡½æ•° */
+/* HTTP Server »Øµ÷º¯Êı */
 typedef HP_FN_Http_OnMessageBegin			HP_FN_HttpServer_OnMessageBegin;
 typedef HP_FN_Http_OnRequestLine			HP_FN_HttpServer_OnRequestLine;
 typedef HP_FN_Http_OnHeader					HP_FN_HttpServer_OnHeader;
@@ -1537,7 +1537,7 @@ typedef HP_FN_Server_OnSend					HP_FN_HttpServer_OnSend;
 typedef HP_FN_Server_OnClose				HP_FN_HttpServer_OnClose;
 typedef HP_FN_Server_OnShutdown				HP_FN_HttpServer_OnShutdown;
 
-/* HTTP Agent å›è°ƒå‡½æ•° */
+/* HTTP Agent »Øµ÷º¯Êı */
 typedef HP_FN_Http_OnMessageBegin			HP_FN_HttpAgent_OnMessageBegin;
 typedef HP_FN_Http_OnStatusLine				HP_FN_HttpAgent_OnStatusLine;
 typedef HP_FN_Http_OnHeader					HP_FN_HttpAgent_OnHeader;
@@ -1561,7 +1561,7 @@ typedef HP_FN_Agent_OnSend					HP_FN_HttpAgent_OnSend;
 typedef HP_FN_Agent_OnClose					HP_FN_HttpAgent_OnClose;
 typedef HP_FN_Agent_OnShutdown				HP_FN_HttpAgent_OnShutdown;
 
-/* HTTP Client å›è°ƒå‡½æ•° */
+/* HTTP Client »Øµ÷º¯Êı */
 typedef HP_FN_Http_OnMessageBegin			HP_FN_HttpClient_OnMessageBegin;
 typedef HP_FN_Http_OnStatusLine				HP_FN_HttpClient_OnStatusLine;
 typedef HP_FN_Http_OnHeader					HP_FN_HttpClient_OnHeader;
@@ -1585,42 +1585,42 @@ typedef HP_FN_Client_OnSend					HP_FN_HttpClient_OnSend;
 typedef HP_FN_Client_OnClose				HP_FN_HttpClient_OnClose;
 
 /****************************************************/
-/***************** HTTP å¯¹è±¡åˆ›å»ºå‡½æ•° *****************/
+/***************** HTTP ¶ÔÏó´´½¨º¯Êı *****************/
 
-// åˆ›å»º HP_HttpServer å¯¹è±¡
+// ´´½¨ HP_HttpServer ¶ÔÏó
 HPSOCKET_API HP_HttpServer __HP_CALL Create_HP_HttpServer(HP_HttpServerListener pListener);
-// åˆ›å»º HP_HttpAgent å¯¹è±¡
+// ´´½¨ HP_HttpAgent ¶ÔÏó
 HPSOCKET_API HP_HttpAgent __HP_CALL Create_HP_HttpAgent(HP_HttpAgentListener pListener);
-// åˆ›å»º HP_HttpClient å¯¹è±¡
+// ´´½¨ HP_HttpClient ¶ÔÏó
 HPSOCKET_API HP_HttpClient __HP_CALL Create_HP_HttpClient(HP_HttpClientListener pListener);
-// åˆ›å»º HP_HttpSyncClient å¯¹è±¡
+// ´´½¨ HP_HttpSyncClient ¶ÔÏó
 HPSOCKET_API HP_HttpSyncClient __HP_CALL Create_HP_HttpSyncClient(HP_HttpClientListener pListener);
 
-// é”€æ¯ HP_HttpServer å¯¹è±¡
+// Ïú»Ù HP_HttpServer ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_HttpServer(HP_HttpServer pServer);
-// é”€æ¯ HP_HttpAgent å¯¹è±¡
+// Ïú»Ù HP_HttpAgent ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_HttpAgent(HP_HttpAgent pAgent);
-// é”€æ¯ HP_HttpClient å¯¹è±¡
+// Ïú»Ù HP_HttpClient ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_HttpClient(HP_HttpClient pClient);
-// é”€æ¯ HP_HttpSyncClient å¯¹è±¡
+// Ïú»Ù HP_HttpSyncClient ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_HttpSyncClient(HP_HttpSyncClient pClient);
 
-// åˆ›å»º HP_HttpServerListener å¯¹è±¡
+// ´´½¨ HP_HttpServerListener ¶ÔÏó
 HPSOCKET_API HP_HttpServerListener __HP_CALL Create_HP_HttpServerListener();
-// åˆ›å»º HP_HttpAgentListener å¯¹è±¡
+// ´´½¨ HP_HttpAgentListener ¶ÔÏó
 HPSOCKET_API HP_HttpAgentListener __HP_CALL Create_HP_HttpAgentListener();
-// åˆ›å»º HP_HttpClientListener å¯¹è±¡
+// ´´½¨ HP_HttpClientListener ¶ÔÏó
 HPSOCKET_API HP_HttpClientListener __HP_CALL Create_HP_HttpClientListener();
 
-// é”€æ¯ HP_HttpServerListener å¯¹è±¡
+// Ïú»Ù HP_HttpServerListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_HttpServerListener(HP_HttpServerListener pListener);
-// é”€æ¯ HP_HttpAgentListener å¯¹è±¡
+// Ïú»Ù HP_HttpAgentListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_HttpAgentListener(HP_HttpAgentListener pListener);
-// é”€æ¯ HP_HttpClientListener å¯¹è±¡
+// Ïú»Ù HP_HttpClientListener ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_HttpClientListener(HP_HttpClientListener pListener);
 
 /**********************************************************************************/
-/*************************** HTTP Server å›è°ƒå‡½æ•°è®¾ç½®æ–¹æ³• **************************/
+/*************************** HTTP Server »Øµ÷º¯ÊıÉèÖÃ·½·¨ **************************/
 
 HPSOCKET_API void __HP_CALL HP_Set_FN_HttpServer_OnMessageBegin(HP_HttpServerListener pListener		, HP_FN_HttpServer_OnMessageBegin fn);
 HPSOCKET_API void __HP_CALL HP_Set_FN_HttpServer_OnRequestLine(HP_HttpServerListener pListener		, HP_FN_HttpServer_OnRequestLine fn);
@@ -1646,7 +1646,7 @@ HPSOCKET_API void __HP_CALL HP_Set_FN_HttpServer_OnClose(HP_HttpServerListener p
 HPSOCKET_API void __HP_CALL HP_Set_FN_HttpServer_OnShutdown(HP_HttpServerListener pListener			, HP_FN_HttpServer_OnShutdown fn);
 
 /**********************************************************************************/
-/**************************** HTTP Agent å›è°ƒå‡½æ•°è®¾ç½®æ–¹æ³• **************************/
+/**************************** HTTP Agent »Øµ÷º¯ÊıÉèÖÃ·½·¨ **************************/
 
 HPSOCKET_API void __HP_CALL HP_Set_FN_HttpAgent_OnMessageBegin(HP_HttpAgentListener pListener		, HP_FN_HttpAgent_OnMessageBegin fn);
 HPSOCKET_API void __HP_CALL HP_Set_FN_HttpAgent_OnStatusLine(HP_HttpAgentListener pListener			, HP_FN_HttpAgent_OnStatusLine fn);
@@ -1672,7 +1672,7 @@ HPSOCKET_API void __HP_CALL HP_Set_FN_HttpAgent_OnClose(HP_HttpAgentListener pLi
 HPSOCKET_API void __HP_CALL HP_Set_FN_HttpAgent_OnShutdown(HP_HttpAgentListener pListener			, HP_FN_HttpAgent_OnShutdown fn);
 
 /**********************************************************************************/
-/*************************** HTTP Client å›è°ƒå‡½æ•°è®¾ç½®æ–¹æ³• **************************/
+/*************************** HTTP Client »Øµ÷º¯ÊıÉèÖÃ·½·¨ **************************/
 
 HPSOCKET_API void __HP_CALL HP_Set_FN_HttpClient_OnMessageBegin(HP_HttpClientListener pListener		, HP_FN_HttpClient_OnMessageBegin fn);
 HPSOCKET_API void __HP_CALL HP_Set_FN_HttpClient_OnStatusLine(HP_HttpClientListener pListener		, HP_FN_HttpClient_OnStatusLine fn);
@@ -1697,526 +1697,526 @@ HPSOCKET_API void __HP_CALL HP_Set_FN_HttpClient_OnSend(HP_HttpClientListener pL
 HPSOCKET_API void __HP_CALL HP_Set_FN_HttpClient_OnClose(HP_HttpClientListener pListener			, HP_FN_HttpClient_OnClose fn);
 
 /**************************************************************************/
-/*************************** HTTP Server æ“ä½œæ–¹æ³• **************************/
+/*************************** HTTP Server ²Ù×÷·½·¨ **************************/
 
 /*
-* åç§°ï¼šå›å¤è¯·æ±‚
-* æè¿°ï¼šå‘å®¢æˆ·ç«¯å›å¤ HTTP è¯·æ±‚
+* Ãû³Æ£º»Ø¸´ÇëÇó
+* ÃèÊö£ºÏò¿Í»§¶Ë»Ø¸´ HTTP ÇëÇó
 *		
-* å‚æ•°ï¼š		dwConnID		-- è¿æ¥ ID
-*			usStatusCode	-- HTTP çŠ¶æ€ç 
-*			lpszDesc		-- HTTP çŠ¶æ€æè¿°
-*			lpHeaders		-- å›å¤è¯·æ±‚å¤´
-*			iHeaderCount	-- å›å¤è¯·æ±‚å¤´æ•°é‡
-*			pData			-- å›å¤è¯·æ±‚ä½“
-*			iLength			-- å›å¤è¯·æ±‚ä½“é•¿åº¦
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		dwConnID		-- Á¬½Ó ID
+*			usStatusCode	-- HTTP ×´Ì¬Âë
+*			lpszDesc		-- HTTP ×´Ì¬ÃèÊö
+*			lpHeaders		-- »Ø¸´ÇëÇóÍ·
+*			iHeaderCount	-- »Ø¸´ÇëÇóÍ·ÊıÁ¿
+*			pData			-- »Ø¸´ÇëÇóÌå
+*			iLength			-- »Ø¸´ÇëÇóÌå³¤¶È
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_SendResponse(HP_HttpServer pServer, HP_CONNID dwConnID, USHORT usStatusCode, LPCSTR lpszDesc, const HP_THeader lpHeaders[], int iHeaderCount, const BYTE* pData, int iLength);
 
 /*
-* åç§°ï¼šå‘é€æœ¬åœ°æ–‡ä»¶
-* æè¿°ï¼šå‘æŒ‡å®šè¿æ¥å‘é€ 4096 KB ä»¥ä¸‹çš„å°æ–‡ä»¶
+* Ãû³Æ£º·¢ËÍ±¾µØÎÄ¼ş
+* ÃèÊö£ºÏòÖ¸¶¨Á¬½Ó·¢ËÍ 4096 KB ÒÔÏÂµÄĞ¡ÎÄ¼ş
 *		
-* å‚æ•°ï¼š		dwConnID		-- è¿æ¥ ID
-*			lpszFileName	-- æ–‡ä»¶è·¯å¾„
-*			usStatusCode	-- HTTP çŠ¶æ€ç 
-*			lpszDesc		-- HTTP çŠ¶æ€æè¿°
-*			lpHeaders		-- å›å¤è¯·æ±‚å¤´
-*			iHeaderCount	-- å›å¤è¯·æ±‚å¤´æ•°é‡
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		dwConnID		-- Á¬½Ó ID
+*			lpszFileName	-- ÎÄ¼şÂ·¾¶
+*			usStatusCode	-- HTTP ×´Ì¬Âë
+*			lpszDesc		-- HTTP ×´Ì¬ÃèÊö
+*			lpHeaders		-- »Ø¸´ÇëÇóÍ·
+*			iHeaderCount	-- »Ø¸´ÇëÇóÍ·ÊıÁ¿
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_SendLocalFile(HP_HttpServer pServer, HP_CONNID dwConnID, LPCSTR lpszFileName, USHORT usStatusCode, LPCSTR lpszDesc, const HP_THeader lpHeaders[], int iHeaderCount);
 
 /*
-* åç§°ï¼šå‘é€ Chunked æ•°æ®åˆ†ç‰‡
-* æè¿°ï¼šå‘å¯¹ç«¯å‘é€ Chunked æ•°æ®åˆ†ç‰‡
+* Ãû³Æ£º·¢ËÍ Chunked Êı¾İ·ÖÆ¬
+* ÃèÊö£ºÏò¶Ô¶Ë·¢ËÍ Chunked Êı¾İ·ÖÆ¬
 *
-* å‚æ•°ï¼š		dwConnID		-- è¿æ¥ ID
-*			pData			-- Chunked æ•°æ®åˆ†ç‰‡
-*			iLength			-- æ•°æ®åˆ†ç‰‡é•¿åº¦ï¼ˆä¸º 0 è¡¨ç¤ºç»“æŸåˆ†ç‰‡ï¼‰
-*			lpszExtensions	-- æ‰©å±•å±æ€§ï¼ˆé»˜è®¤ï¼šnullptrï¼‰
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		dwConnID		-- Á¬½Ó ID
+*			pData			-- Chunked Êı¾İ·ÖÆ¬
+*			iLength			-- Êı¾İ·ÖÆ¬³¤¶È£¨Îª 0 ±íÊ¾½áÊø·ÖÆ¬£©
+*			lpszExtensions	-- À©Õ¹ÊôĞÔ£¨Ä¬ÈÏ£ºnullptr£©
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_SendChunkData(HP_HttpServer pServer, HP_CONNID dwConnID, const BYTE* pData /*= nullptr*/, int iLength /*= 0*/, LPCSTR lpszExtensions /*= nullptr*/);
 
 /*
-* åç§°ï¼šå‘é€ WebSocket æ¶ˆæ¯
-* æè¿°ï¼šå‘å¯¹ç«¯ç«¯å‘é€ WebSocket æ¶ˆæ¯
+* Ãû³Æ£º·¢ËÍ WebSocket ÏûÏ¢
+* ÃèÊö£ºÏò¶Ô¶Ë¶Ë·¢ËÍ WebSocket ÏûÏ¢
 *		
-* å‚æ•°ï¼š		dwConnID		-- è¿æ¥ ID
-*			bFinal			-- æ˜¯å¦ç»“æŸå¸§
-*			iReserved		-- RSV1/RSV2/RSV3 å„ 1 ä½
-*			iOperationCode	-- æ“ä½œç ï¼š0x0 - 0xF
-*			pData			-- æ¶ˆæ¯ä½“æ•°æ®ç¼“å†²åŒº
-*			iLength			-- æ¶ˆæ¯ä½“æ•°æ®é•¿åº¦
-*			ullBodyLen		-- æ¶ˆæ¯æ€»é•¿åº¦
-* 								ullBodyLen = 0		 -> æ¶ˆæ¯æ€»é•¿åº¦ä¸º iLength
-* 								ullBodyLen = iLength -> æ¶ˆæ¯æ€»é•¿åº¦ä¸º ullBodyLen
-* 								ullBodyLen > iLength -> æ¶ˆæ¯æ€»é•¿åº¦ä¸º ullBodyLenï¼Œåç»­æ¶ˆæ¯ä½“é•¿åº¦ä¸º ullBOdyLen - iLengthï¼Œåç»­æ¶ˆæ¯ä½“é€šè¿‡åº•å±‚æ–¹æ³• Send() / SendPackets() å‘é€
-* 								ullBodyLen < iLength -> é”™è¯¯å‚æ•°ï¼Œå‘é€å¤±è´¥
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		dwConnID		-- Á¬½Ó ID
+*			bFinal			-- ÊÇ·ñ½áÊøÖ¡
+*			iReserved		-- RSV1/RSV2/RSV3 ¸÷ 1 Î»
+*			iOperationCode	-- ²Ù×÷Âë£º0x0 - 0xF
+*			pData			-- ÏûÏ¢ÌåÊı¾İ»º³åÇø
+*			iLength			-- ÏûÏ¢ÌåÊı¾İ³¤¶È
+*			ullBodyLen		-- ÏûÏ¢×Ü³¤¶È
+* 								ullBodyLen = 0		 -> ÏûÏ¢×Ü³¤¶ÈÎª iLength
+* 								ullBodyLen = iLength -> ÏûÏ¢×Ü³¤¶ÈÎª ullBodyLen
+* 								ullBodyLen > iLength -> ÏûÏ¢×Ü³¤¶ÈÎª ullBodyLen£¬ºóĞøÏûÏ¢Ìå³¤¶ÈÎª ullBOdyLen - iLength£¬ºóĞøÏûÏ¢ÌåÍ¨¹ıµ×²ã·½·¨ Send() / SendPackets() ·¢ËÍ
+* 								ullBodyLen < iLength -> ´íÎó²ÎÊı£¬·¢ËÍÊ§°Ü
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_SendWSMessage(HP_HttpServer pServer, HP_CONNID dwConnID, BOOL bFinal, BYTE iReserved, BYTE iOperationCode, const BYTE* pData, int iLength, ULONGLONG ullBodyLen);
 
 /*
-* åç§°ï¼šé‡Šæ”¾è¿æ¥
-* æè¿°ï¼šæŠŠè¿æ¥æ”¾å…¥é‡Šæ”¾é˜Ÿåˆ—ï¼Œç­‰å¾…æŸä¸ªæ—¶é—´ï¼ˆé€šè¿‡ SetReleaseDelay() è®¾ç½®ï¼‰å…³é—­è¿æ¥
+* Ãû³Æ£ºÊÍ·ÅÁ¬½Ó
+* ÃèÊö£º°ÑÁ¬½Ó·ÅÈëÊÍ·Å¶ÓÁĞ£¬µÈ´ıÄ³¸öÊ±¼ä£¨Í¨¹ı SetReleaseDelay() ÉèÖÃ£©¹Ø±ÕÁ¬½Ó
 *		
-* å‚æ•°ï¼š		dwConnID		-- è¿æ¥ ID
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		dwConnID		-- Á¬½Ó ID
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_Release(HP_HttpServer pServer, HP_CONNID dwConnID);
 
 /*
-* åç§°ï¼šå¯åŠ¨ HTTP é€šä¿¡
-* æè¿°ï¼šå½“é€šä¿¡ç»„ä»¶è®¾ç½®ä¸ºéè‡ªåŠ¨å¯åŠ¨ HTTP é€šä¿¡æ—¶ï¼Œéœ€è¦è°ƒç”¨æœ¬æ–¹æ³•å¯åŠ¨ HTTP é€šä¿¡
+* Ãû³Æ£ºÆô¶¯ HTTP Í¨ĞÅ
+* ÃèÊö£ºµ±Í¨ĞÅ×é¼şÉèÖÃÎª·Ç×Ô¶¯Æô¶¯ HTTP Í¨ĞÅÊ±£¬ĞèÒªµ÷ÓÃ±¾·½·¨Æô¶¯ HTTP Í¨ĞÅ
 *
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–å¤±è´¥åŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_StartHttp(HP_HttpServer pServer, HP_CONNID dwConnID);
 
 /******************************************************************************/
-/*************************** HTTP Server å±æ€§è®¿é—®æ–¹æ³• **************************/
+/*************************** HTTP Server ÊôĞÔ·ÃÎÊ·½·¨ **************************/
 
-/* è®¾ç½®è¿æ¥é‡Šæ”¾å»¶æ—¶ï¼ˆé»˜è®¤ï¼š3000 æ¯«ç§’ï¼‰ */
+/* ÉèÖÃÁ¬½ÓÊÍ·ÅÑÓÊ±£¨Ä¬ÈÏ£º3000 ºÁÃë£© */
 HPSOCKET_API void __HP_CALL HP_HttpServer_SetReleaseDelay(HP_HttpServer pServer, DWORD dwReleaseDelay);
-/* è·å–è¿æ¥é‡Šæ”¾å»¶æ—¶ */
+/* »ñÈ¡Á¬½ÓÊÍ·ÅÑÓÊ± */
 HPSOCKET_API DWORD __HP_CALL HP_HttpServer_GetReleaseDelay(HP_HttpServer pServer);
-/* è·å–è¯·æ±‚è¡Œ URL åŸŸæ©ç ï¼ˆURL åŸŸå‚è€ƒï¼šEnHttpUrlFieldï¼‰ */
+/* »ñÈ¡ÇëÇóĞĞ URL ÓòÑÚÂë£¨URL Óò²Î¿¼£ºEnHttpUrlField£© */
 HPSOCKET_API USHORT __HP_CALL HP_HttpServer_GetUrlFieldSet(HP_HttpServer pServer, HP_CONNID dwConnID);
-/* è·å–æŸä¸ª URL åŸŸå€¼ */
+/* »ñÈ¡Ä³¸ö URL ÓòÖµ */
 HPSOCKET_API LPCSTR __HP_CALL HP_HttpServer_GetUrlField(HP_HttpServer pServer, HP_CONNID dwConnID, En_HP_HttpUrlField enField);
-/* è·å–è¯·æ±‚æ–¹æ³• */
+/* »ñÈ¡ÇëÇó·½·¨ */
 HPSOCKET_API LPCSTR __HP_CALL HP_HttpServer_GetMethod(HP_HttpServer pServer, HP_CONNID dwConnID);
 
-/* è®¾ç½®æœ¬åœ°åè®®ç‰ˆæœ¬ */
+/* ÉèÖÃ±¾µØĞ­Òé°æ±¾ */
 HPSOCKET_API void __HP_CALL HP_HttpServer_SetLocalVersion(HP_HttpServer pServer, En_HP_HttpVersion usVersion);
-/* è·å–æœ¬åœ°åè®®ç‰ˆæœ¬ */
+/* »ñÈ¡±¾µØĞ­Òé°æ±¾ */
 HPSOCKET_API En_HP_HttpVersion __HP_CALL HP_HttpServer_GetLocalVersion(HP_HttpServer pServer);
 
-/* æ£€æŸ¥æ˜¯å¦å‡çº§åè®® */
+/* ¼ì²éÊÇ·ñÉı¼¶Ğ­Òé */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_IsUpgrade(HP_HttpServer pServer, HP_CONNID dwConnID);
-/* æ£€æŸ¥æ˜¯å¦æœ‰ Keep-Alive æ ‡è¯† */
+/* ¼ì²éÊÇ·ñÓĞ Keep-Alive ±êÊ¶ */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_IsKeepAlive(HP_HttpServer pServer, HP_CONNID dwConnID);
-/* è·å–åè®®ç‰ˆæœ¬ */
+/* »ñÈ¡Ğ­Òé°æ±¾ */
 HPSOCKET_API USHORT __HP_CALL HP_HttpServer_GetVersion(HP_HttpServer pServer, HP_CONNID dwConnID);
-/* è·å–ä¸»æœº */
+/* »ñÈ¡Ö÷»ú */
 HPSOCKET_API LPCSTR __HP_CALL HP_HttpServer_GetHost(HP_HttpServer pServer, HP_CONNID dwConnID);
-/* è·å–å†…å®¹é•¿åº¦ */
+/* »ñÈ¡ÄÚÈİ³¤¶È */
 HPSOCKET_API ULONGLONG __HP_CALL HP_HttpServer_GetContentLength(HP_HttpServer pServer, HP_CONNID dwConnID);
-/* è·å–å†…å®¹ç±»å‹ */
+/* »ñÈ¡ÄÚÈİÀàĞÍ */
 HPSOCKET_API LPCSTR __HP_CALL HP_HttpServer_GetContentType(HP_HttpServer pServer, HP_CONNID dwConnID);
-/* è·å–å†…å®¹ç¼–ç  */
+/* »ñÈ¡ÄÚÈİ±àÂë */
 HPSOCKET_API LPCSTR __HP_CALL HP_HttpServer_GetContentEncoding(HP_HttpServer pServer, HP_CONNID dwConnID);
-/* è·å–ä¼ è¾“ç¼–ç  */
+/* »ñÈ¡´«Êä±àÂë */
 HPSOCKET_API LPCSTR __HP_CALL HP_HttpServer_GetTransferEncoding(HP_HttpServer pServer, HP_CONNID dwConnID);
-/* è·å–åè®®å‡çº§ç±»å‹ */
+/* »ñÈ¡Ğ­ÒéÉı¼¶ÀàĞÍ */
 HPSOCKET_API En_HP_HttpUpgradeType __HP_CALL HP_HttpServer_GetUpgradeType(HP_HttpServer pServer, HP_CONNID dwConnID);
-/* è·å–è§£æé”™è¯¯ä»£ç  */
+/* »ñÈ¡½âÎö´íÎó´úÂë */
 HPSOCKET_API USHORT __HP_CALL HP_HttpServer_GetParseErrorCode(HP_HttpServer pServer, HP_CONNID dwConnID, LPCSTR* lpszErrorDesc);
 
-/* è·å–æŸä¸ªè¯·æ±‚å¤´ï¼ˆå•å€¼ï¼‰ */
+/* »ñÈ¡Ä³¸öÇëÇóÍ·£¨µ¥Öµ£© */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_GetHeader(HP_HttpServer pServer, HP_CONNID dwConnID, LPCSTR lpszName, LPCSTR* lpszValue);
-/* è·å–æŸä¸ªè¯·æ±‚å¤´ï¼ˆå¤šå€¼ï¼‰ */
+/* »ñÈ¡Ä³¸öÇëÇóÍ·£¨¶àÖµ£© */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_GetHeaders(HP_HttpServer pServer, HP_CONNID dwConnID, LPCSTR lpszName, LPCSTR lpszValue[], DWORD* pdwCount);
-/* è·å–æ‰€æœ‰è¯·æ±‚å¤´ */
+/* »ñÈ¡ËùÓĞÇëÇóÍ· */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_GetAllHeaders(HP_HttpServer pServer, HP_CONNID dwConnID, HP_THeader lpHeaders[], DWORD* pdwCount);
-/* è·å–æ‰€æœ‰è¯·æ±‚å¤´åç§° */
+/* »ñÈ¡ËùÓĞÇëÇóÍ·Ãû³Æ */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_GetAllHeaderNames(HP_HttpServer pServer, HP_CONNID dwConnID, LPCSTR lpszName[], DWORD* pdwCount);
 
-/* è·å– Cookie */
+/* »ñÈ¡ Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_GetCookie(HP_HttpServer pServer, HP_CONNID dwConnID, LPCSTR lpszName, LPCSTR* lpszValue);
-/* è·å–æ‰€æœ‰ Cookie */
+/* »ñÈ¡ËùÓĞ Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_GetAllCookies(HP_HttpServer pServer, HP_CONNID dwConnID, HP_TCookie lpCookies[], DWORD* pdwCount);
 
-/* è·å–å½“å‰ WebSocket æ¶ˆæ¯çŠ¶æ€ï¼Œä¼ å…¥ nullptr åˆ™ä¸è·å–ç›¸åº”å­—æ®µ */
+/* »ñÈ¡µ±Ç° WebSocket ÏûÏ¢×´Ì¬£¬´«Èë nullptr Ôò²»»ñÈ¡ÏàÓ¦×Ö¶Î */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_GetWSMessageState(HP_HttpServer pServer, HP_CONNID dwConnID, BOOL* lpbFinal, BYTE* lpiReserved, BYTE* lpiOperationCode, LPCBYTE* lpszMask, ULONGLONG* lpullBodyLen, ULONGLONG* lpullBodyRemain);
 
-/* è®¾ç½® HTTP å¯åŠ¨æ–¹å¼ï¼ˆé»˜è®¤ï¼šTRUEï¼Œè‡ªåŠ¨å¯åŠ¨ï¼‰ */
+/* ÉèÖÃ HTTP Æô¶¯·½Ê½£¨Ä¬ÈÏ£ºTRUE£¬×Ô¶¯Æô¶¯£© */
 HPSOCKET_API void __HP_CALL HP_HttpServer_SetHttpAutoStart(HP_HttpServer pServer, BOOL bAutoStart);
-/* è·å– HTTP å¯åŠ¨æ–¹å¼ */
+/* »ñÈ¡ HTTP Æô¶¯·½Ê½ */
 HPSOCKET_API BOOL __HP_CALL HP_HttpServer_IsHttpAutoStart(HP_HttpServer pServer);
 
 /**************************************************************************/
-/*************************** HTTP Agent æ“ä½œæ–¹æ³• ***************************/
+/*************************** HTTP Agent ²Ù×÷·½·¨ ***************************/
 
 /*
-* åç§°ï¼šå‘é€è¯·æ±‚
-* æè¿°ï¼šå‘æœåŠ¡ç«¯å‘é€ HTTP è¯·æ±‚
+* Ãû³Æ£º·¢ËÍÇëÇó
+* ÃèÊö£ºÏò·şÎñ¶Ë·¢ËÍ HTTP ÇëÇó
 *		
-* å‚æ•°ï¼š		dwConnID		-- è¿æ¥ ID
-*			lpszMethod		-- è¯·æ±‚æ–¹æ³•
-*			lpszPath		-- è¯·æ±‚è·¯å¾„
-*			lpHeaders		-- è¯·æ±‚å¤´
-*			iHeaderCount	-- è¯·æ±‚å¤´æ•°é‡
-*			pBody			-- è¯·æ±‚ä½“
-*			iLength			-- è¯·æ±‚ä½“é•¿åº¦
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		dwConnID		-- Á¬½Ó ID
+*			lpszMethod		-- ÇëÇó·½·¨
+*			lpszPath		-- ÇëÇóÂ·¾¶
+*			lpHeaders		-- ÇëÇóÍ·
+*			iHeaderCount	-- ÇëÇóÍ·ÊıÁ¿
+*			pBody			-- ÇëÇóÌå
+*			iLength			-- ÇëÇóÌå³¤¶È
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_SendRequest(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszMethod, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount, const BYTE* pData, int iLength);
 
 /*
-* åç§°ï¼šå‘é€æœ¬åœ°æ–‡ä»¶
-* æè¿°ï¼šå‘æŒ‡å®šè¿æ¥å‘é€ 4096 KB ä»¥ä¸‹çš„å°æ–‡ä»¶
+* Ãû³Æ£º·¢ËÍ±¾µØÎÄ¼ş
+* ÃèÊö£ºÏòÖ¸¶¨Á¬½Ó·¢ËÍ 4096 KB ÒÔÏÂµÄĞ¡ÎÄ¼ş
 *		
-* å‚æ•°ï¼š		dwConnID		-- è¿æ¥ ID
-*			lpszFileName	-- æ–‡ä»¶è·¯å¾„
-*			lpszMethod		-- è¯·æ±‚æ–¹æ³•
-*			lpszPath		-- è¯·æ±‚è·¯å¾„
-*			lpHeaders		-- è¯·æ±‚å¤´
-*			iHeaderCount	-- è¯·æ±‚å¤´æ•°é‡
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		dwConnID		-- Á¬½Ó ID
+*			lpszFileName	-- ÎÄ¼şÂ·¾¶
+*			lpszMethod		-- ÇëÇó·½·¨
+*			lpszPath		-- ÇëÇóÂ·¾¶
+*			lpHeaders		-- ÇëÇóÍ·
+*			iHeaderCount	-- ÇëÇóÍ·ÊıÁ¿
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_SendLocalFile(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszFileName, LPCSTR lpszMethod, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount);
 
 /*
-* åç§°ï¼šå‘é€ Chunked æ•°æ®åˆ†ç‰‡
-* æè¿°ï¼šå‘å¯¹ç«¯å‘é€ Chunked æ•°æ®åˆ†ç‰‡
+* Ãû³Æ£º·¢ËÍ Chunked Êı¾İ·ÖÆ¬
+* ÃèÊö£ºÏò¶Ô¶Ë·¢ËÍ Chunked Êı¾İ·ÖÆ¬
 *
-* å‚æ•°ï¼š		dwConnID		-- è¿æ¥ ID
-*			pData			-- Chunked æ•°æ®åˆ†ç‰‡
-*			iLength			-- æ•°æ®åˆ†ç‰‡é•¿åº¦ï¼ˆä¸º 0 è¡¨ç¤ºç»“æŸåˆ†ç‰‡ï¼‰
-*			lpszExtensions	-- æ‰©å±•å±æ€§ï¼ˆé»˜è®¤ï¼šnullptrï¼‰
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		dwConnID		-- Á¬½Ó ID
+*			pData			-- Chunked Êı¾İ·ÖÆ¬
+*			iLength			-- Êı¾İ·ÖÆ¬³¤¶È£¨Îª 0 ±íÊ¾½áÊø·ÖÆ¬£©
+*			lpszExtensions	-- À©Õ¹ÊôĞÔ£¨Ä¬ÈÏ£ºnullptr£©
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_SendChunkData(HP_HttpAgent pAgent, HP_CONNID dwConnID, const BYTE* pData /*= nullptr*/, int iLength /*= 0*/, LPCSTR lpszExtensions /*= nullptr*/);
 
-/* å‘é€ POST è¯·æ±‚ */
+/* ·¢ËÍ POST ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_SendPost(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount, const BYTE* pBody, int iLength);
-/* å‘é€ PUT è¯·æ±‚ */
+/* ·¢ËÍ PUT ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_SendPut(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount, const BYTE* pBody, int iLength);
-/* å‘é€ PATCH è¯·æ±‚ */
+/* ·¢ËÍ PATCH ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_SendPatch(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount, const BYTE* pBody, int iLength);
-/* å‘é€ GET è¯·æ±‚ */
+/* ·¢ËÍ GET ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_SendGet(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount);
-/* å‘é€ DELETE è¯·æ±‚ */
+/* ·¢ËÍ DELETE ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_SendDelete(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount);
-/* å‘é€ HEAD è¯·æ±‚ */
+/* ·¢ËÍ HEAD ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_SendHead(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount);
-/* å‘é€ TRACE è¯·æ±‚ */
+/* ·¢ËÍ TRACE ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_SendTrace(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount);
-/* å‘é€ OPTIONS è¯·æ±‚ */
+/* ·¢ËÍ OPTIONS ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_SendOptions(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount);
-/* å‘é€ CONNECT è¯·æ±‚ */
+/* ·¢ËÍ CONNECT ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_SendConnect(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszHost, const HP_THeader lpHeaders[], int iHeaderCount);
 
 /*
-* åç§°ï¼šå‘é€ WebSocket æ¶ˆæ¯
-* æè¿°ï¼šå‘å¯¹ç«¯ç«¯å‘é€ WebSocket æ¶ˆæ¯
+* Ãû³Æ£º·¢ËÍ WebSocket ÏûÏ¢
+* ÃèÊö£ºÏò¶Ô¶Ë¶Ë·¢ËÍ WebSocket ÏûÏ¢
 *		
-* å‚æ•°ï¼š		dwConnID		-- è¿æ¥ ID
-*			bFinal			-- æ˜¯å¦ç»“æŸå¸§
-*			iReserved		-- RSV1/RSV2/RSV3 å„ 1 ä½
-*			iOperationCode	-- æ“ä½œç ï¼š0x0 - 0xF
-*			lpszMask		-- æ©ç ï¼ˆnullptr æˆ– 4 å­—èŠ‚æ©ç ï¼Œå¦‚æœä¸º nullptr åˆ™æ²¡æœ‰æ©ç ï¼‰
-*			pData			-- æ¶ˆæ¯ä½“æ•°æ®ç¼“å†²åŒº
-*			iLength			-- æ¶ˆæ¯ä½“æ•°æ®é•¿åº¦
-*			ullBodyLen		-- æ¶ˆæ¯æ€»é•¿åº¦
-* 								ullBodyLen = 0		 -> æ¶ˆæ¯æ€»é•¿åº¦ä¸º iLength
-* 								ullBodyLen = iLength -> æ¶ˆæ¯æ€»é•¿åº¦ä¸º ullBodyLen
-* 								ullBodyLen > iLength -> æ¶ˆæ¯æ€»é•¿åº¦ä¸º ullBodyLenï¼Œåç»­æ¶ˆæ¯ä½“é•¿åº¦ä¸º ullBOdyLen - iLengthï¼Œåç»­æ¶ˆæ¯ä½“é€šè¿‡åº•å±‚æ–¹æ³• Send() / SendPackets() å‘é€
-* 								ullBodyLen < iLength -> é”™è¯¯å‚æ•°ï¼Œå‘é€å¤±è´¥
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		dwConnID		-- Á¬½Ó ID
+*			bFinal			-- ÊÇ·ñ½áÊøÖ¡
+*			iReserved		-- RSV1/RSV2/RSV3 ¸÷ 1 Î»
+*			iOperationCode	-- ²Ù×÷Âë£º0x0 - 0xF
+*			lpszMask		-- ÑÚÂë£¨nullptr »ò 4 ×Ö½ÚÑÚÂë£¬Èç¹ûÎª nullptr ÔòÃ»ÓĞÑÚÂë£©
+*			pData			-- ÏûÏ¢ÌåÊı¾İ»º³åÇø
+*			iLength			-- ÏûÏ¢ÌåÊı¾İ³¤¶È
+*			ullBodyLen		-- ÏûÏ¢×Ü³¤¶È
+* 								ullBodyLen = 0		 -> ÏûÏ¢×Ü³¤¶ÈÎª iLength
+* 								ullBodyLen = iLength -> ÏûÏ¢×Ü³¤¶ÈÎª ullBodyLen
+* 								ullBodyLen > iLength -> ÏûÏ¢×Ü³¤¶ÈÎª ullBodyLen£¬ºóĞøÏûÏ¢Ìå³¤¶ÈÎª ullBOdyLen - iLength£¬ºóĞøÏûÏ¢ÌåÍ¨¹ıµ×²ã·½·¨ Send() / SendPackets() ·¢ËÍ
+* 								ullBodyLen < iLength -> ´íÎó²ÎÊı£¬·¢ËÍÊ§°Ü
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_SendWSMessage(HP_HttpAgent pAgent, HP_CONNID dwConnID, BOOL bFinal, BYTE iReserved, BYTE iOperationCode, const BYTE lpszMask[4], const BYTE* pData, int iLength, ULONGLONG ullBodyLen);
 
 /*
-* åç§°ï¼šå¯åŠ¨ HTTP é€šä¿¡
-* æè¿°ï¼šå½“é€šä¿¡ç»„ä»¶è®¾ç½®ä¸ºéè‡ªåŠ¨å¯åŠ¨ HTTP é€šä¿¡æ—¶ï¼Œéœ€è¦è°ƒç”¨æœ¬æ–¹æ³•å¯åŠ¨ HTTP é€šä¿¡
+* Ãû³Æ£ºÆô¶¯ HTTP Í¨ĞÅ
+* ÃèÊö£ºµ±Í¨ĞÅ×é¼şÉèÖÃÎª·Ç×Ô¶¯Æô¶¯ HTTP Í¨ĞÅÊ±£¬ĞèÒªµ÷ÓÃ±¾·½·¨Æô¶¯ HTTP Í¨ĞÅ
 *
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–å¤±è´¥åŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_StartHttp(HP_HttpAgent pAgent, HP_CONNID dwConnID);
 
 /******************************************************************************/
-/*************************** HTTP Agent å±æ€§è®¿é—®æ–¹æ³• ***************************/
+/*************************** HTTP Agent ÊôĞÔ·ÃÎÊ·½·¨ ***************************/
 
-/* è·å– HTTP çŠ¶æ€ç  */
+/* »ñÈ¡ HTTP ×´Ì¬Âë */
 HPSOCKET_API USHORT __HP_CALL HP_HttpAgent_GetStatusCode(HP_HttpAgent pAgent, HP_CONNID dwConnID);
 
-/* è®¾ç½®æœ¬åœ°åè®®ç‰ˆæœ¬ */
+/* ÉèÖÃ±¾µØĞ­Òé°æ±¾ */
 HPSOCKET_API void __HP_CALL HP_HttpAgent_SetLocalVersion(HP_HttpAgent pAgent, En_HP_HttpVersion usVersion);
-/* è·å–æœ¬åœ°åè®®ç‰ˆæœ¬ */
+/* »ñÈ¡±¾µØĞ­Òé°æ±¾ */
 HPSOCKET_API En_HP_HttpVersion __HP_CALL HP_HttpAgent_GetLocalVersion(HP_HttpAgent pAgent);
 
-/* æ£€æŸ¥æ˜¯å¦å‡çº§åè®® */
+/* ¼ì²éÊÇ·ñÉı¼¶Ğ­Òé */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_IsUpgrade(HP_HttpAgent pAgent, HP_CONNID dwConnID);
-/* æ£€æŸ¥æ˜¯å¦æœ‰ Keep-Alive æ ‡è¯† */
+/* ¼ì²éÊÇ·ñÓĞ Keep-Alive ±êÊ¶ */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_IsKeepAlive(HP_HttpAgent pAgent, HP_CONNID dwConnID);
-/* è·å–åè®®ç‰ˆæœ¬ */
+/* »ñÈ¡Ğ­Òé°æ±¾ */
 HPSOCKET_API USHORT __HP_CALL HP_HttpAgent_GetVersion(HP_HttpAgent pAgent, HP_CONNID dwConnID);
-/* è·å–å†…å®¹é•¿åº¦ */
+/* »ñÈ¡ÄÚÈİ³¤¶È */
 HPSOCKET_API ULONGLONG __HP_CALL HP_HttpAgent_GetContentLength(HP_HttpAgent pAgent, HP_CONNID dwConnID);
-/* è·å–å†…å®¹ç±»å‹ */
+/* »ñÈ¡ÄÚÈİÀàĞÍ */
 HPSOCKET_API LPCSTR __HP_CALL HP_HttpAgent_GetContentType(HP_HttpAgent pAgent, HP_CONNID dwConnID);
-/* è·å–å†…å®¹ç¼–ç  */
+/* »ñÈ¡ÄÚÈİ±àÂë */
 HPSOCKET_API LPCSTR __HP_CALL HP_HttpAgent_GetContentEncoding(HP_HttpAgent pAgent, HP_CONNID dwConnID);
-/* è·å–ä¼ è¾“ç¼–ç  */
+/* »ñÈ¡´«Êä±àÂë */
 HPSOCKET_API LPCSTR __HP_CALL HP_HttpAgent_GetTransferEncoding(HP_HttpAgent pAgent, HP_CONNID dwConnID);
-/* è·å–åè®®å‡çº§ç±»å‹ */
+/* »ñÈ¡Ğ­ÒéÉı¼¶ÀàĞÍ */
 HPSOCKET_API En_HP_HttpUpgradeType __HP_CALL HP_HttpAgent_GetUpgradeType(HP_HttpAgent pAgent, HP_CONNID dwConnID);
-/* è·å–è§£æé”™è¯¯ä»£ç  */
+/* »ñÈ¡½âÎö´íÎó´úÂë */
 HPSOCKET_API USHORT __HP_CALL HP_HttpAgent_GetParseErrorCode(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR* lpszErrorDesc);
 
-/* è·å–æŸä¸ªè¯·æ±‚å¤´ï¼ˆå•å€¼ï¼‰ */
+/* »ñÈ¡Ä³¸öÇëÇóÍ·£¨µ¥Öµ£© */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_GetHeader(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszName, LPCSTR* lpszValue);
-/* è·å–æŸä¸ªè¯·æ±‚å¤´ï¼ˆå¤šå€¼ï¼‰ */
+/* »ñÈ¡Ä³¸öÇëÇóÍ·£¨¶àÖµ£© */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_GetHeaders(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszName, LPCSTR lpszValue[], DWORD* pdwCount);
-/* è·å–æ‰€æœ‰è¯·æ±‚å¤´ */
+/* »ñÈ¡ËùÓĞÇëÇóÍ· */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_GetAllHeaders(HP_HttpAgent pAgent, HP_CONNID dwConnID, HP_THeader lpHeaders[], DWORD* pdwCount);
-/* è·å–æ‰€æœ‰è¯·æ±‚å¤´åç§° */
+/* »ñÈ¡ËùÓĞÇëÇóÍ·Ãû³Æ */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_GetAllHeaderNames(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszName[], DWORD* pdwCount);
 
-/* è®¾ç½®æ˜¯å¦ä½¿ç”¨ Cookie */
+/* ÉèÖÃÊÇ·ñÊ¹ÓÃ Cookie */
 HPSOCKET_API void __HP_CALL HP_HttpAgent_SetUseCookie(HP_HttpAgent pAgent, BOOL bUseCookie);
-/* æ£€æŸ¥æ˜¯å¦ä½¿ç”¨ Cookie */
+/* ¼ì²éÊÇ·ñÊ¹ÓÃ Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_IsUseCookie(HP_HttpAgent pAgent);
-/* è·å– Cookie */
+/* »ñÈ¡ Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_GetCookie(HP_HttpAgent pAgent, HP_CONNID dwConnID, LPCSTR lpszName, LPCSTR* lpszValue);
-/* è·å–æ‰€æœ‰ Cookie */
+/* »ñÈ¡ËùÓĞ Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_GetAllCookies(HP_HttpAgent pAgent, HP_CONNID dwConnID, HP_TCookie lpCookies[], DWORD* pdwCount);
 
-/* è·å–å½“å‰ WebSocket æ¶ˆæ¯çŠ¶æ€ï¼Œä¼ å…¥ nullptr åˆ™ä¸è·å–ç›¸åº”å­—æ®µ */
+/* »ñÈ¡µ±Ç° WebSocket ÏûÏ¢×´Ì¬£¬´«Èë nullptr Ôò²»»ñÈ¡ÏàÓ¦×Ö¶Î */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_GetWSMessageState(HP_HttpAgent pAgent, HP_CONNID dwConnID, BOOL* lpbFinal, BYTE* lpiReserved, BYTE* lpiOperationCode, LPCBYTE* lpszMask, ULONGLONG* lpullBodyLen, ULONGLONG* lpullBodyRemain);
 
-/* è®¾ç½® HTTP å¯åŠ¨æ–¹å¼ï¼ˆé»˜è®¤ï¼šTRUEï¼Œè‡ªåŠ¨å¯åŠ¨ï¼‰ */
+/* ÉèÖÃ HTTP Æô¶¯·½Ê½£¨Ä¬ÈÏ£ºTRUE£¬×Ô¶¯Æô¶¯£© */
 HPSOCKET_API void __HP_CALL HP_HttpAgent_SetHttpAutoStart(HP_HttpAgent pAgent, BOOL bAutoStart);
-/* è·å– HTTP å¯åŠ¨æ–¹å¼ */
+/* »ñÈ¡ HTTP Æô¶¯·½Ê½ */
 HPSOCKET_API BOOL __HP_CALL HP_HttpAgent_IsHttpAutoStart(HP_HttpAgent pAgent);
 
 /**************************************************************************/
-/*************************** HTTP Client æ“ä½œæ–¹æ³• **************************/
+/*************************** HTTP Client ²Ù×÷·½·¨ **************************/
 
 /*
-* åç§°ï¼šå‘é€è¯·æ±‚
-* æè¿°ï¼šå‘æœåŠ¡ç«¯å‘é€ HTTP è¯·æ±‚
+* Ãû³Æ£º·¢ËÍÇëÇó
+* ÃèÊö£ºÏò·şÎñ¶Ë·¢ËÍ HTTP ÇëÇó
 *		
-* å‚æ•°ï¼š		lpszMethod		-- è¯·æ±‚æ–¹æ³•
-*			lpszPath		-- è¯·æ±‚è·¯å¾„
-*			lpHeaders		-- è¯·æ±‚å¤´
-*			iHeaderCount	-- è¯·æ±‚å¤´æ•°é‡
-*			pBody			-- è¯·æ±‚ä½“
-*			iLength			-- è¯·æ±‚ä½“é•¿åº¦
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		lpszMethod		-- ÇëÇó·½·¨
+*			lpszPath		-- ÇëÇóÂ·¾¶
+*			lpHeaders		-- ÇëÇóÍ·
+*			iHeaderCount	-- ÇëÇóÍ·ÊıÁ¿
+*			pBody			-- ÇëÇóÌå
+*			iLength			-- ÇëÇóÌå³¤¶È
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_SendRequest(HP_HttpClient pClient, LPCSTR lpszMethod, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount, const BYTE* pBody, int iLength);
 
 /*
-* åç§°ï¼šå‘é€æœ¬åœ°æ–‡ä»¶
-* æè¿°ï¼šå‘æŒ‡å®šè¿æ¥å‘é€ 4096 KB ä»¥ä¸‹çš„å°æ–‡ä»¶
+* Ãû³Æ£º·¢ËÍ±¾µØÎÄ¼ş
+* ÃèÊö£ºÏòÖ¸¶¨Á¬½Ó·¢ËÍ 4096 KB ÒÔÏÂµÄĞ¡ÎÄ¼ş
 *		
-* å‚æ•°ï¼š		dwConnID		-- è¿æ¥ ID
-*			lpszFileName	-- æ–‡ä»¶è·¯å¾„
-*			lpszMethod		-- è¯·æ±‚æ–¹æ³•
-*			lpszPath		-- è¯·æ±‚è·¯å¾„
-*			lpHeaders		-- è¯·æ±‚å¤´
-*			iHeaderCount	-- è¯·æ±‚å¤´æ•°é‡
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		dwConnID		-- Á¬½Ó ID
+*			lpszFileName	-- ÎÄ¼şÂ·¾¶
+*			lpszMethod		-- ÇëÇó·½·¨
+*			lpszPath		-- ÇëÇóÂ·¾¶
+*			lpHeaders		-- ÇëÇóÍ·
+*			iHeaderCount	-- ÇëÇóÍ·ÊıÁ¿
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_SendLocalFile(HP_HttpClient pClient, LPCSTR lpszFileName, LPCSTR lpszMethod, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount);
 
 /*
-* åç§°ï¼šå‘é€ Chunked æ•°æ®åˆ†ç‰‡
-* æè¿°ï¼šå‘å¯¹ç«¯å‘é€ Chunked æ•°æ®åˆ†ç‰‡
+* Ãû³Æ£º·¢ËÍ Chunked Êı¾İ·ÖÆ¬
+* ÃèÊö£ºÏò¶Ô¶Ë·¢ËÍ Chunked Êı¾İ·ÖÆ¬
 *
-* å‚æ•°ï¼š		pData			-- Chunked æ•°æ®åˆ†ç‰‡
-*			iLength			-- æ•°æ®åˆ†ç‰‡é•¿åº¦ï¼ˆä¸º 0 è¡¨ç¤ºç»“æŸåˆ†ç‰‡ï¼‰
-*			lpszExtensions	-- æ‰©å±•å±æ€§ï¼ˆé»˜è®¤ï¼šnullptrï¼‰
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		pData			-- Chunked Êı¾İ·ÖÆ¬
+*			iLength			-- Êı¾İ·ÖÆ¬³¤¶È£¨Îª 0 ±íÊ¾½áÊø·ÖÆ¬£©
+*			lpszExtensions	-- À©Õ¹ÊôĞÔ£¨Ä¬ÈÏ£ºnullptr£©
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_SendChunkData(HP_HttpClient pClient, const BYTE* pData /*= nullptr*/, int iLength /*= 0*/, LPCSTR lpszExtensions /*= nullptr*/);
 
-/* å‘é€ POST è¯·æ±‚ */
+/* ·¢ËÍ POST ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_SendPost(HP_HttpClient pClient, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount, const BYTE* pBody, int iLength);
-/* å‘é€ PUT è¯·æ±‚ */
+/* ·¢ËÍ PUT ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_SendPut(HP_HttpClient pClient, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount, const BYTE* pBody, int iLength);
-/* å‘é€ PATCH è¯·æ±‚ */
+/* ·¢ËÍ PATCH ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_SendPatch(HP_HttpClient pClient, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount, const BYTE* pBody, int iLength);
-/* å‘é€ GET è¯·æ±‚ */
+/* ·¢ËÍ GET ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_SendGet(HP_HttpClient pClient, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount);
-/* å‘é€ DELETE è¯·æ±‚ */
+/* ·¢ËÍ DELETE ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_SendDelete(HP_HttpClient pClient, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount);
-/* å‘é€ HEAD è¯·æ±‚ */
+/* ·¢ËÍ HEAD ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_SendHead(HP_HttpClient pClient, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount);
-/* å‘é€ TRACE è¯·æ±‚ */
+/* ·¢ËÍ TRACE ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_SendTrace(HP_HttpClient pClient, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount);
-/* å‘é€ OPTIONS è¯·æ±‚ */
+/* ·¢ËÍ OPTIONS ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_SendOptions(HP_HttpClient pClient, LPCSTR lpszPath, const HP_THeader lpHeaders[], int iHeaderCount);
-/* å‘é€ CONNECT è¯·æ±‚ */
+/* ·¢ËÍ CONNECT ÇëÇó */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_SendConnect(HP_HttpClient pClient, LPCSTR lpszHost, const HP_THeader lpHeaders[], int iHeaderCount);
 
 /*
-* åç§°ï¼šå‘é€ WebSocket æ¶ˆæ¯
-* æè¿°ï¼šå‘å¯¹ç«¯ç«¯å‘é€ WebSocket æ¶ˆæ¯
+* Ãû³Æ£º·¢ËÍ WebSocket ÏûÏ¢
+* ÃèÊö£ºÏò¶Ô¶Ë¶Ë·¢ËÍ WebSocket ÏûÏ¢
 *		
-* å‚æ•°ï¼š		bFinal			-- æ˜¯å¦ç»“æŸå¸§
-*			iReserved		-- RSV1/RSV2/RSV3 å„ 1 ä½
-*			iOperationCode	-- æ“ä½œç ï¼š0x0 - 0xF
-*			lpszMask		-- æ©ç ï¼ˆnullptr æˆ– 4 å­—èŠ‚æ©ç ï¼Œå¦‚æœä¸º nullptr åˆ™æ²¡æœ‰æ©ç ï¼‰
-*			pData			-- æ¶ˆæ¯ä½“æ•°æ®ç¼“å†²åŒº
-*			iLength			-- æ¶ˆæ¯ä½“æ•°æ®é•¿åº¦
-*			ullBodyLen		-- æ¶ˆæ¯æ€»é•¿åº¦
-* 								ullBodyLen = 0		 -> æ¶ˆæ¯æ€»é•¿åº¦ä¸º iLength
-* 								ullBodyLen = iLength -> æ¶ˆæ¯æ€»é•¿åº¦ä¸º ullBodyLen
-* 								ullBodyLen > iLength -> æ¶ˆæ¯æ€»é•¿åº¦ä¸º ullBodyLenï¼Œåç»­æ¶ˆæ¯ä½“é•¿åº¦ä¸º ullBOdyLen - iLengthï¼Œåç»­æ¶ˆæ¯ä½“é€šè¿‡åº•å±‚æ–¹æ³• Send() / SendPackets() å‘é€
-* 								ullBodyLen < iLength -> é”™è¯¯å‚æ•°ï¼Œå‘é€å¤±è´¥
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		bFinal			-- ÊÇ·ñ½áÊøÖ¡
+*			iReserved		-- RSV1/RSV2/RSV3 ¸÷ 1 Î»
+*			iOperationCode	-- ²Ù×÷Âë£º0x0 - 0xF
+*			lpszMask		-- ÑÚÂë£¨nullptr »ò 4 ×Ö½ÚÑÚÂë£¬Èç¹ûÎª nullptr ÔòÃ»ÓĞÑÚÂë£©
+*			pData			-- ÏûÏ¢ÌåÊı¾İ»º³åÇø
+*			iLength			-- ÏûÏ¢ÌåÊı¾İ³¤¶È
+*			ullBodyLen		-- ÏûÏ¢×Ü³¤¶È
+* 								ullBodyLen = 0		 -> ÏûÏ¢×Ü³¤¶ÈÎª iLength
+* 								ullBodyLen = iLength -> ÏûÏ¢×Ü³¤¶ÈÎª ullBodyLen
+* 								ullBodyLen > iLength -> ÏûÏ¢×Ü³¤¶ÈÎª ullBodyLen£¬ºóĞøÏûÏ¢Ìå³¤¶ÈÎª ullBOdyLen - iLength£¬ºóĞøÏûÏ¢ÌåÍ¨¹ıµ×²ã·½·¨ Send() / SendPackets() ·¢ËÍ
+* 								ullBodyLen < iLength -> ´íÎó²ÎÊı£¬·¢ËÍÊ§°Ü
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_SendWSMessage(HP_HttpClient pClient, BOOL bFinal, BYTE iReserved, BYTE iOperationCode, const BYTE lpszMask[4], const BYTE* pData, int iLength, ULONGLONG ullBodyLen);
 
 /*
-* åç§°ï¼šå¯åŠ¨ HTTP é€šä¿¡
-* æè¿°ï¼šå½“é€šä¿¡ç»„ä»¶è®¾ç½®ä¸ºéè‡ªåŠ¨å¯åŠ¨ HTTP é€šä¿¡æ—¶ï¼Œéœ€è¦è°ƒç”¨æœ¬æ–¹æ³•å¯åŠ¨ HTTP é€šä¿¡
+* Ãû³Æ£ºÆô¶¯ HTTP Í¨ĞÅ
+* ÃèÊö£ºµ±Í¨ĞÅ×é¼şÉèÖÃÎª·Ç×Ô¶¯Æô¶¯ HTTP Í¨ĞÅÊ±£¬ĞèÒªµ÷ÓÃ±¾·½·¨Æô¶¯ HTTP Í¨ĞÅ
 *
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–å¤±è´¥åŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_StartHttp(HP_HttpClient pClient);
 
 /******************************************************************************/
-/*************************** HTTP Client å±æ€§è®¿é—®æ–¹æ³• **************************/
+/*************************** HTTP Client ÊôĞÔ·ÃÎÊ·½·¨ **************************/
 
-/* è·å– HTTP çŠ¶æ€ç  */
+/* »ñÈ¡ HTTP ×´Ì¬Âë */
 HPSOCKET_API USHORT __HP_CALL HP_HttpClient_GetStatusCode(HP_HttpClient pClient);
 
-/* è®¾ç½®æœ¬åœ°åè®®ç‰ˆæœ¬ */
+/* ÉèÖÃ±¾µØĞ­Òé°æ±¾ */
 HPSOCKET_API void __HP_CALL HP_HttpClient_SetLocalVersion(HP_HttpClient pClient, En_HP_HttpVersion usVersion);
-/* è·å–æœ¬åœ°åè®®ç‰ˆæœ¬ */
+/* »ñÈ¡±¾µØĞ­Òé°æ±¾ */
 HPSOCKET_API En_HP_HttpVersion __HP_CALL HP_HttpClient_GetLocalVersion(HP_HttpClient pClient);
 
-/* æ£€æŸ¥æ˜¯å¦å‡çº§åè®® */
+/* ¼ì²éÊÇ·ñÉı¼¶Ğ­Òé */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_IsUpgrade(HP_HttpClient pClient);
-/* æ£€æŸ¥æ˜¯å¦æœ‰ Keep-Alive æ ‡è¯† */
+/* ¼ì²éÊÇ·ñÓĞ Keep-Alive ±êÊ¶ */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_IsKeepAlive(HP_HttpClient pClient);
-/* è·å–åè®®ç‰ˆæœ¬ */
+/* »ñÈ¡Ğ­Òé°æ±¾ */
 HPSOCKET_API USHORT __HP_CALL HP_HttpClient_GetVersion(HP_HttpClient pClient);
-/* è·å–å†…å®¹é•¿åº¦ */
+/* »ñÈ¡ÄÚÈİ³¤¶È */
 HPSOCKET_API ULONGLONG __HP_CALL HP_HttpClient_GetContentLength(HP_HttpClient pClient);
-/* è·å–å†…å®¹ç±»å‹ */
+/* »ñÈ¡ÄÚÈİÀàĞÍ */
 HPSOCKET_API LPCSTR __HP_CALL HP_HttpClient_GetContentType(HP_HttpClient pClient);
-/* è·å–å†…å®¹ç¼–ç  */
+/* »ñÈ¡ÄÚÈİ±àÂë */
 HPSOCKET_API LPCSTR __HP_CALL HP_HttpClient_GetContentEncoding(HP_HttpClient pClient);
-/* è·å–ä¼ è¾“ç¼–ç  */
+/* »ñÈ¡´«Êä±àÂë */
 HPSOCKET_API LPCSTR __HP_CALL HP_HttpClient_GetTransferEncoding(HP_HttpClient pClient);
-/* è·å–åè®®å‡çº§ç±»å‹ */
+/* »ñÈ¡Ğ­ÒéÉı¼¶ÀàĞÍ */
 HPSOCKET_API En_HP_HttpUpgradeType __HP_CALL HP_HttpClient_GetUpgradeType(HP_HttpClient pClient);
-/* è·å–è§£æé”™è¯¯ä»£ç  */
+/* »ñÈ¡½âÎö´íÎó´úÂë */
 HPSOCKET_API USHORT __HP_CALL HP_HttpClient_GetParseErrorCode(HP_HttpClient pClient, LPCSTR* lpszErrorDesc);
 
-/* è·å–æŸä¸ªè¯·æ±‚å¤´ï¼ˆå•å€¼ï¼‰ */
+/* »ñÈ¡Ä³¸öÇëÇóÍ·£¨µ¥Öµ£© */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_GetHeader(HP_HttpClient pClient, LPCSTR lpszName, LPCSTR* lpszValue);
-/* è·å–æŸä¸ªè¯·æ±‚å¤´ï¼ˆå¤šå€¼ï¼‰ */
+/* »ñÈ¡Ä³¸öÇëÇóÍ·£¨¶àÖµ£© */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_GetHeaders(HP_HttpClient pClient, LPCSTR lpszName, LPCSTR lpszValue[], DWORD* pdwCount);
-/* è·å–æ‰€æœ‰è¯·æ±‚å¤´ */
+/* »ñÈ¡ËùÓĞÇëÇóÍ· */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_GetAllHeaders(HP_HttpClient pClient, HP_THeader lpHeaders[], DWORD* pdwCount);
-/* è·å–æ‰€æœ‰è¯·æ±‚å¤´åç§° */
+/* »ñÈ¡ËùÓĞÇëÇóÍ·Ãû³Æ */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_GetAllHeaderNames(HP_HttpClient pClient, LPCSTR lpszName[], DWORD* pdwCount);
 
-/* è®¾ç½®æ˜¯å¦ä½¿ç”¨ Cookie */
+/* ÉèÖÃÊÇ·ñÊ¹ÓÃ Cookie */
 HPSOCKET_API void __HP_CALL HP_HttpClient_SetUseCookie(HP_HttpClient pClient, BOOL bUseCookie);
-/* æ£€æŸ¥æ˜¯å¦ä½¿ç”¨ Cookie */
+/* ¼ì²éÊÇ·ñÊ¹ÓÃ Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_IsUseCookie(HP_HttpClient pClient);
-/* è·å– Cookie */
+/* »ñÈ¡ Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_GetCookie(HP_HttpClient pClient, LPCSTR lpszName, LPCSTR* lpszValue);
-/* è·å–æ‰€æœ‰ Cookie */
+/* »ñÈ¡ËùÓĞ Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_GetAllCookies(HP_HttpClient pClient, HP_TCookie lpCookies[], DWORD* pdwCount);
 
-/* è·å–å½“å‰ WebSocket æ¶ˆæ¯çŠ¶æ€ï¼Œä¼ å…¥ nullptr åˆ™ä¸è·å–ç›¸åº”å­—æ®µ */
+/* »ñÈ¡µ±Ç° WebSocket ÏûÏ¢×´Ì¬£¬´«Èë nullptr Ôò²»»ñÈ¡ÏàÓ¦×Ö¶Î */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_GetWSMessageState(HP_HttpClient pClient, BOOL* lpbFinal, BYTE* lpiReserved, BYTE* lpiOperationCode, LPCBYTE* lpszMask, ULONGLONG* lpullBodyLen, ULONGLONG* lpullBodyRemain);
 
-/* è®¾ç½® HTTP å¯åŠ¨æ–¹å¼ï¼ˆé»˜è®¤ï¼šTRUEï¼Œè‡ªåŠ¨å¯åŠ¨ï¼‰ */
+/* ÉèÖÃ HTTP Æô¶¯·½Ê½£¨Ä¬ÈÏ£ºTRUE£¬×Ô¶¯Æô¶¯£© */
 HPSOCKET_API void __HP_CALL HP_HttpClient_SetHttpAutoStart(HP_HttpClient pClient, BOOL bAutoStart);
-/* è·å– HTTP å¯åŠ¨æ–¹å¼ */
+/* »ñÈ¡ HTTP Æô¶¯·½Ê½ */
 HPSOCKET_API BOOL __HP_CALL HP_HttpClient_IsHttpAutoStart(HP_HttpClient pClient);
 
 /**************************************************************************/
-/************************ HTTP Sync Client æ“ä½œæ–¹æ³• ************************/
+/************************ HTTP Sync Client ²Ù×÷·½·¨ ************************/
 
 /*
-* åç§°ï¼šå‘é€ URL è¯·æ±‚
-* æè¿°ï¼šå‘æœåŠ¡ç«¯å‘é€ HTTP URL è¯·æ±‚
+* Ãû³Æ£º·¢ËÍ URL ÇëÇó
+* ÃèÊö£ºÏò·şÎñ¶Ë·¢ËÍ HTTP URL ÇëÇó
 *		
-* å‚æ•°ï¼š		lpszMethod		-- è¯·æ±‚æ–¹æ³•
-*			lpszUrl			-- è¯·æ±‚ URL
-*			lpHeaders		-- è¯·æ±‚å¤´
-*			iHeaderCount	-- è¯·æ±‚å¤´æ•°é‡
-*			pBody			-- è¯·æ±‚ä½“
-*			iLength			-- è¯·æ±‚ä½“é•¿åº¦
-*			bForceReconnect	-- å¼ºåˆ¶é‡æ–°è¿æ¥ï¼ˆé»˜è®¤ï¼šFALSEï¼Œå½“è¯·æ±‚ URL çš„ä¸»æœºå’Œç«¯å£ä¸ç°æœ‰è¿æ¥ä¸€è‡´æ—¶ï¼Œé‡ç”¨ç°æœ‰è¿æ¥ï¼‰
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		lpszMethod		-- ÇëÇó·½·¨
+*			lpszUrl			-- ÇëÇó URL
+*			lpHeaders		-- ÇëÇóÍ·
+*			iHeaderCount	-- ÇëÇóÍ·ÊıÁ¿
+*			pBody			-- ÇëÇóÌå
+*			iLength			-- ÇëÇóÌå³¤¶È
+*			bForceReconnect	-- Ç¿ÖÆÖØĞÂÁ¬½Ó£¨Ä¬ÈÏ£ºFALSE£¬µ±ÇëÇó URL µÄÖ÷»úºÍ¶Ë¿ÚÓëÏÖÓĞÁ¬½ÓÒ»ÖÂÊ±£¬ÖØÓÃÏÖÓĞÁ¬½Ó£©
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpSyncClient_OpenUrl(HP_HttpSyncClient pClient, LPCSTR lpszMethod, LPCSTR lpszUrl, const HP_THeader lpHeaders[], int iHeaderCount, const BYTE* pBody, int iLength, BOOL bForceReconnect);
 
 /*
-* åç§°ï¼šæ¸…é™¤è¯·æ±‚ç»“æœ
-* æè¿°ï¼šæ¸…é™¤ä¸Šä¸€æ¬¡è¯·æ±‚çš„å“åº”å¤´å’Œå“åº”ä½“ç­‰ç»“æœä¿¡æ¯ï¼ˆè¯¥æ–¹æ³•ä¼šåœ¨æ¯æ¬¡å‘é€è¯·æ±‚å‰è‡ªåŠ¨è°ƒç”¨ï¼‰
+* Ãû³Æ£ºÇå³ıÇëÇó½á¹û
+* ÃèÊö£ºÇå³ıÉÏÒ»´ÎÇëÇóµÄÏìÓ¦Í·ºÍÏìÓ¦ÌåµÈ½á¹ûĞÅÏ¢£¨¸Ã·½·¨»áÔÚÃ¿´Î·¢ËÍÇëÇóÇ°×Ô¶¯µ÷ÓÃ£©
 *
-* å‚æ•°ï¼š		
-* è¿”å›å€¼ï¼š	TRUE			-- æˆåŠŸ
-*			FALSE			-- å¤±è´¥
+* ²ÎÊı£º		
+* ·µ»ØÖµ£º	TRUE			-- ³É¹¦
+*			FALSE			-- Ê§°Ü
 */
 HPSOCKET_API BOOL __HP_CALL HP_HttpSyncClient_CleanupRequestResult(HP_HttpSyncClient pClient);
 
 /******************************************************************************/
-/************************ HTTP Sync Client å±æ€§è®¿é—®æ–¹æ³• ************************/
+/************************ HTTP Sync Client ÊôĞÔ·ÃÎÊ·½·¨ ************************/
 
-/* è®¾ç½®è¿æ¥è¶…æ—¶ï¼ˆæ¯«ç§’ï¼Œ0ï¼šç³»ç»Ÿé»˜è®¤è¶…æ—¶ï¼Œé»˜è®¤ï¼š5000ï¼‰ */
+/* ÉèÖÃÁ¬½Ó³¬Ê±£¨ºÁÃë£¬0£ºÏµÍ³Ä¬ÈÏ³¬Ê±£¬Ä¬ÈÏ£º5000£© */
 HPSOCKET_API void __HP_CALL HP_HttpSyncClient_SetConnectTimeout(HP_HttpSyncClient pClient, DWORD dwConnectTimeout);
-/* è®¾ç½®è¯·æ±‚è¶…æ—¶ï¼ˆæ¯«ç§’ï¼Œ0ï¼šæ— é™ç­‰å¾…ï¼Œé»˜è®¤ï¼š10000ï¼‰ */
+/* ÉèÖÃÇëÇó³¬Ê±£¨ºÁÃë£¬0£ºÎŞÏŞµÈ´ı£¬Ä¬ÈÏ£º10000£© */
 HPSOCKET_API void __HP_CALL HP_HttpSyncClient_SetRequestTimeout(HP_HttpSyncClient pClient, DWORD dwRequestTimeout);
 
-/* è·å–è¿æ¥è¶…æ—¶ */
+/* »ñÈ¡Á¬½Ó³¬Ê± */
 HPSOCKET_API DWORD __HP_CALL HP_HttpSyncClient_GetConnectTimeout(HP_HttpSyncClient pClient);
-/* è·å–è¯·æ±‚è¶…æ—¶ */
+/* »ñÈ¡ÇëÇó³¬Ê± */
 HPSOCKET_API DWORD __HP_CALL HP_HttpSyncClient_GetRequestTimeout(HP_HttpSyncClient pClient);
 
-/* è·å–å“åº”ä½“ */
+/* »ñÈ¡ÏìÓ¦Ìå */
 HPSOCKET_API BOOL __HP_CALL HP_HttpSyncClient_GetResponseBody(HP_HttpSyncClient pClient, LPCBYTE* lpszBody, int* piLength);
 
 /**************************************************************************/
-/*************************** HTTP Cookie ç®¡ç†æ–¹æ³• **************************/
+/*************************** HTTP Cookie ¹ÜÀí·½·¨ **************************/
 
-/* ä»æ–‡ä»¶åŠ è½½ Cookie */
+/* ´ÓÎÄ¼ş¼ÓÔØ Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpCookie_MGR_LoadFromFile(LPCSTR lpszFile, BOOL bKeepExists /*= TRUE*/);
-/* ä¿å­˜ Cookie åˆ°æ–‡ä»¶ */
+/* ±£´æ Cookie µ½ÎÄ¼ş */
 HPSOCKET_API BOOL __HP_CALL HP_HttpCookie_MGR_SaveToFile(LPCSTR lpszFile, BOOL bKeepExists /*= TRUE*/);
-/* æ¸…ç† Cookie */
+/* ÇåÀí Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpCookie_MGR_ClearCookies(LPCSTR lpszDomain /*= nullptr*/, LPCSTR lpszPath /*= nullptr*/);
-/* æ¸…ç†è¿‡æœŸ Cookie */
+/* ÇåÀí¹ıÆÚ Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpCookie_MGR_RemoveExpiredCookies(LPCSTR lpszDomain /*= nullptr*/, LPCSTR lpszPath /*= nullptr*/);
-/* è®¾ç½® Cookie */
+/* ÉèÖÃ Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpCookie_MGR_SetCookie(LPCSTR lpszName, LPCSTR lpszValue, LPCSTR lpszDomain, LPCSTR lpszPath, int iMaxAge /*= -1*/, BOOL bHttpOnly /*= FALSE*/, BOOL bSecure /*= FALSE*/, int enSameSite /*= 0*/, BOOL bOnlyUpdateValueIfExists /*= TRUE*/);
-/* åˆ é™¤ Cookie */
+/* É¾³ı Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpCookie_MGR_DeleteCookie(LPCSTR lpszDomain, LPCSTR lpszPath, LPCSTR lpszName);
-/* è®¾ç½®æ˜¯å¦å…è®¸ç¬¬ä¸‰æ–¹ Cookie */
+/* ÉèÖÃÊÇ·ñÔÊĞíµÚÈı·½ Cookie */
 HPSOCKET_API void __HP_CALL HP_HttpCookie_MGR_SetEnableThirdPartyCookie(BOOL bEnableThirdPartyCookie /*= TRUE*/);
-/* æ£€æŸ¥æ˜¯å¦å…è®¸ç¬¬ä¸‰æ–¹ Cookie */
+/* ¼ì²éÊÇ·ñÔÊĞíµÚÈı·½ Cookie */
 HPSOCKET_API BOOL __HP_CALL HP_HttpCookie_MGR_IsEnableThirdPartyCookie();
 
-/* Cookie expires å­—ç¬¦ä¸²è½¬æ¢ä¸ºæ•´æ•° */
+/* Cookie expires ×Ö·û´®×ª»»ÎªÕûÊı */
 HPSOCKET_API BOOL __HP_CALL HP_HttpCookie_HLP_ParseExpires(LPCSTR lpszExpires, __time64_t* ptmExpires);
-/* æ•´æ•°è½¬æ¢ä¸º Cookie expires å­—ç¬¦ä¸² */
+/* ÕûÊı×ª»»Îª Cookie expires ×Ö·û´® */
 HPSOCKET_API BOOL __HP_CALL HP_HttpCookie_HLP_MakeExpiresStr(char lpszBuff[], int* piBuffLen, __time64_t tmExpires);
-/* ç”Ÿæˆ Cookie å­—ç¬¦ä¸² */
+/* Éú³É Cookie ×Ö·û´® */
 HPSOCKET_API BOOL __HP_CALL HP_HttpCookie_HLP_ToString(char lpszBuff[], int* piBuffLen, LPCSTR lpszName, LPCSTR lpszValue, LPCSTR lpszDomain, LPCSTR lpszPath, int iMaxAge /*= -1*/, BOOL bHttpOnly /*= FALSE*/, BOOL bSecure /*= FALSE*/, int enSameSite /*= 0*/);
-/* è·å–å½“å‰ UTC æ—¶é—´ */
+/* »ñÈ¡µ±Ç° UTC Ê±¼ä */
 HPSOCKET_API __time64_t __HP_CALL HP_HttpCookie_HLP_CurrentUTCTime();
 /* Max-Age -> expires */
 HPSOCKET_API __time64_t __HP_CALL HP_HttpCookie_HLP_MaxAgeToExpires(int iMaxAge);
@@ -2234,121 +2234,121 @@ HPSOCKET_API int __HP_CALL HP_HttpCookie_HLP_ExpiresToMaxAge(__time64_t tmExpire
 /*****************************************************************************************************************************************************/
 
 /****************************************************/
-/******************* å¯¹è±¡åˆ›å»ºå‡½æ•° ********************/
+/******************* ¶ÔÏó´´½¨º¯Êı ********************/
 
-// åˆ›å»º IHPThreadPool å¯¹è±¡
+// ´´½¨ IHPThreadPool ¶ÔÏó
 HPSOCKET_API HP_ThreadPool __HP_CALL Create_HP_ThreadPool();
-// é”€æ¯ IHPThreadPool å¯¹è±¡
+// Ïú»Ù IHPThreadPool ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_ThreadPool(HP_ThreadPool pThreadPool);
 
 /*
-* åç§°ï¼šåˆ›å»º TSocketTask å¯¹è±¡
-* æè¿°ï¼šåˆ›å»ºä»»åŠ¡å¯¹è±¡ï¼Œè¯¥å¯¹è±¡æœ€ç»ˆéœ€ç”± HP_Destroy_SocketTaskObj() é”€æ¯
+* Ãû³Æ£º´´½¨ TSocketTask ¶ÔÏó
+* ÃèÊö£º´´½¨ÈÎÎñ¶ÔÏó£¬¸Ã¶ÔÏó×îÖÕĞèÓÉ HP_Destroy_SocketTaskObj() Ïú»Ù
 *		
-* å‚æ•°ï¼š		fnTaskProc	-- ä»»åŠ¡å¤„ç†å‡½æ•°
-*			pSender		-- å‘èµ·å¯¹è±¡
-*			dwConnID	-- è¿æ¥ ID
-*			pBuffer		-- æ•°æ®ç¼“å†²åŒº
-*			iBuffLen	-- æ•°æ®ç¼“å†²åŒºé•¿åº¦
-*			enBuffType	-- æ•°æ®ç¼“å†²åŒºç±»å‹ï¼ˆé»˜è®¤ï¼šTBT_COPYï¼‰
-*							TBT_COPY	ï¼šï¼ˆæ·±æ‹·è´ï¼‰pBuffer å¤åˆ¶åˆ° TSocketTask å¯¹è±¡ã€‚æ­¤å TSocketTask å¯¹è±¡ä¸ pBuffer ä¸å†æœ‰ä»»ä½•å…³è”
-*											-> é€‚ç”¨äº pBuffer ä¸å¤§æˆ– pBuffer ç”Ÿå‘½å‘¨æœŸä¸å—æ§çš„åœºæ™¯
-*							TBT_REFER	ï¼šï¼ˆæµ…æ‹·è´ï¼‰pBuffer ä¸å¤åˆ¶åˆ° TSocketTask å¯¹è±¡ï¼Œéœ€ç¡®ä¿ TSocketTask å¯¹è±¡ç”Ÿå‘½å‘¨æœŸå†… pBuffer å¿…é¡»æœ‰æ•ˆ
-*											-> é€‚ç”¨äº pBuffer è¾ƒå¤§æˆ– pBuffer å¯é‡ç”¨ï¼Œå¹¶ä¸” pBuffer ç”Ÿå‘½å‘¨æœŸå—æ§çš„åœºæ™¯
-*							TBT_ATTACH	ï¼šï¼ˆé™„å±ï¼‰æ‰§è¡Œæµ…æ‹·è´ï¼Œä½† TSocketTask å¯¹è±¡ä¼šè·å¾— pBuffer çš„æ‰€æœ‰æƒï¼Œå¹¶è´Ÿè´£é‡Šæ”¾ pBufferï¼Œé¿å…å¤šæ¬¡ç¼“å†²åŒºæ‹·è´
-*											-> æ³¨æ„ï¼špBuffer å¿…é¡»ç”± SYS_Malloc() å‡½æ•°åˆ†é…æ‰èƒ½ä½¿ç”¨æœ¬ç±»å‹ï¼Œå¦åˆ™å¯èƒ½ä¼šå‘ç”Ÿå†…å­˜è®¿é—®é”™è¯¯
-*			wParam		-- è‡ªå®šä¹‰å‚æ•°
-*			lParam		-- è‡ªå®šä¹‰å‚æ•°
-* è¿”å›å€¼ï¼š	HP_LPTSocketTask
+* ²ÎÊı£º		fnTaskProc	-- ÈÎÎñ´¦Àíº¯Êı
+*			pSender		-- ·¢Æğ¶ÔÏó
+*			dwConnID	-- Á¬½Ó ID
+*			pBuffer		-- Êı¾İ»º³åÇø
+*			iBuffLen	-- Êı¾İ»º³åÇø³¤¶È
+*			enBuffType	-- Êı¾İ»º³åÇøÀàĞÍ£¨Ä¬ÈÏ£ºTBT_COPY£©
+*							TBT_COPY	£º£¨Éî¿½±´£©pBuffer ¸´ÖÆµ½ TSocketTask ¶ÔÏó¡£´Ëºó TSocketTask ¶ÔÏóÓë pBuffer ²»ÔÙÓĞÈÎºÎ¹ØÁª
+*											-> ÊÊÓÃÓÚ pBuffer ²»´ó»ò pBuffer ÉúÃüÖÜÆÚ²»ÊÜ¿ØµÄ³¡¾°
+*							TBT_REFER	£º£¨Ç³¿½±´£©pBuffer ²»¸´ÖÆµ½ TSocketTask ¶ÔÏó£¬ĞèÈ·±£ TSocketTask ¶ÔÏóÉúÃüÖÜÆÚÄÚ pBuffer ±ØĞëÓĞĞ§
+*											-> ÊÊÓÃÓÚ pBuffer ½Ï´ó»ò pBuffer ¿ÉÖØÓÃ£¬²¢ÇÒ pBuffer ÉúÃüÖÜÆÚÊÜ¿ØµÄ³¡¾°
+*							TBT_ATTACH	£º£¨¸½Êô£©Ö´ĞĞÇ³¿½±´£¬µ« TSocketTask ¶ÔÏó»á»ñµÃ pBuffer µÄËùÓĞÈ¨£¬²¢¸ºÔğÊÍ·Å pBuffer£¬±ÜÃâ¶à´Î»º³åÇø¿½±´
+*											-> ×¢Òâ£ºpBuffer ±ØĞëÓÉ SYS_Malloc() º¯Êı·ÖÅä²ÅÄÜÊ¹ÓÃ±¾ÀàĞÍ£¬·ñÔò¿ÉÄÜ»á·¢ÉúÄÚ´æ·ÃÎÊ´íÎó
+*			wParam		-- ×Ô¶¨Òå²ÎÊı
+*			lParam		-- ×Ô¶¨Òå²ÎÊı
+* ·µ»ØÖµ£º	HP_LPTSocketTask
 */
 HPSOCKET_API HP_LPTSocketTask __HP_CALL Create_HP_SocketTaskObj(Fn_SocketTaskProc fnTaskProc, PVOID pSender, HP_CONNID dwConnID, LPCBYTE pBuffer, INT iBuffLen, En_HP_TaskBufferType enBuffType /*= TBT_COPY*/, WPARAM wParam /*= 0*/, LPARAM lParam /*= 0*/);
 
-// é”€æ¯ TSocketTask å¯¹è±¡
+// Ïú»Ù TSocketTask ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_SocketTaskObj(HP_LPTSocketTask pTask);
 
 /***********************************************************************/
-/***************************** ç»„ä»¶æ“ä½œæ–¹æ³• *****************************/
+/***************************** ×é¼ş²Ù×÷·½·¨ *****************************/
 
 /*
-* åç§°ï¼šå¯åŠ¨çº¿ç¨‹æ± ç»„ä»¶
-* æè¿°ï¼š
+* Ãû³Æ£ºÆô¶¯Ïß³Ì³Ø×é¼ş
+* ÃèÊö£º
 *		
-* å‚æ•°ï¼š		dwThreadCount		-- çº¿ç¨‹æ•°é‡ï¼Œï¼ˆé»˜è®¤ï¼š0ï¼‰
+* ²ÎÊı£º		dwThreadCount		-- Ïß³ÌÊıÁ¿£¬£¨Ä¬ÈÏ£º0£©
 *									>0 -> dwThreadCount
-*									=0 -> (CPUæ ¸æ•° * 2 + 2)
-*									<0 -> (CPUæ ¸æ•° * (-dwThreadCount))
-*			dwMaxQueueSize		-- ä»»åŠ¡é˜Ÿåˆ—æœ€å¤§å®¹é‡ï¼ˆé»˜è®¤ï¼š0ï¼Œä¸é™åˆ¶ï¼‰
-*			enRejectedPolicy	-- ä»»åŠ¡æ‹’ç»å¤„ç†ç­–ç•¥
-*									TRP_CALL_FAILï¼ˆé»˜è®¤ï¼‰	ï¼šç«‹åˆ»è¿”å›å¤±è´¥
-*									TRP_WAIT_FOR			ï¼šç­‰å¾…ï¼ˆç›´åˆ°æˆåŠŸã€è¶…æ—¶æˆ–çº¿ç¨‹æ± å…³é—­ç­‰åŸå› å¯¼è‡´å¤±è´¥ï¼‰
-*									TRP_CALLER_RUN			ï¼šè°ƒç”¨è€…çº¿ç¨‹ç›´æ¥æ‰§è¡Œ
-*			dwStackSize			-- çº¿ç¨‹å †æ ˆç©ºé—´å¤§å°ï¼ˆé»˜è®¤ï¼š0 -> æ“ä½œç³»ç»Ÿé»˜è®¤ï¼‰
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+*									=0 -> (CPUºËÊı * 2 + 2)
+*									<0 -> (CPUºËÊı * (-dwThreadCount))
+*			dwMaxQueueSize		-- ÈÎÎñ¶ÓÁĞ×î´óÈİÁ¿£¨Ä¬ÈÏ£º0£¬²»ÏŞÖÆ£©
+*			enRejectedPolicy	-- ÈÎÎñ¾Ü¾ø´¦Àí²ßÂÔ
+*									TRP_CALL_FAIL£¨Ä¬ÈÏ£©	£ºÁ¢¿Ì·µ»ØÊ§°Ü
+*									TRP_WAIT_FOR			£ºµÈ´ı£¨Ö±µ½³É¹¦¡¢³¬Ê±»òÏß³Ì³Ø¹Ø±ÕµÈÔ­Òòµ¼ÖÂÊ§°Ü£©
+*									TRP_CALLER_RUN			£ºµ÷ÓÃÕßÏß³ÌÖ±½ÓÖ´ĞĞ
+*			dwStackSize			-- Ïß³Ì¶ÑÕ»¿Õ¼ä´óĞ¡£¨Ä¬ÈÏ£º0 -> ²Ù×÷ÏµÍ³Ä¬ÈÏ£©
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_ThreadPool_Start(HP_ThreadPool pThreadPool, DWORD dwThreadCount /*= 0*/, DWORD dwMaxQueueSize /*= 0*/, En_HP_RejectedPolicy enRejectedPolicy /*= TRP_CALL_FAIL*/, DWORD dwStackSize /*= 0*/);
 
 /*
-* åç§°ï¼šå…³é—­çº¿ç¨‹æ± ç»„ä»¶
-* æè¿°ï¼šåœ¨è§„å®šæ—¶é—´å†…å…³é—­çº¿ç¨‹æ± ç»„ä»¶ï¼Œå¦‚æœå·¥ä½œçº¿ç¨‹åœ¨æœ€å¤§ç­‰å¾…æ—¶é—´å†…æœªèƒ½æ­£å¸¸å…³é—­ï¼Œä¼šå°è¯•å¼ºåˆ¶å…³é—­ï¼Œè¿™ç§æƒ…å†µä¸‹å¾ˆå¯èƒ½ä¼šé€ æˆç³»ç»Ÿèµ„æºæ³„æ¼
+* Ãû³Æ£º¹Ø±ÕÏß³Ì³Ø×é¼ş
+* ÃèÊö£ºÔÚ¹æ¶¨Ê±¼äÄÚ¹Ø±ÕÏß³Ì³Ø×é¼ş£¬Èç¹û¹¤×÷Ïß³ÌÔÚ×î´óµÈ´ıÊ±¼äÄÚÎ´ÄÜÕı³£¹Ø±Õ£¬»á³¢ÊÔÇ¿ÖÆ¹Ø±Õ£¬ÕâÖÖÇé¿öÏÂºÜ¿ÉÄÜ»áÔì³ÉÏµÍ³×ÊÔ´Ğ¹Â©
 *		
-* å‚æ•°ï¼š		dwMaxWait	-- æœ€å¤§ç­‰å¾…æ—¶é—´ï¼ˆæ¯«ç§’ï¼Œé»˜è®¤ï¼šINFINITEï¼Œä¸€ç›´ç­‰å¾…ï¼‰
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+* ²ÎÊı£º		dwMaxWait	-- ×î´óµÈ´ıÊ±¼ä£¨ºÁÃë£¬Ä¬ÈÏ£ºINFINITE£¬Ò»Ö±µÈ´ı£©
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_ThreadPool_Stop(HP_ThreadPool pThreadPool, DWORD dwMaxWait /*= INFINITE*/);
 
 /*
-* åç§°ï¼šæäº¤ä»»åŠ¡
-* æè¿°ï¼šå‘çº¿ç¨‹æ± æäº¤å¼‚æ­¥ä»»åŠ¡
+* Ãû³Æ£ºÌá½»ÈÎÎñ
+* ÃèÊö£ºÏòÏß³Ì³ØÌá½»Òì²½ÈÎÎñ
 *		
-* å‚æ•°ï¼š		fnTaskProc	-- ä»»åŠ¡å¤„ç†å‡½æ•°
-*			pvArg		-- ä»»åŠ¡å‚æ•°
-*			dwMaxWait	-- ä»»åŠ¡æäº¤æœ€å¤§ç­‰å¾…æ—¶é—´ï¼ˆä»…å¯¹ TRP_WAIT_FOR ç±»å‹çº¿ç¨‹æ± ç”Ÿæ•ˆï¼Œé»˜è®¤ï¼šINFINITEï¼Œä¸€ç›´ç­‰å¾…ï¼‰
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
-*							å…¶ä¸­ï¼Œé”™è¯¯ç  ERROR_DESTINATION_ELEMENT_FULL è¡¨ç¤ºä»»åŠ¡é˜Ÿåˆ—å·²æ»¡
+* ²ÎÊı£º		fnTaskProc	-- ÈÎÎñ´¦Àíº¯Êı
+*			pvArg		-- ÈÎÎñ²ÎÊı
+*			dwMaxWait	-- ÈÎÎñÌá½»×î´óµÈ´ıÊ±¼ä£¨½ö¶Ô TRP_WAIT_FOR ÀàĞÍÏß³Ì³ØÉúĞ§£¬Ä¬ÈÏ£ºINFINITE£¬Ò»Ö±µÈ´ı£©
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
+*							ÆäÖĞ£¬´íÎóÂë ERROR_DESTINATION_ELEMENT_FULL ±íÊ¾ÈÎÎñ¶ÓÁĞÒÑÂú
 */
 HPSOCKET_API BOOL __HP_CALL HP_ThreadPool_Submit(HP_ThreadPool pThreadPool, HP_Fn_TaskProc fnTaskProc, PVOID pvArg, DWORD dwMaxWait /*= INFINITE*/);
 
 /*
-* åç§°ï¼šæäº¤ Socket ä»»åŠ¡
-* æè¿°ï¼šå‘çº¿ç¨‹æ± æäº¤å¼‚æ­¥ Socket ä»»åŠ¡
+* Ãû³Æ£ºÌá½» Socket ÈÎÎñ
+* ÃèÊö£ºÏòÏß³Ì³ØÌá½»Òì²½ Socket ÈÎÎñ
 *		
-* å‚æ•°ï¼š		pTask		-- ä»»åŠ¡å‚æ•°
-*			dwMaxWait	-- ä»»åŠ¡æäº¤æœ€å¤§ç­‰å¾…æ—¶é—´ï¼ˆä»…å¯¹ TRP_WAIT_FOR ç±»å‹çº¿ç¨‹æ± ç”Ÿæ•ˆï¼Œé»˜è®¤ï¼šINFINITEï¼Œä¸€ç›´ç­‰å¾…ï¼‰
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
-*							å…¶ä¸­ï¼Œé”™è¯¯ç  ERROR_DESTINATION_ELEMENT_FULL è¡¨ç¤ºä»»åŠ¡é˜Ÿåˆ—å·²æ»¡
-*							æ³¨æ„ï¼šå¦‚æœæäº¤å¤±è´¥ï¼Œéœ€è¦æ‰‹å·¥è°ƒç”¨ Destroy_HP_SocketTaskObj() é”€æ¯ TSocketTask å¯¹è±¡
+* ²ÎÊı£º		pTask		-- ÈÎÎñ²ÎÊı
+*			dwMaxWait	-- ÈÎÎñÌá½»×î´óµÈ´ıÊ±¼ä£¨½ö¶Ô TRP_WAIT_FOR ÀàĞÍÏß³Ì³ØÉúĞ§£¬Ä¬ÈÏ£ºINFINITE£¬Ò»Ö±µÈ´ı£©
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
+*							ÆäÖĞ£¬´íÎóÂë ERROR_DESTINATION_ELEMENT_FULL ±íÊ¾ÈÎÎñ¶ÓÁĞÒÑÂú
+*							×¢Òâ£ºÈç¹ûÌá½»Ê§°Ü£¬ĞèÒªÊÖ¹¤µ÷ÓÃ Destroy_HP_SocketTaskObj() Ïú»Ù TSocketTask ¶ÔÏó
 */
 HPSOCKET_API BOOL __HP_CALL HP_ThreadPool_Submit_Task(HP_ThreadPool pThreadPool, HP_LPTSocketTask pTask, DWORD dwMaxWait /*= INFINITE*/);
 
 /*
-* åç§°ï¼šè°ƒæ•´çº¿ç¨‹æ± å¤§å°
-* æè¿°ï¼šå¢åŠ æˆ–å‡å°‘çº¿ç¨‹æ± çš„å·¥ä½œçº¿ç¨‹æ•°é‡
+* Ãû³Æ£ºµ÷ÕûÏß³Ì³Ø´óĞ¡
+* ÃèÊö£ºÔö¼Ó»ò¼õÉÙÏß³Ì³ØµÄ¹¤×÷Ïß³ÌÊıÁ¿
 *		
-* å‚æ•°ï¼š		dwNewThreadCount	-- çº¿ç¨‹æ•°é‡
+* ²ÎÊı£º		dwNewThreadCount	-- Ïß³ÌÊıÁ¿
 *									>0 -> dwNewThreadCount
-*									=0 -> (CPUæ ¸æ•° * 2 + 2)
-*									<0 -> (CPUæ ¸æ•° * (-dwNewThreadCount))
-* è¿”å›å€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() è·å–ç³»ç»Ÿé”™è¯¯ä»£ç 
+*									=0 -> (CPUºËÊı * 2 + 2)
+*									<0 -> (CPUºËÊı * (-dwNewThreadCount))
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ı SYS_GetLastError() »ñÈ¡ÏµÍ³´íÎó´úÂë
 */
 HPSOCKET_API BOOL __HP_CALL HP_ThreadPool_AdjustThreadCount(HP_ThreadPool pThreadPool, DWORD dwNewThreadCount);
 
 /***********************************************************************/
-/***************************** å±æ€§è®¿é—®æ–¹æ³• *****************************/
+/***************************** ÊôĞÔ·ÃÎÊ·½·¨ *****************************/
 
-/* æ£€æŸ¥çº¿ç¨‹æ± ç»„ä»¶æ˜¯å¦å·²å¯åŠ¨ */
+/* ¼ì²éÏß³Ì³Ø×é¼şÊÇ·ñÒÑÆô¶¯ */
 HPSOCKET_API BOOL __HP_CALL HP_ThreadPool_HasStarted(HP_ThreadPool pThreadPool);
-/* æŸ¥çœ‹çº¿ç¨‹æ± ç»„ä»¶å½“å‰çŠ¶æ€ */
+/* ²é¿´Ïß³Ì³Ø×é¼şµ±Ç°×´Ì¬ */
 HPSOCKET_API EnServiceState	__HP_CALL HP_ThreadPool_GetState(HP_ThreadPool pThreadPool);
-/* è·å–å½“å‰ä»»åŠ¡é˜Ÿåˆ—å¤§å° */
+/* »ñÈ¡µ±Ç°ÈÎÎñ¶ÓÁĞ´óĞ¡ */
 HPSOCKET_API DWORD __HP_CALL HP_ThreadPool_GetQueueSize(HP_ThreadPool pThreadPool);
-/* è·å–å·¥ä½œçº¿ç¨‹æ•°é‡ */
+/* »ñÈ¡¹¤×÷Ïß³ÌÊıÁ¿ */
 HPSOCKET_API DWORD __HP_CALL HP_ThreadPool_GetThreadCount(HP_ThreadPool pThreadPool);
-/* è·å–ä»»åŠ¡é˜Ÿåˆ—æœ€å¤§å®¹é‡ */
+/* »ñÈ¡ÈÎÎñ¶ÓÁĞ×î´óÈİÁ¿ */
 HPSOCKET_API DWORD __HP_CALL HP_ThreadPool_GetMaxQueueSize(HP_ThreadPool pThreadPool);
-/* è·å–ä»»åŠ¡æ‹’ç»å¤„ç†ç­–ç•¥ */
+/* »ñÈ¡ÈÎÎñ¾Ü¾ø´¦Àí²ßÂÔ */
 HPSOCKET_API EnRejectedPolicy __HP_CALL HP_ThreadPool_GetRejectedPolicy(HP_ThreadPool pThreadPool);

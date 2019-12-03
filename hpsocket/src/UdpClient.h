@@ -139,6 +139,7 @@ private:
 	BOOL DoSendData(TItem* pItem);
 	int SendInternal(TItemPtr& itPtr);
 	void WaitForWorkerThreadEnd();
+	void CheckConnected();
 
 	BOOL HandleConnect	(SHORT events);
 	BOOL HandleClose	(SHORT events);

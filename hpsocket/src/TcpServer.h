@@ -71,6 +71,7 @@ public:
 protected:
 	virtual BOOL StartSSLHandShake	(TSocketObj* pSocketObj){return FALSE;}
 #endif
+
 private:
     virtual BOOL OnBeforeProcessIo(PVOID pv, UINT events, uint16_t flags)			override;
     virtual VOID OnAfterProcessIo(PVOID pv, UINT events, BOOL rs)	override;

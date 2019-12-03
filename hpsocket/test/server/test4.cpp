@@ -400,6 +400,7 @@ CStringA CHttpServerListenerImpl::GetHeaderSummary(IHttpServer* pSender, CONNID 
     return strResult;
 }
 
+
 // ------------------------------------------------------------------------------------------------------------- //
 
 CHttpServerListenerImpl s_listener_1(HTTP_NAME);
@@ -554,6 +555,7 @@ void OnCmdKickSilence(CHttpCommandParser* pParser)
     else
         ::LogDisconnectFailLong(pParser->m_dwSeconds, pParser->m_bFlag, lpszName);
 }
+
 // ------------------------------------------------------------------------------------------------------------- //
 
 int main(int argc, char* const argv[])
@@ -596,7 +598,6 @@ int main(int argc, char* const argv[])
 
     CHttpCommandParser s_cmd_parser(CCommandParser::AT_SERVER, fnCmds);
     s_cmd_parser.Run();
-
 
     return EXIT_CODE_OK;
 }

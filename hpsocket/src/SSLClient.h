@@ -65,6 +65,7 @@ protected:
 
 protected:
 	virtual BOOL StartSSLHandShakeNoCheck();
+
 private:
 	void DoSSLHandShake();
 
@@ -91,6 +92,7 @@ public:
 private:
 	THR_ID		m_dwMainThreadID;
 	BOOL		m_bSSLAutoHandShake;
+
 	CSSLContext m_sslCtx;
 	CSSLSession m_sslSession;
 };

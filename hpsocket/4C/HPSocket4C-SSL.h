@@ -28,8 +28,8 @@
 #ifdef _SSL_SUPPORT
 
 /************************************************************************
-åç§°ï¼šå®šä¹‰ SSL Socket å¯¹è±¡æŒ‡é’ˆç±»åž‹åˆ«å
-æè¿°ï¼šæŠŠ SSL Socket å¯¹è±¡æŒ‡é’ˆå®šä¹‰ä¸ºæ›´ç›´è§‚çš„åˆ«å
+Ãû³Æ£º¶¨Òå SSL Socket ¶ÔÏóÖ¸ÕëÀàÐÍ±ðÃû
+ÃèÊö£º°Ñ SSL Socket ¶ÔÏóÖ¸Õë¶¨ÒåÎª¸üÖ±¹ÛµÄ±ðÃû
 ************************************************************************/
 
 typedef HP_Object	HP_SSLServer;
@@ -52,44 +52,44 @@ typedef HP_Object	HP_HttpsSyncClient;
 /*****************************************************************************************************************************************************/
 
 /********************************************************/
-/************** HPSocket4C-SSL å¯¹è±¡åˆ›å»ºå‡½æ•° **************/
+/************** HPSocket4C-SSL ¶ÔÏó´´½¨º¯Êý **************/
 
-// åˆ›å»º HP_SSLServer å¯¹è±¡
+// ´´½¨ HP_SSLServer ¶ÔÏó
 HPSOCKET_API HP_SSLServer __HP_CALL Create_HP_SSLServer(HP_TcpServerListener pListener);
-// åˆ›å»º HP_SSLAgent å¯¹è±¡
+// ´´½¨ HP_SSLAgent ¶ÔÏó
 HPSOCKET_API HP_SSLAgent __HP_CALL Create_HP_SSLAgent(HP_TcpAgentListener pListener);
-// åˆ›å»º HP_SSLClient å¯¹è±¡
+// ´´½¨ HP_SSLClient ¶ÔÏó
 HPSOCKET_API HP_SSLClient __HP_CALL Create_HP_SSLClient(HP_TcpClientListener pListener);
-// åˆ›å»º HP_SSLPullServer å¯¹è±¡
+// ´´½¨ HP_SSLPullServer ¶ÔÏó
 HPSOCKET_API HP_SSLPullServer __HP_CALL Create_HP_SSLPullServer(HP_TcpPullServerListener pListener);
-// åˆ›å»º HP_SSLPullAgent å¯¹è±¡
+// ´´½¨ HP_SSLPullAgent ¶ÔÏó
 HPSOCKET_API HP_SSLPullAgent __HP_CALL Create_HP_SSLPullAgent(HP_TcpPullAgentListener pListener);
-// åˆ›å»º HP_SSLPullClient å¯¹è±¡
+// ´´½¨ HP_SSLPullClient ¶ÔÏó
 HPSOCKET_API HP_SSLPullClient __HP_CALL Create_HP_SSLPullClient(HP_TcpPullClientListener pListener);
-// åˆ›å»º HP_SSLPackServer å¯¹è±¡
+// ´´½¨ HP_SSLPackServer ¶ÔÏó
 HPSOCKET_API HP_SSLPackServer __HP_CALL Create_HP_SSLPackServer(HP_TcpServerListener pListener);
-// åˆ›å»º HP_SSLPackAgent å¯¹è±¡
+// ´´½¨ HP_SSLPackAgent ¶ÔÏó
 HPSOCKET_API HP_SSLPackAgent __HP_CALL Create_HP_SSLPackAgent(HP_TcpAgentListener pListener);
-// åˆ›å»º HP_SSLPackClient å¯¹è±¡
+// ´´½¨ HP_SSLPackClient ¶ÔÏó
 HPSOCKET_API HP_SSLPackClient __HP_CALL Create_HP_SSLPackClient(HP_TcpClientListener pListener);
 
-// é”€æ¯ HP_SSLServer å¯¹è±¡
+// Ïú»Ù HP_SSLServer ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_SSLServer(HP_SSLServer pServer);
-// é”€æ¯ HP_SSLAgent å¯¹è±¡
+// Ïú»Ù HP_SSLAgent ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_SSLAgent(HP_SSLAgent pAgent);
-// é”€æ¯ HP_SSLClient å¯¹è±¡
+// Ïú»Ù HP_SSLClient ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_SSLClient(HP_SSLClient pClient);
-// é”€æ¯ HP_SSLPullServer å¯¹è±¡
+// Ïú»Ù HP_SSLPullServer ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_SSLPullServer(HP_SSLPullServer pServer);
-// é”€æ¯ HP_SSLPullAgent å¯¹è±¡
+// Ïú»Ù HP_SSLPullAgent ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_SSLPullAgent(HP_SSLPullAgent pAgent);
-// é”€æ¯ HP_SSLPullClient å¯¹è±¡
+// Ïú»Ù HP_SSLPullClient ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_SSLPullClient(HP_SSLPullClient pClient);
-// é”€æ¯ HP_SSLPackServer å¯¹è±¡
+// Ïú»Ù HP_SSLPackServer ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_SSLPackServer(HP_SSLPackServer pServer);
-// é”€æ¯ HP_SSLPackAgent å¯¹è±¡
+// Ïú»Ù HP_SSLPackAgent ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_SSLPackAgent(HP_SSLPackAgent pAgent);
-// é”€æ¯ HP_SSLPackClient å¯¹è±¡
+// Ïú»Ù HP_SSLPackClient ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_SSLPackClient(HP_SSLPackClient pClient);
 
 /*****************************************************************************************************************************************************/
@@ -97,270 +97,270 @@ HPSOCKET_API void __HP_CALL Destroy_HP_SSLPackClient(HP_SSLPackClient pClient);
 /*****************************************************************************************************************************************************/
 
 /***************************************************************************************/
-/************************************ SSL åˆå§‹åŒ–æ–¹æ³• ************************************/
+/************************************ SSL ³õÊ¼»¯·½·¨ ************************************/
 
 /*
-* åç§°ï¼šSNI é»˜è®¤å›žè°ƒå‡½æ•°
-* æè¿°ï¼šHP_SSLServer_SetupSSLContext æ–¹æ³•ä¸­å¦‚æžœä¸æŒ‡å®š SNI å›žè°ƒå‡½æ•°åˆ™ä½¿ç”¨æ­¤ SNI é»˜è®¤å›žè°ƒå‡½æ•°
+* Ãû³Æ£ºSNI Ä¬ÈÏ»Øµ÷º¯Êý
+* ÃèÊö£ºHP_SSLServer_SetupSSLContext ·½·¨ÖÐÈç¹û²»Ö¸¶¨ SNI »Øµ÷º¯ÊýÔòÊ¹ÓÃ´Ë SNI Ä¬ÈÏ»Øµ÷º¯Êý
 *
-* å‚æ•°ï¼š		lpszServerName	-- è¯·æ±‚åŸŸå
-*			pContext		-- SSL Context å¯¹è±¡
+* ²ÎÊý£º		lpszServerName	-- ÇëÇóÓòÃû
+*			pContext		-- SSL Context ¶ÔÏó
 *
-* è¿”å›žå€¼ï¼šSNI ä¸»æœºè¯ä¹¦å¯¹åº”çš„ç´¢å¼•
+* ·µ»ØÖµ£ºSNI Ö÷»úÖ¤Êé¶ÔÓ¦µÄË÷Òý
 */
 HPSOCKET_API int __HP_CALL HP_SSL_DefaultServerNameCallback(LPCTSTR lpszServerName, PVOID pContext);
 
 /*
-* åç§°ï¼šæ¸…ç†çº¿ç¨‹å±€éƒ¨çŽ¯å¢ƒ SSL èµ„æº
-* æè¿°ï¼šä»»ä½•ä¸€ä¸ªæ“ä½œ SSL çš„çº¿ç¨‹ï¼Œé€šä¿¡ç»“æŸæ—¶éƒ½éœ€è¦æ¸…ç†çº¿ç¨‹å±€éƒ¨çŽ¯å¢ƒ SSL èµ„æº
-*		1ã€ä¸»çº¿ç¨‹å’Œ HP-Socket å·¥ä½œçº¿ç¨‹åœ¨é€šä¿¡ç»“æŸæ—¶ä¼šè‡ªåŠ¨æ¸…ç†çº¿ç¨‹å±€éƒ¨çŽ¯å¢ƒ SSL èµ„æºã€‚å› æ­¤ï¼Œä¸€èˆ¬æƒ…å†µä¸‹ä¸å¿…æ‰‹å·¥è°ƒç”¨æœ¬æ–¹æ³•
-*		2ã€ç‰¹æ®Šæƒ…å†µä¸‹ï¼Œå½“è‡ªå®šä¹‰çº¿ç¨‹å‚ä¸Ž HP-Socket é€šä¿¡æ“ä½œå¹¶æ£€æŸ¥åˆ° SSL å†…å­˜æ³„æ¼æ—¶ï¼Œéœ€åœ¨æ¯æ¬¡é€šä¿¡ç»“æŸæ—¶è‡ªå®šä¹‰çº¿ç¨‹è°ƒç”¨æœ¬æ–¹æ³•
+* Ãû³Æ£ºÇåÀíÏß³Ì¾Ö²¿»·¾³ SSL ×ÊÔ´
+* ÃèÊö£ºÈÎºÎÒ»¸ö²Ù×÷ SSL µÄÏß³Ì£¬Í¨ÐÅ½áÊøÊ±¶¼ÐèÒªÇåÀíÏß³Ì¾Ö²¿»·¾³ SSL ×ÊÔ´
+*		1¡¢Ö÷Ïß³ÌºÍ HP-Socket ¹¤×÷Ïß³ÌÔÚÍ¨ÐÅ½áÊøÊ±»á×Ô¶¯ÇåÀíÏß³Ì¾Ö²¿»·¾³ SSL ×ÊÔ´¡£Òò´Ë£¬Ò»°ãÇé¿öÏÂ²»±ØÊÖ¹¤µ÷ÓÃ±¾·½·¨
+*		2¡¢ÌØÊâÇé¿öÏÂ£¬µ±×Ô¶¨ÒåÏß³Ì²ÎÓë HP-Socket Í¨ÐÅ²Ù×÷²¢¼ì²éµ½ SSL ÄÚ´æÐ¹Â©Ê±£¬ÐèÔÚÃ¿´ÎÍ¨ÐÅ½áÊøÊ±×Ô¶¨ÒåÏß³Ìµ÷ÓÃ±¾·½·¨
 *		
-* å‚æ•°ï¼š		dwThreadID	-- çº¿ç¨‹ IDï¼ˆ0ï¼šå½“å‰çº¿ç¨‹ï¼‰
+* ²ÎÊý£º		dwThreadID	-- Ïß³Ì ID£¨0£ºµ±Ç°Ïß³Ì£©
 * 
-* è¿”å›žå€¼ï¼šæ— 
+* ·µ»ØÖµ£ºÎÞ
 */
 HPSOCKET_API void __HP_CALL HP_SSL_RemoveThreadLocalState(THR_ID dwThreadID);
 
 /*
-* åç§°ï¼šåˆå§‹åŒ–é€šä¿¡ç»„ä»¶ SSL çŽ¯å¢ƒå‚æ•°
-* æè¿°ï¼šSSL çŽ¯å¢ƒå‚æ•°å¿…é¡»åœ¨ SSL é€šä¿¡ç»„ä»¶å¯åŠ¨å‰å®Œæˆåˆå§‹åŒ–ï¼Œå¦åˆ™å¯åŠ¨å¤±è´¥
+* Ãû³Æ£º³õÊ¼»¯Í¨ÐÅ×é¼þ SSL »·¾³²ÎÊý
+* ÃèÊö£ºSSL »·¾³²ÎÊý±ØÐëÔÚ SSL Í¨ÐÅ×é¼þÆô¶¯Ç°Íê³É³õÊ¼»¯£¬·ñÔòÆô¶¯Ê§°Ü
 *		
-* å‚æ•°ï¼š		iVerifyMode				-- SSL éªŒè¯æ¨¡å¼ï¼ˆå‚è€ƒ EnSSLVerifyModeï¼‰
-*			lpszPemCertFile			-- è¯ä¹¦æ–‡ä»¶
-*			lpszPemKeyFile			-- ç§é’¥æ–‡ä»¶
-*			lpszKeyPassword			-- ç§é’¥å¯†ç ï¼ˆæ²¡æœ‰å¯†ç åˆ™ä¸ºç©ºï¼‰
-*			lpszCAPemCertFileOrPath	-- CA è¯ä¹¦æ–‡ä»¶æˆ–ç›®å½•ï¼ˆå•å‘éªŒè¯æˆ–å®¢æˆ·ç«¯å¯é€‰ï¼‰
-*			fnServerNameCallback	-- SNI å›žè°ƒå‡½æ•°æŒ‡é’ˆï¼ˆå¯é€‰ï¼‰
+* ²ÎÊý£º		iVerifyMode				-- SSL ÑéÖ¤Ä£Ê½£¨²Î¿¼ EnSSLVerifyMode£©
+*			lpszPemCertFile			-- Ö¤ÊéÎÄ¼þ
+*			lpszPemKeyFile			-- Ë½Ô¿ÎÄ¼þ
+*			lpszKeyPassword			-- Ë½Ô¿ÃÜÂë£¨Ã»ÓÐÃÜÂëÔòÎª¿Õ£©
+*			lpszCAPemCertFileOrPath	-- CA Ö¤ÊéÎÄ¼þ»òÄ¿Â¼£¨µ¥ÏòÑéÖ¤»ò¿Í»§¶Ë¿ÉÑ¡£©
+*			fnServerNameCallback	-- SNI »Øµ÷º¯ÊýÖ¸Õë£¨¿ÉÑ¡£©
 *
-* è¿”å›žå€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_SSLServer_SetupSSLContext(HP_SSLServer pServer, int iVerifyMode /* SSL_VM_NONE */, LPCTSTR lpszPemCertFile /* nullptr */, LPCTSTR lpszPemKeyFile /* nullptr */, LPCTSTR lpszKeyPassword /* nullptr */, LPCTSTR lpszCAPemCertFileOrPath /* nullptr */, HP_Fn_SNI_ServerNameCallback fnServerNameCallback /* nullptr */);
 
 /*
-* åç§°ï¼šåˆå§‹åŒ–é€šä¿¡ç»„ä»¶ SSL çŽ¯å¢ƒå‚æ•°ï¼ˆé€šè¿‡å†…å­˜åŠ è½½è¯ä¹¦ï¼‰
-* æè¿°ï¼šSSL çŽ¯å¢ƒå‚æ•°å¿…é¡»åœ¨ SSL é€šä¿¡ç»„ä»¶å¯åŠ¨å‰å®Œæˆåˆå§‹åŒ–ï¼Œå¦åˆ™å¯åŠ¨å¤±è´¥
+* Ãû³Æ£º³õÊ¼»¯Í¨ÐÅ×é¼þ SSL »·¾³²ÎÊý£¨Í¨¹ýÄÚ´æ¼ÓÔØÖ¤Êé£©
+* ÃèÊö£ºSSL »·¾³²ÎÊý±ØÐëÔÚ SSL Í¨ÐÅ×é¼þÆô¶¯Ç°Íê³É³õÊ¼»¯£¬·ñÔòÆô¶¯Ê§°Ü
 *		
-* å‚æ•°ï¼š		iVerifyMode				-- SSL éªŒè¯æ¨¡å¼ï¼ˆå‚è€ƒ EnSSLVerifyModeï¼‰
-*			lpszPemCert				-- è¯ä¹¦å†…å®¹
-*			lpszPemKey				-- ç§é’¥å†…å®¹
-*			lpszKeyPassword			-- ç§é’¥å¯†ç ï¼ˆæ²¡æœ‰å¯†ç åˆ™ä¸ºç©ºï¼‰
-*			lpszCAPemCert			-- CA è¯ä¹¦å†…å®¹ï¼ˆå•å‘éªŒè¯æˆ–å®¢æˆ·ç«¯å¯é€‰ï¼‰
-*			fnServerNameCallback	-- SNI å›žè°ƒå‡½æ•°æŒ‡é’ˆï¼ˆå¯é€‰ï¼Œå¦‚æžœä¸º nullptr åˆ™ä½¿ç”¨ SNI é»˜è®¤å›žè°ƒå‡½æ•°ï¼‰
+* ²ÎÊý£º		iVerifyMode				-- SSL ÑéÖ¤Ä£Ê½£¨²Î¿¼ EnSSLVerifyMode£©
+*			lpszPemCert				-- Ö¤ÊéÄÚÈÝ
+*			lpszPemKey				-- Ë½Ô¿ÄÚÈÝ
+*			lpszKeyPassword			-- Ë½Ô¿ÃÜÂë£¨Ã»ÓÐÃÜÂëÔòÎª¿Õ£©
+*			lpszCAPemCert			-- CA Ö¤ÊéÄÚÈÝ£¨µ¥ÏòÑéÖ¤»ò¿Í»§¶Ë¿ÉÑ¡£©
+*			fnServerNameCallback	-- SNI »Øµ÷º¯ÊýÖ¸Õë£¨¿ÉÑ¡£¬Èç¹ûÎª nullptr ÔòÊ¹ÓÃ SNI Ä¬ÈÏ»Øµ÷º¯Êý£©
 *
-* è¿”å›žå€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_SSLServer_SetupSSLContextByMemory(HP_SSLServer pServer, int iVerifyMode /* SSL_VM_NONE */, LPCSTR lpszPemCert /* nullptr */, LPCSTR lpszPemKey /* nullptr */, LPCSTR lpszKeyPassword /* nullptr */, LPCSTR lpszCAPemCert /* nullptr */, HP_Fn_SNI_ServerNameCallback fnServerNameCallback /* nullptr */);
 
 /*
-* åç§°ï¼šå¢žåŠ  SNI ä¸»æœºè¯ä¹¦
-* æè¿°ï¼šSSL æœåŠ¡ç«¯åœ¨ SetupSSLContext() æˆåŠŸåŽå¯ä»¥è°ƒç”¨æœ¬æ–¹æ³•å¢žåŠ å¤šä¸ª SNI ä¸»æœºè¯ä¹¦
+* Ãû³Æ£ºÔö¼Ó SNI Ö÷»úÖ¤Êé
+* ÃèÊö£ºSSL ·þÎñ¶ËÔÚ SetupSSLContext() ³É¹¦ºó¿ÉÒÔµ÷ÓÃ±¾·½·¨Ôö¼Ó¶à¸ö SNI Ö÷»úÖ¤Êé
 *		
-* å‚æ•°ï¼š		iVerifyMode				-- SSL éªŒè¯æ¨¡å¼ï¼ˆå‚è€ƒ EnSSLVerifyModeï¼‰
-*			lpszPemCertFile			-- è¯ä¹¦æ–‡ä»¶
-*			lpszPemKeyFile			-- ç§é’¥æ–‡ä»¶
-*			lpszKeyPassword			-- ç§é’¥å¯†ç ï¼ˆæ²¡æœ‰å¯†ç åˆ™ä¸ºç©ºï¼‰
-*			lpszCAPemCertFileOrPath	-- CA è¯ä¹¦æ–‡ä»¶æˆ–ç›®å½•ï¼ˆå•å‘éªŒè¯å¯é€‰ï¼‰
+* ²ÎÊý£º		iVerifyMode				-- SSL ÑéÖ¤Ä£Ê½£¨²Î¿¼ EnSSLVerifyMode£©
+*			lpszPemCertFile			-- Ö¤ÊéÎÄ¼þ
+*			lpszPemKeyFile			-- Ë½Ô¿ÎÄ¼þ
+*			lpszKeyPassword			-- Ë½Ô¿ÃÜÂë£¨Ã»ÓÐÃÜÂëÔòÎª¿Õ£©
+*			lpszCAPemCertFileOrPath	-- CA Ö¤ÊéÎÄ¼þ»òÄ¿Â¼£¨µ¥ÏòÑéÖ¤¿ÉÑ¡£©
 *
-* è¿”å›žå€¼ï¼š	æ­£æ•°		-- æˆåŠŸï¼Œå¹¶è¿”å›ž SNI ä¸»æœºè¯ä¹¦å¯¹åº”çš„ç´¢å¼•ï¼Œè¯¥ç´¢å¼•ç”¨äºŽåœ¨ SNI å›žè°ƒå‡½æ•°ä¸­å®šä½ SNI ä¸»æœº
-*			è´Ÿæ•°		-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	ÕýÊý		-- ³É¹¦£¬²¢·µ»Ø SNI Ö÷»úÖ¤Êé¶ÔÓ¦µÄË÷Òý£¬¸ÃË÷ÒýÓÃÓÚÔÚ SNI »Øµ÷º¯ÊýÖÐ¶¨Î» SNI Ö÷»ú
+*			¸ºÊý		-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API int __HP_CALL HP_SSLServer_AddSSLContext(HP_SSLServer pServer, int iVerifyMode, LPCTSTR lpszPemCertFile, LPCTSTR lpszPemKeyFile, LPCTSTR lpszKeyPassword /* nullptr */, LPCTSTR lpszCAPemCertFileOrPath /* nullptr */);
 
 /*
-* åç§°ï¼šå¢žåŠ  SNI ä¸»æœºè¯ä¹¦ï¼ˆé€šè¿‡å†…å­˜åŠ è½½è¯ä¹¦ï¼‰
-* æè¿°ï¼šSSL æœåŠ¡ç«¯åœ¨ SetupSSLContext() æˆåŠŸåŽå¯ä»¥è°ƒç”¨æœ¬æ–¹æ³•å¢žåŠ å¤šä¸ª SNI ä¸»æœºè¯ä¹¦
+* Ãû³Æ£ºÔö¼Ó SNI Ö÷»úÖ¤Êé£¨Í¨¹ýÄÚ´æ¼ÓÔØÖ¤Êé£©
+* ÃèÊö£ºSSL ·þÎñ¶ËÔÚ SetupSSLContext() ³É¹¦ºó¿ÉÒÔµ÷ÓÃ±¾·½·¨Ôö¼Ó¶à¸ö SNI Ö÷»úÖ¤Êé
 *		
-* å‚æ•°ï¼š		iVerifyMode				-- SSL éªŒè¯æ¨¡å¼ï¼ˆå‚è€ƒ EnSSLVerifyModeï¼‰
-*			lpszPemCert				-- è¯ä¹¦å†…å®¹
-*			lpszPemKey				-- ç§é’¥å†…å®¹
-*			lpszKeyPassword			-- ç§é’¥å¯†ç ï¼ˆæ²¡æœ‰å¯†ç åˆ™ä¸ºç©ºï¼‰
-*			lpszCAPemCert			-- CA è¯ä¹¦å†…å®¹ï¼ˆå•å‘éªŒè¯å¯é€‰ï¼‰
+* ²ÎÊý£º		iVerifyMode				-- SSL ÑéÖ¤Ä£Ê½£¨²Î¿¼ EnSSLVerifyMode£©
+*			lpszPemCert				-- Ö¤ÊéÄÚÈÝ
+*			lpszPemKey				-- Ë½Ô¿ÄÚÈÝ
+*			lpszKeyPassword			-- Ë½Ô¿ÃÜÂë£¨Ã»ÓÐÃÜÂëÔòÎª¿Õ£©
+*			lpszCAPemCert			-- CA Ö¤ÊéÄÚÈÝ£¨µ¥ÏòÑéÖ¤¿ÉÑ¡£©
 *
-* è¿”å›žå€¼ï¼š	æ­£æ•°		-- æˆåŠŸï¼Œå¹¶è¿”å›ž SNI ä¸»æœºè¯ä¹¦å¯¹åº”çš„ç´¢å¼•ï¼Œè¯¥ç´¢å¼•ç”¨äºŽåœ¨ SNI å›žè°ƒå‡½æ•°ä¸­å®šä½ SNI ä¸»æœº
-*			è´Ÿæ•°		-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	ÕýÊý		-- ³É¹¦£¬²¢·µ»Ø SNI Ö÷»úÖ¤Êé¶ÔÓ¦µÄË÷Òý£¬¸ÃË÷ÒýÓÃÓÚÔÚ SNI »Øµ÷º¯ÊýÖÐ¶¨Î» SNI Ö÷»ú
+*			¸ºÊý		-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API int __HP_CALL HP_SSLServer_AddSSLContextByMemory(HP_SSLServer pServer, int iVerifyMode, LPCSTR lpszPemCert, LPCSTR lpszPemKey, LPCSTR lpszKeyPassword /* nullptr */, LPCSTR lpszCAPemCert /* nullptr */);
 
 /*
-* åç§°ï¼šç»‘å®š SNI ä¸»æœºåŸŸå
-* æè¿°ï¼šSSL æœåŠ¡ç«¯åœ¨ AddSSLContext() æˆåŠŸåŽå¯ä»¥è°ƒç”¨æœ¬æ–¹æ³•ç»‘å®šä¸»æœºåŸŸååˆ° SNI ä¸»æœºè¯ä¹¦
+* Ãû³Æ£º°ó¶¨ SNI Ö÷»úÓòÃû
+* ÃèÊö£ºSSL ·þÎñ¶ËÔÚ AddSSLContext() ³É¹¦ºó¿ÉÒÔµ÷ÓÃ±¾·½·¨°ó¶¨Ö÷»úÓòÃûµ½ SNI Ö÷»úÖ¤Êé
 *
-* å‚æ•°ï¼š		lpszServerName		-- ä¸»æœºåŸŸå
-*			iContextIndex		-- SNI ä¸»æœºè¯ä¹¦å¯¹åº”çš„ç´¢å¼•
+* ²ÎÊý£º		lpszServerName		-- Ö÷»úÓòÃû
+*			iContextIndex		-- SNI Ö÷»úÖ¤Êé¶ÔÓ¦µÄË÷Òý
 *
-* è¿”å›žå€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_SSLServer_BindSSLServerName(HP_SSLServer pServer, LPCTSTR lpszServerName, int iContextIndex);
 
 /*
-* åç§°ï¼šæ¸…ç†é€šä¿¡ç»„ä»¶ SSL è¿è¡ŒçŽ¯å¢ƒ
-* æè¿°ï¼šæ¸…ç†é€šä¿¡ç»„ä»¶ SSL è¿è¡ŒçŽ¯å¢ƒï¼Œå›žæ”¶ SSL ç›¸å…³å†…å­˜
-*		1ã€é€šä¿¡ç»„ä»¶æžæž„æ—¶ä¼šè‡ªåŠ¨è°ƒç”¨æœ¬æ–¹æ³•
-*		2ã€å½“è¦é‡æ–°è®¾ç½®é€šä¿¡ç»„ä»¶ SSL çŽ¯å¢ƒå‚æ•°æ—¶ï¼Œéœ€è¦å…ˆè°ƒç”¨æœ¬æ–¹æ³•æ¸…ç†åŽŸå…ˆçš„çŽ¯å¢ƒå‚æ•°
+* Ãû³Æ£ºÇåÀíÍ¨ÐÅ×é¼þ SSL ÔËÐÐ»·¾³
+* ÃèÊö£ºÇåÀíÍ¨ÐÅ×é¼þ SSL ÔËÐÐ»·¾³£¬»ØÊÕ SSL Ïà¹ØÄÚ´æ
+*		1¡¢Í¨ÐÅ×é¼þÎö¹¹Ê±»á×Ô¶¯µ÷ÓÃ±¾·½·¨
+*		2¡¢µ±ÒªÖØÐÂÉèÖÃÍ¨ÐÅ×é¼þ SSL »·¾³²ÎÊýÊ±£¬ÐèÒªÏÈµ÷ÓÃ±¾·½·¨ÇåÀíÔ­ÏÈµÄ»·¾³²ÎÊý
 *		
-* å‚æ•°ï¼š	æ— 
+* ²ÎÊý£º	ÎÞ
 * 
-* è¿”å›žå€¼ï¼šæ— 
+* ·µ»ØÖµ£ºÎÞ
 */
 HPSOCKET_API void __HP_CALL HP_SSLServer_CleanupSSLContext(HP_SSLServer pServer);
 
 /*
-* åç§°ï¼šåˆå§‹åŒ–é€šä¿¡ç»„ä»¶ SSL çŽ¯å¢ƒå‚æ•°
-* æè¿°ï¼šSSL çŽ¯å¢ƒå‚æ•°å¿…é¡»åœ¨ SSL é€šä¿¡ç»„ä»¶å¯åŠ¨å‰å®Œæˆåˆå§‹åŒ–ï¼Œå¦åˆ™å¯åŠ¨å¤±è´¥
+* Ãû³Æ£º³õÊ¼»¯Í¨ÐÅ×é¼þ SSL »·¾³²ÎÊý
+* ÃèÊö£ºSSL »·¾³²ÎÊý±ØÐëÔÚ SSL Í¨ÐÅ×é¼þÆô¶¯Ç°Íê³É³õÊ¼»¯£¬·ñÔòÆô¶¯Ê§°Ü
 *		
-* å‚æ•°ï¼š		iVerifyMode				-- SSL éªŒè¯æ¨¡å¼ï¼ˆå‚è€ƒ EnSSLVerifyModeï¼‰
-*			lpszPemCertFile			-- è¯ä¹¦æ–‡ä»¶ï¼ˆå®¢æˆ·ç«¯å¯é€‰ï¼‰
-*			lpszPemKeyFile			-- ç§é’¥æ–‡ä»¶ï¼ˆå®¢æˆ·ç«¯å¯é€‰ï¼‰
-*			lpszKeyPassword			-- ç§é’¥å¯†ç ï¼ˆæ²¡æœ‰å¯†ç åˆ™ä¸ºç©ºï¼‰
-*			lpszCAPemCertFileOrPath	-- CA è¯ä¹¦æ–‡ä»¶æˆ–ç›®å½•ï¼ˆå•å‘éªŒè¯æˆ–å®¢æˆ·ç«¯å¯é€‰ï¼‰
+* ²ÎÊý£º		iVerifyMode				-- SSL ÑéÖ¤Ä£Ê½£¨²Î¿¼ EnSSLVerifyMode£©
+*			lpszPemCertFile			-- Ö¤ÊéÎÄ¼þ£¨¿Í»§¶Ë¿ÉÑ¡£©
+*			lpszPemKeyFile			-- Ë½Ô¿ÎÄ¼þ£¨¿Í»§¶Ë¿ÉÑ¡£©
+*			lpszKeyPassword			-- Ë½Ô¿ÃÜÂë£¨Ã»ÓÐÃÜÂëÔòÎª¿Õ£©
+*			lpszCAPemCertFileOrPath	-- CA Ö¤ÊéÎÄ¼þ»òÄ¿Â¼£¨µ¥ÏòÑéÖ¤»ò¿Í»§¶Ë¿ÉÑ¡£©
 *
-* è¿”å›žå€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_SSLAgent_SetupSSLContext(HP_SSLAgent pAgent, int iVerifyMode /* SSL_VM_NONE */, LPCTSTR lpszPemCertFile /* nullptr */, LPCTSTR lpszPemKeyFile /* nullptr */, LPCTSTR lpszKeyPassword /* nullptr */, LPCTSTR lpszCAPemCertFileOrPath /* nullptr */);
 
 /*
-* åç§°ï¼šåˆå§‹åŒ–é€šä¿¡ç»„ä»¶ SSL çŽ¯å¢ƒå‚æ•°ï¼ˆé€šè¿‡å†…å­˜åŠ è½½è¯ä¹¦ï¼‰
-* æè¿°ï¼šSSL çŽ¯å¢ƒå‚æ•°å¿…é¡»åœ¨ SSL é€šä¿¡ç»„ä»¶å¯åŠ¨å‰å®Œæˆåˆå§‹åŒ–ï¼Œå¦åˆ™å¯åŠ¨å¤±è´¥
+* Ãû³Æ£º³õÊ¼»¯Í¨ÐÅ×é¼þ SSL »·¾³²ÎÊý£¨Í¨¹ýÄÚ´æ¼ÓÔØÖ¤Êé£©
+* ÃèÊö£ºSSL »·¾³²ÎÊý±ØÐëÔÚ SSL Í¨ÐÅ×é¼þÆô¶¯Ç°Íê³É³õÊ¼»¯£¬·ñÔòÆô¶¯Ê§°Ü
 *		
-* å‚æ•°ï¼š		iVerifyMode				-- SSL éªŒè¯æ¨¡å¼ï¼ˆå‚è€ƒ EnSSLVerifyModeï¼‰
-*			lpszPemCert				-- è¯ä¹¦å†…å®¹
-*			lpszPemKey				-- ç§é’¥å†…å®¹
-*			lpszKeyPassword			-- ç§é’¥å¯†ç ï¼ˆæ²¡æœ‰å¯†ç åˆ™ä¸ºç©ºï¼‰
-*			lpszCAPemCert			-- CA è¯ä¹¦å†…å®¹ï¼ˆå•å‘éªŒè¯æˆ–å®¢æˆ·ç«¯å¯é€‰ï¼‰
+* ²ÎÊý£º		iVerifyMode				-- SSL ÑéÖ¤Ä£Ê½£¨²Î¿¼ EnSSLVerifyMode£©
+*			lpszPemCert				-- Ö¤ÊéÄÚÈÝ
+*			lpszPemKey				-- Ë½Ô¿ÄÚÈÝ
+*			lpszKeyPassword			-- Ë½Ô¿ÃÜÂë£¨Ã»ÓÐÃÜÂëÔòÎª¿Õ£©
+*			lpszCAPemCert			-- CA Ö¤ÊéÄÚÈÝ£¨µ¥ÏòÑéÖ¤»ò¿Í»§¶Ë¿ÉÑ¡£©
 *
-* è¿”å›žå€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_SSLAgent_SetupSSLContextByMemory(HP_SSLAgent pAgent, int iVerifyMode /* SSL_VM_NONE */, LPCSTR lpszPemCert /* nullptr */, LPCSTR lpszPemKey /* nullptr */, LPCSTR lpszKeyPassword /* nullptr */, LPCSTR lpszCAPemCert /* nullptr */);
 
 /*
-* åç§°ï¼šæ¸…ç†é€šä¿¡ç»„ä»¶ SSL è¿è¡ŒçŽ¯å¢ƒ
-* æè¿°ï¼šæ¸…ç†é€šä¿¡ç»„ä»¶ SSL è¿è¡ŒçŽ¯å¢ƒï¼Œå›žæ”¶ SSL ç›¸å…³å†…å­˜
-*		1ã€é€šä¿¡ç»„ä»¶æžæž„æ—¶ä¼šè‡ªåŠ¨è°ƒç”¨æœ¬æ–¹æ³•
-*		2ã€å½“è¦é‡æ–°è®¾ç½®é€šä¿¡ç»„ä»¶ SSL çŽ¯å¢ƒå‚æ•°æ—¶ï¼Œéœ€è¦å…ˆè°ƒç”¨æœ¬æ–¹æ³•æ¸…ç†åŽŸå…ˆçš„çŽ¯å¢ƒå‚æ•°
+* Ãû³Æ£ºÇåÀíÍ¨ÐÅ×é¼þ SSL ÔËÐÐ»·¾³
+* ÃèÊö£ºÇåÀíÍ¨ÐÅ×é¼þ SSL ÔËÐÐ»·¾³£¬»ØÊÕ SSL Ïà¹ØÄÚ´æ
+*		1¡¢Í¨ÐÅ×é¼þÎö¹¹Ê±»á×Ô¶¯µ÷ÓÃ±¾·½·¨
+*		2¡¢µ±ÒªÖØÐÂÉèÖÃÍ¨ÐÅ×é¼þ SSL »·¾³²ÎÊýÊ±£¬ÐèÒªÏÈµ÷ÓÃ±¾·½·¨ÇåÀíÔ­ÏÈµÄ»·¾³²ÎÊý
 *		
-* å‚æ•°ï¼š	æ— 
+* ²ÎÊý£º	ÎÞ
 * 
-* è¿”å›žå€¼ï¼šæ— 
+* ·µ»ØÖµ£ºÎÞ
 */
 HPSOCKET_API void __HP_CALL HP_SSLAgent_CleanupSSLContext(HP_SSLAgent pAgent);
 
 /*
-* åç§°ï¼šåˆå§‹åŒ–é€šä¿¡ç»„ä»¶ SSL çŽ¯å¢ƒå‚æ•°
-* æè¿°ï¼šSSL çŽ¯å¢ƒå‚æ•°å¿…é¡»åœ¨ SSL é€šä¿¡ç»„ä»¶å¯åŠ¨å‰å®Œæˆåˆå§‹åŒ–ï¼Œå¦åˆ™å¯åŠ¨å¤±è´¥
+* Ãû³Æ£º³õÊ¼»¯Í¨ÐÅ×é¼þ SSL »·¾³²ÎÊý
+* ÃèÊö£ºSSL »·¾³²ÎÊý±ØÐëÔÚ SSL Í¨ÐÅ×é¼þÆô¶¯Ç°Íê³É³õÊ¼»¯£¬·ñÔòÆô¶¯Ê§°Ü
 *		
-* å‚æ•°ï¼š		iVerifyMode				-- SSL éªŒè¯æ¨¡å¼ï¼ˆå‚è€ƒ EnSSLVerifyModeï¼‰
-*			lpszPemCertFile			-- è¯ä¹¦æ–‡ä»¶ï¼ˆå®¢æˆ·ç«¯å¯é€‰ï¼‰
-*			lpszPemKeyFile			-- ç§é’¥æ–‡ä»¶ï¼ˆå®¢æˆ·ç«¯å¯é€‰ï¼‰
-*			lpszKeyPassword			-- ç§é’¥å¯†ç ï¼ˆæ²¡æœ‰å¯†ç åˆ™ä¸ºç©ºï¼‰
-*			lpszCAPemCertFileOrPath	-- CA è¯ä¹¦æ–‡ä»¶æˆ–ç›®å½•ï¼ˆå•å‘éªŒè¯æˆ–å®¢æˆ·ç«¯å¯é€‰ï¼‰
+* ²ÎÊý£º		iVerifyMode				-- SSL ÑéÖ¤Ä£Ê½£¨²Î¿¼ EnSSLVerifyMode£©
+*			lpszPemCertFile			-- Ö¤ÊéÎÄ¼þ£¨¿Í»§¶Ë¿ÉÑ¡£©
+*			lpszPemKeyFile			-- Ë½Ô¿ÎÄ¼þ£¨¿Í»§¶Ë¿ÉÑ¡£©
+*			lpszKeyPassword			-- Ë½Ô¿ÃÜÂë£¨Ã»ÓÐÃÜÂëÔòÎª¿Õ£©
+*			lpszCAPemCertFileOrPath	-- CA Ö¤ÊéÎÄ¼þ»òÄ¿Â¼£¨µ¥ÏòÑéÖ¤»ò¿Í»§¶Ë¿ÉÑ¡£©
 *
-* è¿”å›žå€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_SSLClient_SetupSSLContext(HP_SSLClient pClient, int iVerifyMode /* SSL_VM_NONE */, LPCTSTR lpszPemCertFile /* nullptr */, LPCTSTR lpszPemKeyFile /* nullptr */, LPCTSTR lpszKeyPassword /* nullptr */, LPCTSTR lpszCAPemCertFileOrPath /* nullptr */);
 
 /*
-* åç§°ï¼šåˆå§‹åŒ–é€šä¿¡ç»„ä»¶ SSL çŽ¯å¢ƒå‚æ•°ï¼ˆé€šè¿‡å†…å­˜åŠ è½½è¯ä¹¦ï¼‰
-* æè¿°ï¼šSSL çŽ¯å¢ƒå‚æ•°å¿…é¡»åœ¨ SSL é€šä¿¡ç»„ä»¶å¯åŠ¨å‰å®Œæˆåˆå§‹åŒ–ï¼Œå¦åˆ™å¯åŠ¨å¤±è´¥
+* Ãû³Æ£º³õÊ¼»¯Í¨ÐÅ×é¼þ SSL »·¾³²ÎÊý£¨Í¨¹ýÄÚ´æ¼ÓÔØÖ¤Êé£©
+* ÃèÊö£ºSSL »·¾³²ÎÊý±ØÐëÔÚ SSL Í¨ÐÅ×é¼þÆô¶¯Ç°Íê³É³õÊ¼»¯£¬·ñÔòÆô¶¯Ê§°Ü
 *		
-* å‚æ•°ï¼š		iVerifyMode				-- SSL éªŒè¯æ¨¡å¼ï¼ˆå‚è€ƒ EnSSLVerifyModeï¼‰
-*			lpszPemCert				-- è¯ä¹¦å†…å®¹
-*			lpszPemKey				-- ç§é’¥å†…å®¹
-*			lpszKeyPassword			-- ç§é’¥å¯†ç ï¼ˆæ²¡æœ‰å¯†ç åˆ™ä¸ºç©ºï¼‰
-*			lpszCAPemCert			-- CA è¯ä¹¦å†…å®¹ï¼ˆå•å‘éªŒè¯æˆ–å®¢æˆ·ç«¯å¯é€‰ï¼‰
+* ²ÎÊý£º		iVerifyMode				-- SSL ÑéÖ¤Ä£Ê½£¨²Î¿¼ EnSSLVerifyMode£©
+*			lpszPemCert				-- Ö¤ÊéÄÚÈÝ
+*			lpszPemKey				-- Ë½Ô¿ÄÚÈÝ
+*			lpszKeyPassword			-- Ë½Ô¿ÃÜÂë£¨Ã»ÓÐÃÜÂëÔòÎª¿Õ£©
+*			lpszCAPemCert			-- CA Ö¤ÊéÄÚÈÝ£¨µ¥ÏòÑéÖ¤»ò¿Í»§¶Ë¿ÉÑ¡£©
 *
-* è¿”å›žå€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_SSLClient_SetupSSLContextByMemory(HP_SSLClient pClient, int iVerifyMode /* SSL_VM_NONE */, LPCSTR lpszPemCert /* nullptr */, LPCSTR lpszPemKey /* nullptr */, LPCSTR lpszKeyPassword /* nullptr */, LPCSTR lpszCAPemCert /* nullptr */);
 
 /*
-* åç§°ï¼šæ¸…ç†é€šä¿¡ç»„ä»¶ SSL è¿è¡ŒçŽ¯å¢ƒ
-* æè¿°ï¼šæ¸…ç†é€šä¿¡ç»„ä»¶ SSL è¿è¡ŒçŽ¯å¢ƒï¼Œå›žæ”¶ SSL ç›¸å…³å†…å­˜
-*		1ã€é€šä¿¡ç»„ä»¶æžæž„æ—¶ä¼šè‡ªåŠ¨è°ƒç”¨æœ¬æ–¹æ³•
-*		2ã€å½“è¦é‡æ–°è®¾ç½®é€šä¿¡ç»„ä»¶ SSL çŽ¯å¢ƒå‚æ•°æ—¶ï¼Œéœ€è¦å…ˆè°ƒç”¨æœ¬æ–¹æ³•æ¸…ç†åŽŸå…ˆçš„çŽ¯å¢ƒå‚æ•°
+* Ãû³Æ£ºÇåÀíÍ¨ÐÅ×é¼þ SSL ÔËÐÐ»·¾³
+* ÃèÊö£ºÇåÀíÍ¨ÐÅ×é¼þ SSL ÔËÐÐ»·¾³£¬»ØÊÕ SSL Ïà¹ØÄÚ´æ
+*		1¡¢Í¨ÐÅ×é¼þÎö¹¹Ê±»á×Ô¶¯µ÷ÓÃ±¾·½·¨
+*		2¡¢µ±ÒªÖØÐÂÉèÖÃÍ¨ÐÅ×é¼þ SSL »·¾³²ÎÊýÊ±£¬ÐèÒªÏÈµ÷ÓÃ±¾·½·¨ÇåÀíÔ­ÏÈµÄ»·¾³²ÎÊý
 *		
-* å‚æ•°ï¼š	æ— 
+* ²ÎÊý£º	ÎÞ
 * 
-* è¿”å›žå€¼ï¼šæ— 
+* ·µ»ØÖµ£ºÎÞ
 */
 HPSOCKET_API void __HP_CALL HP_SSLClient_CleanupSSLContext(HP_SSLClient pClient);
 
 /***************************************************************************************/
-/************************************* SSL æ“ä½œæ–¹æ³• ************************************/
+/************************************* SSL ²Ù×÷·½·¨ ************************************/
 
 /*
-* åç§°ï¼šå¯åŠ¨ SSL æ¡æ‰‹
-* æè¿°ï¼šå½“é€šä¿¡ç»„ä»¶è®¾ç½®ä¸ºéžè‡ªåŠ¨æ¡æ‰‹æ—¶ï¼Œéœ€è¦è°ƒç”¨æœ¬æ–¹æ³•å¯åŠ¨ SSL æ¡æ‰‹
+* Ãû³Æ£ºÆô¶¯ SSL ÎÕÊÖ
+* ÃèÊö£ºµ±Í¨ÐÅ×é¼þÉèÖÃÎª·Ç×Ô¶¯ÎÕÊÖÊ±£¬ÐèÒªµ÷ÓÃ±¾·½·¨Æô¶¯ SSL ÎÕÊÖ
 *
-* è¿”å›žå€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_SSLServer_StartSSLHandShake(HP_SSLServer pServer, HP_CONNID dwConnID);
 
-/* è®¾ç½®é€šä¿¡ç»„ä»¶æ¡æ‰‹æ–¹å¼ï¼ˆé»˜è®¤ï¼šTRUEï¼Œè‡ªåŠ¨æ¡æ‰‹ï¼‰ */
+/* ÉèÖÃÍ¨ÐÅ×é¼þÎÕÊÖ·½Ê½£¨Ä¬ÈÏ£ºTRUE£¬×Ô¶¯ÎÕÊÖ£© */
 HPSOCKET_API void __HP_CALL HP_SSLServer_SetSSLAutoHandShake(HP_SSLServer pServer, BOOL bAutoHandShake);
-/* èŽ·å–é€šä¿¡ç»„ä»¶æ¡æ‰‹æ–¹å¼ */
+/* »ñÈ¡Í¨ÐÅ×é¼þÎÕÊÖ·½Ê½ */
 HPSOCKET_API BOOL __HP_CALL HP_SSLServer_IsSSLAutoHandShake(HP_SSLServer pServer);
 
 /*
-* åç§°ï¼šèŽ·å– SSL Session ä¿¡æ¯
-* æè¿°ï¼šèŽ·å–æŒ‡å®šç±»åž‹çš„ SSL Session ä¿¡æ¯ï¼ˆè¾“å‡ºç±»åž‹å‚è€ƒï¼šEn_HP_SSLSessionInfoï¼‰
+* Ãû³Æ£º»ñÈ¡ SSL Session ÐÅÏ¢
+* ÃèÊö£º»ñÈ¡Ö¸¶¨ÀàÐÍµÄ SSL Session ÐÅÏ¢£¨Êä³öÀàÐÍ²Î¿¼£ºEn_HP_SSLSessionInfo£©
 *		
-* è¿”å›žå€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_SSLServer_GetSSLSessionInfo(HP_SSLServer pServer, HP_CONNID dwConnID, En_HP_SSLSessionInfo enInfo, LPVOID* lppInfo);
 
 /*
-* åç§°ï¼šå¯åŠ¨ SSL æ¡æ‰‹
-* æè¿°ï¼šå½“é€šä¿¡ç»„ä»¶è®¾ç½®ä¸ºéžè‡ªåŠ¨æ¡æ‰‹æ—¶ï¼Œéœ€è¦è°ƒç”¨æœ¬æ–¹æ³•å¯åŠ¨ SSL æ¡æ‰‹
+* Ãû³Æ£ºÆô¶¯ SSL ÎÕÊÖ
+* ÃèÊö£ºµ±Í¨ÐÅ×é¼þÉèÖÃÎª·Ç×Ô¶¯ÎÕÊÖÊ±£¬ÐèÒªµ÷ÓÃ±¾·½·¨Æô¶¯ SSL ÎÕÊÖ
 *
-* è¿”å›žå€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_SSLAgent_StartSSLHandShake(HP_SSLAgent pAgent, HP_CONNID dwConnID);
 
-/* è®¾ç½®é€šä¿¡ç»„ä»¶æ¡æ‰‹æ–¹å¼ï¼ˆé»˜è®¤ï¼šTRUEï¼Œè‡ªåŠ¨æ¡æ‰‹ï¼‰ */
+/* ÉèÖÃÍ¨ÐÅ×é¼þÎÕÊÖ·½Ê½£¨Ä¬ÈÏ£ºTRUE£¬×Ô¶¯ÎÕÊÖ£© */
 HPSOCKET_API void __HP_CALL HP_SSLAgent_SetSSLAutoHandShake(HP_SSLAgent pAgent, BOOL bAutoHandShake);
-/* èŽ·å–é€šä¿¡ç»„ä»¶æ¡æ‰‹æ–¹å¼ */
+/* »ñÈ¡Í¨ÐÅ×é¼þÎÕÊÖ·½Ê½ */
 HPSOCKET_API BOOL __HP_CALL HP_SSLAgent_IsSSLAutoHandShake(HP_SSLAgent pAgent);
 
 /*
-* åç§°ï¼šèŽ·å– SSL Session ä¿¡æ¯
-* æè¿°ï¼šèŽ·å–æŒ‡å®šç±»åž‹çš„ SSL Session ä¿¡æ¯ï¼ˆè¾“å‡ºç±»åž‹å‚è€ƒï¼šEn_HP_SSLSessionInfoï¼‰
+* Ãû³Æ£º»ñÈ¡ SSL Session ÐÅÏ¢
+* ÃèÊö£º»ñÈ¡Ö¸¶¨ÀàÐÍµÄ SSL Session ÐÅÏ¢£¨Êä³öÀàÐÍ²Î¿¼£ºEn_HP_SSLSessionInfo£©
 *		
-* è¿”å›žå€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_SSLAgent_GetSSLSessionInfo(HP_SSLAgent pAgent, HP_CONNID dwConnID, En_HP_SSLSessionInfo enInfo, LPVOID* lppInfo);
 
 /*
-* åç§°ï¼šå¯åŠ¨ SSL æ¡æ‰‹
-* æè¿°ï¼šå½“é€šä¿¡ç»„ä»¶è®¾ç½®ä¸ºéžè‡ªåŠ¨æ¡æ‰‹æ—¶ï¼Œéœ€è¦è°ƒç”¨æœ¬æ–¹æ³•å¯åŠ¨ SSL æ¡æ‰‹
+* Ãû³Æ£ºÆô¶¯ SSL ÎÕÊÖ
+* ÃèÊö£ºµ±Í¨ÐÅ×é¼þÉèÖÃÎª·Ç×Ô¶¯ÎÕÊÖÊ±£¬ÐèÒªµ÷ÓÃ±¾·½·¨Æô¶¯ SSL ÎÕÊÖ
 *
-* è¿”å›žå€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_SSLClient_StartSSLHandShake(HP_SSLClient pClient);
 
-/* è®¾ç½®é€šä¿¡ç»„ä»¶æ¡æ‰‹æ–¹å¼ï¼ˆé»˜è®¤ï¼šTRUEï¼Œè‡ªåŠ¨æ¡æ‰‹ï¼‰ */
+/* ÉèÖÃÍ¨ÐÅ×é¼þÎÕÊÖ·½Ê½£¨Ä¬ÈÏ£ºTRUE£¬×Ô¶¯ÎÕÊÖ£© */
 HPSOCKET_API void __HP_CALL HP_SSLClient_SetSSLAutoHandShake(HP_SSLClient pClient, BOOL bAutoHandShake);
-/* èŽ·å–é€šä¿¡ç»„ä»¶æ¡æ‰‹æ–¹å¼ */
+/* »ñÈ¡Í¨ÐÅ×é¼þÎÕÊÖ·½Ê½ */
 HPSOCKET_API BOOL __HP_CALL HP_SSLClient_IsSSLAutoHandShake(HP_SSLClient pClient);
 
 /*
-* åç§°ï¼šèŽ·å– SSL Session ä¿¡æ¯
-* æè¿°ï¼šèŽ·å–æŒ‡å®šç±»åž‹çš„ SSL Session ä¿¡æ¯ï¼ˆè¾“å‡ºç±»åž‹å‚è€ƒï¼šEn_HP_SSLSessionInfoï¼‰
+* Ãû³Æ£º»ñÈ¡ SSL Session ÐÅÏ¢
+* ÃèÊö£º»ñÈ¡Ö¸¶¨ÀàÐÍµÄ SSL Session ÐÅÏ¢£¨Êä³öÀàÐÍ²Î¿¼£ºEn_HP_SSLSessionInfo£©
 *		
-* è¿”å›žå€¼ï¼š	TRUE	-- æˆåŠŸ
-*			FALSE	-- å¤±è´¥ï¼Œå¯é€šè¿‡ SYS_GetLastError() èŽ·å–å¤±è´¥åŽŸå› 
+* ·µ»ØÖµ£º	TRUE	-- ³É¹¦
+*			FALSE	-- Ê§°Ü£¬¿ÉÍ¨¹ý SYS_GetLastError() »ñÈ¡Ê§°ÜÔ­Òò
 */
 HPSOCKET_API BOOL __HP_CALL HP_SSLClient_GetSSLSessionInfo(HP_SSLClient pClient, En_HP_SSLSessionInfo enInfo, LPVOID* lppInfo);
 
@@ -371,24 +371,24 @@ HPSOCKET_API BOOL __HP_CALL HP_SSLClient_GetSSLSessionInfo(HP_SSLClient pClient,
 #ifdef _HTTP_SUPPORT
 
 /****************************************************/
-/**************** HTTPS å¯¹è±¡åˆ›å»ºå‡½æ•° *****************/
+/**************** HTTPS ¶ÔÏó´´½¨º¯Êý *****************/
 
-// åˆ›å»º HP_HttpsServer å¯¹è±¡
+// ´´½¨ HP_HttpsServer ¶ÔÏó
 HPSOCKET_API HP_HttpsServer __HP_CALL Create_HP_HttpsServer(HP_HttpServerListener pListener);
-// åˆ›å»º HP_HttpsAgent å¯¹è±¡
+// ´´½¨ HP_HttpsAgent ¶ÔÏó
 HPSOCKET_API HP_HttpsAgent __HP_CALL Create_HP_HttpsAgent(HP_HttpAgentListener pListener);
-// åˆ›å»º HP_HttpsClient å¯¹è±¡
+// ´´½¨ HP_HttpsClient ¶ÔÏó
 HPSOCKET_API HP_HttpsClient __HP_CALL Create_HP_HttpsClient(HP_HttpClientListener pListener);
-// åˆ›å»º HP_HttpsSyncClient å¯¹è±¡
+// ´´½¨ HP_HttpsSyncClient ¶ÔÏó
 HPSOCKET_API HP_HttpsSyncClient __HP_CALL Create_HP_HttpsSyncClient(HP_HttpClientListener pListener);
 
-// é”€æ¯ HP_HttpsServer å¯¹è±¡
+// Ïú»Ù HP_HttpsServer ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_HttpsServer(HP_HttpsServer pServer);
-// é”€æ¯ HP_HttpsAgent å¯¹è±¡
+// Ïú»Ù HP_HttpsAgent ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_HttpsAgent(HP_HttpsAgent pAgent);
-// é”€æ¯ HP_HttpsClient å¯¹è±¡
+// Ïú»Ù HP_HttpsClient ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_HttpsClient(HP_HttpsClient pClient);
-// é”€æ¯ HP_HttpsSyncClient å¯¹è±¡
+// Ïú»Ù HP_HttpsSyncClient ¶ÔÏó
 HPSOCKET_API void __HP_CALL Destroy_HP_HttpsSyncClient(HP_HttpsSyncClient pClient);
 
 #endif

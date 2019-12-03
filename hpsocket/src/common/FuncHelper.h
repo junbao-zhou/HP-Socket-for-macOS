@@ -161,6 +161,8 @@ inline void PrintError(LPCSTR subject)	{perror(subject);}
 #define REALLOC(p, T, n)				((T*)realloc((PVOID)(p), sizeof(T) * (n)))
 #define FREE(p)							free((PVOID)(p))
 
+#define InterlockedAdd(p, n)			__atomic_fetch_add((p), (n), memory_order_seq_cst)
+#define InterlockedSub(p, n)			__atomic_fetch_sub((p), (n), memory_order_seq_cst)
 #define InterlockedExchangeAdd(p, n)	__atomic_add_fetch((p), (n), memory_order_seq_cst)
 #define InterlockedExchangeSub(p, n)	__atomic_sub_fetch((p), (n), memory_order_seq_cst)
 #define InterlockedIncrement(p)			InterlockedExchangeAdd((p), 1)

@@ -177,7 +177,6 @@ private:
 	BOOL CreateWorkerThreads();
 	BOOL StartAccept();
 
-
 	void SendCloseNotify();
 	void CloseListenSocket();
 	void DisconnectClientSocket();

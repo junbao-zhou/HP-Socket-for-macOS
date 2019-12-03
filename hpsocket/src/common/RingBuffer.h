@@ -28,7 +28,6 @@
 #include "STLHelper.h"
 #include "FuncHelper.h"
 #include "RWLock.h"
-#include <list>
 using namespace std;
 
 #define CACHE_LINE		64
@@ -792,8 +791,6 @@ private:
 
     static TPTR const E_EMPTY; //空位置
     static TPTR const E_LOCKED; //上锁中
-    static TPTR const E_RELEASED; //释放
-    static TPTR const E_OCCUPIED; //已占用的
 	static TPTR const E_MAX_STATUS;
 
 private:

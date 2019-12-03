@@ -42,7 +42,8 @@ static pid_t __gettid(){
 }
 
 /* 最大工作线程数 */
-#define MAX_WORKER_THREAD_COUNT			500
+#define MAX_WORKER_THREAD_COUNT			512
+/* 默认对象缓存对象锁定时间 */
 #define DEFAULT_OBJECT_CACHE_LOCK_TIME	(20 * 1000)
 /* 默认对象缓存池大小 */
 #define DEFAULT_OBJECT_CACHE_POOL_SIZE	600
@@ -106,6 +107,8 @@ inline void __asm_pause()				{__asm_nop();}
 #define SwitchToThread					sched_yield
 
 DWORD GetSysPageSize();
+DWORD GetKernelVersion();
+BOOL IsKernelVersionAbove(BYTE major, BYTE minor, BYTE revise);
 DWORD GetDefaultWorkerThreadCount();
 
 

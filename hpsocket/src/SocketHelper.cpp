@@ -31,6 +31,7 @@
 #ifdef _ICONV_SUPPORT
 #include <iconv.h>
 #endif
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -162,7 +163,6 @@ BOOL GetSockAddrByHostName(LPCTSTR lpszHost, USHORT usPort, HP_SOCKADDR& addr)
 		return GetSockAddr(lpszHost, usPort, addr);
 
 	return GetSockAddrByHostNameDirectly(lpszHost, usPort, addr);
-
 }
 
 BOOL GetSockAddrByHostNameDirectly(LPCTSTR lpszHost, USHORT usPort, HP_SOCKADDR& addr)
@@ -605,6 +605,7 @@ int ManualCloseSocket(SOCKET sock, int iShutdownFlag, BOOL bGraceful)
 
 	return closesocket(sock);
 }
+
 #ifdef _ICONV_SUPPORT
 
 BOOL CharsetConvert(LPCSTR lpszFromCharset, LPCSTR lpszToCharset, LPCSTR lpszInBuf, int iInBufLen, LPSTR lpszOutBuf, int& iOutBufLen)

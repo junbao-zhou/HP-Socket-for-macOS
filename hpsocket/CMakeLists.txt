@@ -45,7 +45,7 @@ set(UDP_CLIENT test/client/test5.cpp)
 set(UDP_SEVER test/server/test3.cpp)
 set(UDP_CAST test/client/test7.cpp)
 
-set(HTTP_SERVER test/server/test4.cpp test/server/test7.cpp)
+set(HTTP_SERVER test/server/test4.cpp)
 set(HTTP_CLIENT test/client/test8.cpp)
 
 add_executable(test_tcp_agent_pull

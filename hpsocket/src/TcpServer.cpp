@@ -688,7 +688,7 @@ VOID CTcpServer::OnAfterProcessIo(PVOID pv, UINT events, BOOL rs)
 
 	if(TSocketObj::IsValid(pSocketObj))
 	{
-        ASSERT(rs && !(events == EVFILT_EXCEPT));
+        ASSERT(rs && events != EVFILT_EXCEPT);
 
         UINT evts = (pSocketObj->IsPending() ? EVFILT_WRITE : 0) | (pSocketObj->IsPaused() ? 0 : EVFILT_READ);
         m_ioDispatcher.CtlFD(pSocketObj->socket, EV_ADD | EV_ENABLE | EV_DISPATCH ,evts, pSocketObj);
@@ -863,6 +863,7 @@ BOOL CTcpServer::HandleReceive(TSocketObj* pSocketObj, int flag)
 	{
 		if(pSocketObj->paused)
 			break;
+
 		int rc = (int)read(pSocketObj->socket, buffer.Ptr(), buffer.Size());
 
 		if(rc > 0)

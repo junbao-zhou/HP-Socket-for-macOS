@@ -874,7 +874,10 @@ CONNID CUdpServer::HandleAccept(HP_SOCKADDR& addr)
 		{
 			//从环形池中取出一个未使用的INDEX，当做通信ID
 			if(!m_bfActiveSockets.AcquireLock(dwConnID))
+			{
+				::SendUdpCloseNotify(m_soListen, addr);
 				return 0;
+			}
 
 			pSocketObj = GetFreeSocketObj(dwConnID);
 			//IO加锁
