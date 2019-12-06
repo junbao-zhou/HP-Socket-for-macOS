@@ -2,11 +2,11 @@
  * Copyright: JessMA Open Source (ldcsaa@gmail.com)
  *
  * Author	: Bruce Liang
- * Website	: http://www.jessma.org
- * Project	: https://github.com/ldcsaa
+ * Website	: https://github.com/ldcsaa
+ * Project	: https://github.com/ldcsaa/HP-Socket
  * Blog		: http://www.cnblogs.com/ldcsaa
  * Wiki		: http://www.oschina.net/p/hp-socket
- * QQ Group	: 75375912, 44636872
+ * QQ Group	: 44636872, 75375912
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -276,6 +276,8 @@ void CUdpServer::Reset()
 	m_quSend.UnsafeClear();
 
 	m_enState = SS_STOPPED;
+
+	m_evWait.SyncNotifyAll();
 }
 
 TUdpSocketObj* CUdpServer::GetFreeSocketObj(CONNID dwConnID)
@@ -712,16 +714,6 @@ VOID CUdpServer::OnCommand(TDispCommand* pCmd)
 	}
 }
 
-VOID CUdpServer::HandleCmdSend(CONNID dwConnID, int flag)
-{
-	DoSend(dwConnID, flag);
-}
-
-VOID CUdpServer::HandleCmdReceive(CONNID dwConnID, int flag)
-{
-	DoReceive(dwConnID, flag);
-}
-
 VOID CUdpServer::HandleCmdDisconnect(CONNID dwConnID, BOOL bForce)
 {
 	AddFreeSocketObj(FindSocketObj(dwConnID), SCF_CLOSE);
@@ -912,12 +904,14 @@ void CUdpServer::HandleZeroBytes(TUdpSocketObj* pSocketObj)
 	TRACE("<S-CNNID: %zu> send 0 bytes (detect ack package - %s)", pSocketObj->connID, IS_HAS_ERROR(rc) ? "fail" : "succ");
 }
 
-BOOL CUdpServer::DoReceive(CONNID dwConnID, int flag)
+VOID CUdpServer::HandleCmdReceive(CONNID dwConnID, int flag)
 {
 	TUdpSocketObj* pSocketObj = FindSocketObj(dwConnID);
 
 	if(!TUdpSocketObj::IsValid(pSocketObj))
-		return FALSE;
+		return;
+	if(pSocketObj->recvQueue.IsEmpty())
+		return;
 
 	BOOL bCancel = FALSE;
 
@@ -925,7 +919,9 @@ BOOL CUdpServer::DoReceive(CONNID dwConnID, int flag)
 		CReentrantReadLock locallock(pSocketObj->lcIo);
 
 		if(!TUdpSocketObj::IsValid(pSocketObj))
-			return FALSE;
+			return;
+		if(pSocketObj->recvQueue.IsEmpty())
+			return;
 
 		pSocketObj->detectFails = 0;
 		if(m_bMarkSilence) pSocketObj->activeTime = ::TimeGetTime();
@@ -950,15 +946,12 @@ BOOL CUdpServer::DoReceive(CONNID dwConnID, int flag)
 	}
 
 	if(bCancel)
-	{
 		AddFreeSocketObj(pSocketObj, SCF_ERROR, SO_RECEIVE, ENSURE_ERROR_CANCELLED);
-		return FALSE;
+	else
+	{
+		if(TUdpSocketObj::IsValid(pSocketObj) && pSocketObj->HasRecvData())
+			VERIFY(m_ioDispatcher.SendCommand(DISP_CMD_RECEIVE, dwConnID, flag));
 	}
-
-	if(TUdpSocketObj::IsValid(pSocketObj) && pSocketObj->HasRecvData())
-		VERIFY(m_ioDispatcher.SendCommand(DISP_CMD_RECEIVE, dwConnID, flag));
-
-	return TRUE;
 }
 
 BOOL CUdpServer::HandleSend(int flag)
@@ -972,17 +965,17 @@ BOOL CUdpServer::HandleSend(int flag)
 	return TRUE;
 }
 
-BOOL CUdpServer::DoSend(CONNID dwConnID, int flag)
+VOID CUdpServer::HandleCmdSend(CONNID dwConnID, int flag)
 {
 	TUdpSocketObj* pSocketObj = FindSocketObj(dwConnID);
 
 	if(!TUdpSocketObj::IsValid(pSocketObj) || !pSocketObj->IsPending())
-		return FALSE;
+		return;
 
 	CReentrantCriSecLock locallock(pSocketObj->csSend);
 
 	if(!TUdpSocketObj::IsValid(pSocketObj) || !pSocketObj->IsPending())
-		return FALSE;
+		return;
 
 	int writes = flag ? -1 : MAX_CONTINUE_WRITES;
 	TBufferObjList& sndBuff = pSocketObj->sndBuff;
@@ -1001,7 +994,7 @@ BOOL CUdpServer::DoSend(CONNID dwConnID, int flag)
 		if(!SendItem(pSocketObj, itPtr, bBlocked))
 		{
 			HandleClose();
-			return FALSE;
+			return;
 		}
 
 		if(bBlocked)
@@ -1015,10 +1008,8 @@ BOOL CUdpServer::DoSend(CONNID dwConnID, int flag)
 		}
 	}
 
-	if(!bBlocked && !sndBuff.IsEmpty())
+	if(!bBlocked && pSocketObj->IsPending())
 		VERIFY(m_ioDispatcher.SendCommand(DISP_CMD_SEND, dwConnID));
-
-	return TRUE;
 }
 
 BOOL CUdpServer::SendItem(TUdpSocketObj* pSocketObj, TItem* pItem, BOOL& bBlocked)
@@ -1139,7 +1130,7 @@ BOOL CUdpServer::SendPackets(CONNID dwConnID, const WSABUF pBuffers[], int iCoun
 
 int CUdpServer::SendInternal(TUdpSocketObj* pSocketObj, TItemPtr& itPtr)
 {
-	BOOL bPending = TRUE;
+	BOOL bPending;
 
 	{
 		CReentrantCriSecLock locallock(pSocketObj->csSend);
@@ -1167,7 +1158,7 @@ void CUdpServer::DetectConnection(PVOID pv)
 		CUdpServer* pServer = (CUdpServer*)pSocketObj->pHolder;
 
 		if(pSocketObj->detectFails >= pServer->m_dwDetectAttempts)
-			VERIFY(m_ioDispatcher.SendCommand(DISP_CMD_TIMEOUT, pSocketObj->connID, TRUE));
+			VERIFY(m_ioDispatcher.SendCommand(DISP_CMD_TIMEOUT, pSocketObj->connID));
 		else
 			::InterlockedIncrement(&pSocketObj->detectFails);
 

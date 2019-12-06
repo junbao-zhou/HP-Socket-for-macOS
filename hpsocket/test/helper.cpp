@@ -42,7 +42,7 @@ app_arg::app_arg()
 	// -o
 	cast_mode		= CM_MULTICAST;
 	// -r
-	reuse_addr		= true;
+	reuse_addr		= RAP_ADDR_ONLY;
 	// -u
 	ip_loop			= true;
 	// -k
@@ -78,28 +78,28 @@ void app_arg::ParseArgs(int argc, char* const argv[])
 
 		switch(c)
 		{
-		case 'a': remote_addr		= strOptArg;						break;
-		case 'p': port				= (USHORT)atoi(strOptArg);			break;
-		case 'b': bind_addr			= strOptArg;						break;
-		case 'd': local_port		= (USHORT)atoi(strOptArg);			break;
-		case 'j': reject_addr		= strOptArg;						break;
-		case 'n': async				= (bool)atoi(strOptArg);			break;
-		case 't': thread_count		= (DWORD)atoi(strOptArg);			break;
-		case 'e': test_times		= (DWORD)atoi(strOptArg);			break;
-		case 'i': test_interval		= (DWORD)atoi(strOptArg);			break;
-		case 'c': conn_count		= (DWORD)atoi(strOptArg);			break;
-		case 'l': data_length		= (DWORD)atoi(strOptArg);			break;
-		case 's': send_policy		= (EnSendPolicy)atoi(strOptArg);	break;
-		case 'm': max_conn			= (DWORD)atoi(strOptArg);			break;
-		case 'q': keep_alive		= (bool)atoi(strOptArg);			break;
-		case 'o': cast_mode			= (EnCastMode)atoi(strOptArg);		break;
-		case 'r': reuse_addr		= (bool)atoi(strOptArg);			break;
-		case 'u': ip_loop			= (bool)atoi(strOptArg);			break;
-		case 'k': ttl				= (int)atoi(strOptArg);				break;
-		case 'x': http_port			= (USHORT)atoi(strOptArg);			break;
-		case 'y': https_port		= (USHORT)atoi(strOptArg);			break;
-		case 'z': http_use_cookie	= (bool)atoi(strOptArg);			break;
-		case 'w': http_with_listener= (bool)atoi(strOptArg);			break;
+		case 'a': remote_addr		= strOptArg;							break;
+		case 'p': port				= (USHORT)atoi(strOptArg);				break;
+		case 'b': bind_addr			= strOptArg;							break;
+		case 'd': local_port		= (USHORT)atoi(strOptArg);				break;
+		case 'j': reject_addr		= strOptArg;							break;
+		case 'n': async				= (bool)atoi(strOptArg);				break;
+		case 't': thread_count		= (DWORD)atoi(strOptArg);				break;
+		case 'e': test_times		= (DWORD)atoi(strOptArg);				break;
+		case 'i': test_interval		= (DWORD)atoi(strOptArg);				break;
+		case 'c': conn_count		= (DWORD)atoi(strOptArg);				break;
+		case 'l': data_length		= (DWORD)atoi(strOptArg);				break;
+		case 's': send_policy		= (EnSendPolicy)atoi(strOptArg);		break;
+		case 'm': max_conn			= (DWORD)atoi(strOptArg);				break;
+		case 'q': keep_alive		= (bool)atoi(strOptArg);				break;
+		case 'o': cast_mode			= (EnCastMode)atoi(strOptArg);			break;
+		case 'r': reuse_addr		= (EnReuseAddressPolicy)atoi(strOptArg);break;
+		case 'u': ip_loop			= (bool)atoi(strOptArg);				break;
+		case 'k': ttl				= (int)atoi(strOptArg);					break;
+		case 'x': http_port			= (USHORT)atoi(strOptArg);				break;
+		case 'y': https_port		= (USHORT)atoi(strOptArg);				break;
+		case 'z': http_use_cookie	= (bool)atoi(strOptArg);				break;
+		case 'w': http_with_listener= (bool)atoi(strOptArg);				break;
 		case 'v':					PrintVersion();	exit(EXIT_CODE_OK);
 		case 'h':					PrintUsage();	exit(EXIT_CODE_OK);
 		case '?':					ERROR_EXIT2(EXIT_CODE_CONFIG, ERROR_INVALID_PARAMETER);
@@ -157,6 +157,7 @@ CCommandParser::CCommandParser(CCommandParser::EnAppType enAppType, CMD_FUNC fnC
 	m_szCmdNameFuncs[CT_STOP]	= {"stop"		, fnCmds[CT_STOP]};
 	m_szCmdNameFuncs[CT_STATUS]	= {"status"		, fnCmds[CT_STATUS]};
 	m_szCmdNameFuncs[CT_SEND]	= {"send"		, fnCmds[CT_SEND]};
+	m_szCmdNameFuncs[CT_SENDC]	= {"sendc"		, fnCmds[CT_SENDC]};
 	m_szCmdNameFuncs[CT_PAUSE]	= {"pause"		, fnCmds[CT_PAUSE]};
 	m_szCmdNameFuncs[CT_KICK]	= {"kick"		, fnCmds[CT_KICK]};
 	m_szCmdNameFuncs[CT_KICK_L]	= {"kickl"		, fnCmds[CT_KICK_L]};
@@ -275,9 +276,10 @@ void CCommandParser::Parse(LPTSTR lpszLine, SSIZE_T nLength)
 		return;
 	}
 
-	if( (m_enAppType == AT_CLIENT &&
+	if( ((m_enAppType == AT_CLIENT || m_enAppType == AT_NODE) &&
 			(type == CT_KICK || type == CT_KICK_L || type == CT_KICK_S))
-		|| (m_enAppType == AT_SERVER && type == CT_CONNECT)	)
+		|| (m_enAppType != AT_AGENT && type == CT_CONNECT	)
+		|| (m_enAppType != AT_NODE && type == CT_SENDC)		)
 	{
 		PRINTLN("%s: command not SUPPORTED ...", lpszCmd);
 		return;
@@ -298,7 +300,8 @@ void CCommandParser::ParseCmdArgs(EnCmdType type, LPTSTR lpszArg)
 
 	LPTSTR lpszParam1 = lpszArg;
 
-	if(m_enAppType != AT_CLIENT || type != CT_SEND)
+	if(	(m_enAppType != AT_CLIENT || type != CT_SEND)	&&
+		(m_enAppType != AT_NODE || type != CT_SENDC)	)
 		lpszParam1 = ::StrSep2(&lpszArg, " \t");
 
 	if(type == CT_START || type == CT_STOP || type == CT_STATUS || type == CT_STAT)
@@ -312,6 +315,24 @@ void CCommandParser::ParseCmdArgs(EnCmdType type, LPTSTR lpszArg)
 
 		if(m_enAppType == AT_CLIENT)
 			lpszMsg = lpszParam1;
+		else if(m_enAppType == AT_NODE)
+		{
+			LPTSTR lpszHost = lpszParam1;
+
+			if(::IsStrEmpty(lpszHost))
+				goto ERROR_USAGE;
+
+			m_strRemoteAddr = lpszHost;
+
+			LPTSTR lpszPort = ::StrSep2(&lpszArg, " \t");
+
+			if(::IsStrEmpty(lpszPort))
+				goto ERROR_USAGE;
+			if((m_usRemotePort = (USHORT)atoi(lpszPort)) <= 0)
+				goto ERROR_USAGE;
+
+			lpszMsg = lpszArg;
+		}
 		else
 		{
 			LPTSTR lpszConnID = lpszParam1;
@@ -332,8 +353,24 @@ void CCommandParser::ParseCmdArgs(EnCmdType type, LPTSTR lpszArg)
 			++lpszMsg;
 		}
 
-		if(::IsStrEmpty(lpszMsg))
+		if(m_enAppType != AT_NODE && ::IsStrEmpty(lpszMsg))
 			goto ERROR_USAGE;
+
+		m_strMessage = lpszMsg;
+	}
+	else if(type == CT_SENDC)
+	{
+		ASSERT(m_enAppType == AT_NODE);
+
+		LPTSTR lpszMsg = lpszParam1;
+
+		while(!::IsStrEmpty(lpszMsg))
+		{
+			if(lpszMsg[0] != ' ' && lpszMsg[0] != '\t')
+				break;
+
+			++lpszMsg;
+		}
 
 		m_strMessage = lpszMsg;
 	}
@@ -442,7 +479,7 @@ void CCommandParser::Reset()
 
 void CCommandParser::PrintUsage()
 {
-	PRINTLN("------ ACTION -----+------------------------ USAGE ----------------------");
+	PRINTLN("------ ACTION -----+----------------------- USAGE -----------------------");
 
 	PrintCmdUsage();
 
@@ -464,6 +501,8 @@ void CCommandParser::PrintCmdUsage()
 	PRINTLN("%-18s : %s%s", "Connect To", "", (LPCTSTR)GetCmdUsage(CT_CONNECT));
 	if(m_szCmdNameFuncs[CT_SEND].func)
 	PRINTLN("%-18s : %3s%s", "Send Message", "", (LPCTSTR)GetCmdUsage(CT_SEND));
+	if(m_szCmdNameFuncs[CT_SENDC].func)
+	PRINTLN("%-18s : %2s%s", "Send Cast Message", "", (LPCTSTR)GetCmdUsage(CT_SENDC));
 	if(m_szCmdNameFuncs[CT_PAUSE].func)
 	PRINTLN("%-18s : %2s%s", "Pause/Unpause Recv", "", (LPCTSTR)GetCmdUsage(CT_PAUSE));
 	if(m_enAppType != AT_CLIENT) {
@@ -485,9 +524,17 @@ CString CCommandParser::GetCmdUsage(CCommandParser::EnCmdType type)
 	switch(type)
 	{
 	case CT_SEND:
-		if(m_enAppType != AT_CLIENT)
-			strUsage += " {ConnID}";
-		strUsage += " {Message}";
+		if(m_enAppType == AT_NODE)
+			strUsage += " {Host} {Port} [{Message}]";
+		else
+		{
+			if(m_enAppType != AT_CLIENT)
+				strUsage += " {ConnID}";
+			strUsage += " {Message}";
+		}
+		break;
+	case CT_SENDC:
+		strUsage += " [{Message}]";
 		break;
 	case CT_PAUSE:
 		if(m_enAppType != AT_CLIENT)
@@ -530,6 +577,8 @@ void CCommandParser::PrintStatus(EnServiceState enStatus, LPCTSTR lpszName)
 		strStatus += "Agent";
 	else if(m_enAppType == AT_CLIENT)
 		strStatus += "Client";
+	else if(m_enAppType == AT_NODE)
+		strStatus += "Node";
 	else
 		ASSERT(FALSE);
 
@@ -1331,10 +1380,39 @@ void LogClientSendFail(int iSequence, int iSocketIndex, DWORD code, LPCTSTR lpsz
 	LogMsg(msg);
 }
 
+void LogStart(LPCTSTR lpszAddress, USHORT port, LPCTSTR lpszName)
+{
+	CString msg;
+	msg.Format(_T("# %sStart OK --> (%s#%d)"), (LPCTSTR)SafeString(lpszName), lpszAddress, port);
+	LogMsg(msg);
+}
+
+void LogStartFail(DWORD code, LPCTSTR lpszDesc, LPCTSTR lpszName)
+{
+	CString msg;
+	msg.Format(_T("# %sStart Fail --> %s (%d) [%d]"), (LPCTSTR)SafeString(lpszName), lpszDesc, code, ::GetLastError());
+	LogMsg(msg);
+}
+
+void LogStop(LPCTSTR lpszName)
+{
+	CString msg;
+	msg.Format(_T("# %sStop"), (LPCTSTR)SafeString(lpszName));
+
+	LogMsg(msg);
+}
+
 void LogSend(CONNID dwConnID, LPCTSTR lpszContent, LPCTSTR lpszName)
 {
 	CString msg;
 	msg.Format(_T("# %s%zu Send OK --> %s"), (LPCTSTR)SafeString2(lpszName), dwConnID, lpszContent);
+	LogMsg(msg);
+}
+
+void LogSend(LPCTSTR lpszContent, LPCTSTR lpszName)
+{
+	CString msg;
+	msg.Format(_T("# %sSend OK --> %s"), (LPCTSTR)SafeString(lpszName), lpszContent);
 	LogMsg(msg);
 }
 
@@ -1349,6 +1427,13 @@ void LogSendFail(CONNID dwConnID, DWORD code, LPCTSTR lpszDesc, LPCTSTR lpszName
 {
 	CString msg;
 	msg.Format(_T("# %s%zu Send Fail --> %s (%d)"), (LPCTSTR)SafeString2(lpszName), dwConnID, lpszDesc, code);
+	LogMsg(msg);
+}
+
+void LogSendFail(DWORD code, LPCTSTR lpszDesc, LPCTSTR lpszName)
+{
+	CString msg;
+	msg.Format(_T("# %sSend Fail --> %s (%d)"), (LPCTSTR)SafeString(lpszName), lpszDesc, code);
 	LogMsg(msg);
 }
 
@@ -1501,10 +1586,30 @@ void PostOnSend(CONNID dwConnID, const BYTE* pData, int iLength, LPCTSTR lpszNam
 	PostInfoMsg(msg);
 }
 
+void PostOnSendTo(CONNID dwConnID, LPCTSTR lpszAddress, USHORT usPort, const BYTE* pData, int iLength, LPCTSTR lpszName)
+{
+	LPTSTR lpszContent = new TCHAR[100];
+	wsprintf(lpszContent, _T("<%s#%d> (%d bytes)"), lpszAddress, usPort, iLength);
+	int content_len = lstrlen(lpszContent);
+	info_msg* msg = info_msg::Construct(dwConnID, EVT_ON_SEND, content_len, lpszContent, lpszName);
+
+	PostInfoMsg(msg);
+}
+
 void PostOnReceive(CONNID dwConnID, const BYTE* pData, int iLength, LPCTSTR lpszName)
 {
 	LPTSTR lpszContent = new TCHAR[20];
 	wsprintf(lpszContent, _T("(%d bytes)"), iLength);
+	int content_len = lstrlen(lpszContent);
+	info_msg* msg = info_msg::Construct(dwConnID, EVT_ON_RECEIVE, content_len, lpszContent, lpszName);
+
+	PostInfoMsg(msg);
+}
+
+void PostOnReceiveFrom(CONNID dwConnID, LPCTSTR lpszAddress, USHORT usPort, const BYTE* pData, int iLength, LPCTSTR lpszName)
+{
+	LPTSTR lpszContent = new TCHAR[100];
+	wsprintf(lpszContent, _T("<%s#%d> (%d bytes)"), lpszAddress, usPort, iLength);
 	int content_len = lstrlen(lpszContent);
 	info_msg* msg = info_msg::Construct(dwConnID, EVT_ON_RECEIVE, content_len, lpszContent, lpszName);
 
@@ -1532,6 +1637,16 @@ void PostOnError(CONNID dwConnID, int enOperation, int iErrorCode, LPCTSTR lpszN
 {
 	LPTSTR lpszContent = new TCHAR[100];
 	wsprintf(lpszContent, _T("OP: %d, CODE: %d"), enOperation, iErrorCode);
+	int content_len = lstrlen(lpszContent);
+	info_msg* msg = info_msg::Construct(dwConnID, EVT_ON_ERROR, content_len, lpszContent, lpszName);
+
+	PostInfoMsg(msg);
+}
+
+void PostOnError2(CONNID dwConnID, int enOperation, int iErrorCode, LPCTSTR lpszAddress, USHORT usPort, const BYTE* pBuffer, int iLength, LPCTSTR lpszName)
+{
+	LPTSTR lpszContent = new TCHAR[150];
+	wsprintf(lpszContent, _T("<%s#%d> OP: %d, CODE: %d (DATA: 0x%X, LEN: %d>"), lpszAddress, usPort, enOperation, iErrorCode, pBuffer, iLength);
 	int content_len = lstrlen(lpszContent);
 	info_msg* msg = info_msg::Construct(dwConnID, EVT_ON_ERROR, content_len, lpszContent, lpszName);
 
@@ -2007,23 +2122,23 @@ LPCTSTR GetAnyAddress(LPCTSTR lpszLikeAddress)
 	return nullptr;
 }
 
- LPCTSTR g_lpszDefaultCookieFile = GetDefaultCookieFile();
+LPCTSTR g_lpszDefaultCookieFile = GetDefaultCookieFile();
 
- LPCTSTR GetDefaultCookieFile()
- {
- 	static TCHAR c_szCookieFile[MAX_PATH] = {0};
+LPCTSTR GetDefaultCookieFile()
+{
+	static TCHAR c_szCookieFile[MAX_PATH] = {0};
 
- 	if(c_szCookieFile[0] == 0)
- 	{
- 		CString strName = ::GetModuleFileName();
- 		ASSERT(!strName.IsEmpty());
+	if(c_szCookieFile[0] == 0)
+	{
+		CString strName = ::GetModuleFileName();
+		ASSERT(!strName.IsEmpty());
 
- 		strName.Append(".cki");
- 		lstrcpy(c_szCookieFile, strName);
- 	}
+		strName.Append(".cki");
+		lstrcpy(c_szCookieFile, strName);
+	}
 
- 	return c_szCookieFile;
- }
+	return c_szCookieFile;
+}
 
 #ifdef _NEED_SSL
 
@@ -2031,6 +2146,170 @@ LPCTSTR GetAnyAddress(LPCTSTR lpszLikeAddress)
 
 #define SSL_CERT_RELATIVE_PATH_1		_T("/hp-ssl-cert/")
 #define SSL_CERT_RELATIVE_PATH_2		_T("/../ssl-cert/")
+
+LPCSTR g_c_lpszPemCert =
+	"-----BEGIN CERTIFICATE-----\n"
+	"MIID6TCCAtGgAwIBAgIDAIFpMA0GCSqGSIb3DQEBCwUAMH8xCzAJBgNVBAYTAkNO\n"
+	"MQswCQYDVQQIDAJHRDELMAkGA1UEBwwCR1oxDDAKBgNVBAoMA1NTVDEPMA0GA1UE\n"
+	"CwwGSmVzc01BMRcwFQYDVQQDDA53d3cuamVzc21hLm9yZzEeMBwGCSqGSIb3DQEJ\n"
+	"ARYPbGRjc2FhQDIxY24uY29tMB4XDTE2MDEwMTAwMDAwMFoXDTI2MDEwMTAwMDAw\n"
+	"MFowcjELMAkGA1UEBhMCQ04xCzAJBgNVBAgMAkdEMQwwCgYDVQQKDANTU1QxDzAN\n"
+	"BgNVBAsMBkplc3NNQTEXMBUGA1UEAwwOd3d3Lmplc3NtYS5vcmcxHjAcBgkqhkiG\n"
+	"9w0BCQEWD2xkY3NhYUAyMWNuLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC\n"
+	"AQoCggEBAOFlDuWj95Nov+48W0ZaUp69GVB+U3orPuVm+fU5gXgl0tJbNbXS0GOM\n"
+	"MspmMB0WxciTfj+t/WufpcHKzryHwrbqmMgrZiSyrp4ulA2mQuTPR32vgQ3/2eBs\n"
+	"O884GmKOUbiaORgHGBoRAdOnoWarM7B/igS6WGqPetaUz12QAv2vzw9Qn0xxIBpr\n"
+	"SVJumTo9HtOvuRj0BNXMRRYp+lfX2+96cftidyU1q+2Y2v3Fedzlo8Lr7m1ZkPcp\n"
+	"ugQDz3R0kXvigDPAKhbTj6eAXJ/hcPOCGQ5RTIZJH4JnJ2jKw5lTjJ6y0rbt9Jq9\n"
+	"NuIqz3GORHYWY4xBmbdTZy0BrbQOePECAwEAAaN7MHkwCQYDVR0TBAIwADAsBglg\n"
+	"hkgBhvhCAQ0EHxYdT3BlblNTTCBHZW5lcmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0O\n"
+	"BBYEFHYUdE6SbzXIWA8m3TwdgUJfAT6+MB8GA1UdIwQYMBaAFPx+7pAUh/GVC8xa\n"
+	"OXmmZ8GMvpyIMA0GCSqGSIb3DQEBCwUAA4IBAQCZWaDrHbRHNNEaCVVFl5WCNqyd\n"
+	"y1MpI2iErmfiCTNiG4v9wImTGWIWRHc3dZowniwSb43OuuhlpdWCxeal9nTL6iCP\n"
+	"B486EMOsVWcfUZkPeK4cBgRXbHTmjxfmQEHHA6NTQdRc7LGq4tjhYs8zmxBVI2HO\n"
+	"uIp0Qbj/Mb2j8r13IC91Z5Ontq0mQTIg0vvffZsqvcjs3Mmrxr2iX/EYpKNR2DP+\n"
+	"9msWTZH734tZ2I7vORZOprpdAwELOyVLXkKIcP9qkRPAcFNk0Fl5peBQtBuP1ky5\n"
+	"kUzWMQq2eoy73miPRnQ8ZjZ/3xTXhMKJ6bCn3tbWrjvc1TwpobfwyfsFH9sq\n"
+	"-----END CERTIFICATE-----\n";
+
+LPCSTR g_c_lpszPemKey =
+	"-----BEGIN RSA PRIVATE KEY-----\n"
+	"Proc-Type: 4,ENCRYPTED\n"
+	"DEK-Info: AES-256-CBC,5F6ACADA6B6B1238FD34A0EC0C5EC2ED\n"
+	"\n"
+	"F0JylDtptlBaFpbCP9Qa2pRf5z8sBbUta6G+rBwuWn7GxU//Nub49/Mf0uRm3YTN\n"
+	"PmCbIQKRyn/u92Yk6cJ9vLCiWe89pa+qlv+kF9PWmYo8Lt6dvtSr1TNAjelGvQjC\n"
+	"HAi58BHoXXIRrZJQKjzFKGcwhWExCAOct5UDuHu64IvWg+LDccd+tTU/kdKEI9QY\n"
+	"3POohP6etBBsFIoJFd23yxxNrvxK/v0as7EI/SeFzv7Mfn7haL4LxEsN+9XPN/Ap\n"
+	"U0IxOT84dMgtIsvW2gvit+qNuaSvrocyEOr5uEfpoS58/yyb0VyNg94itkc6IK3X\n"
+	"Yeokm2YOJk/4yMoZAeNMMDdR82csCzpTTHurMIZLgtr+SO1ChtreKm0XQB8QNyJ+\n"
+	"CouAAHOBsxTPgVY/QS1TDrmEZv7cHOAvJp7BYvKroD/pi5Wu2IHAlIEXhdW3Evwn\n"
+	"jyzUgMUHdXJIcngkkopYEoTPVEXsYX6aHvPJI+jDDKIfDM75SOOw1z7Divsb77I8\n"
+	"n1jMYDUH4i2g2BixfwFRPxZ6NnRLtqM+TD4yecu3zsqvs0UIlrZFuVIl98Guqa1H\n"
+	"tJKCxWEaJNb5YZg8GgdZFXYWXUN/HtFqWJelhGcjy48RjOy7LHJ30fkXV07b2s6M\n"
+	"XcXj9g4jRRyAiZ/kmTqs+Oj6hn+iI4vdGumc2sG0+ZkUwDkj3zfn1N1+J/htVM1z\n"
+	"Y2kHpKGZzQZ4eriy6CM++FrZ9CSNIPqh5AzayPuMxvEtd27vBnO8nKMwThbhGPtj\n"
+	"fd7uPPzfG/W7Zo55lYL5opEzvOdULWm8+31ojitN7GSjsFW46HWoyYfTOlTAzP5+\n"
+	"yPlUGxUyBhlqeXnQNTiLtRb22I2FF41HYH7GsYcxonHw3rKCcJedzL5BMg6Ic2xN\n"
+	"ZxwXdj20rkugtcSAPxp3OGrmBiCX0wYiZaSgNg5zqI1SIhiWzkq64xoiIFlmxGEo\n"
+	"Q/Vv7mpRmf1X0eTjiTYz4tYU6TPgtAqLLpmVNbozPnb5eGaMDbRlJnGJjqlXzPAw\n"
+	"7qUhsb/KZ/k7yZLE+rseicwtAYA0th9A2tpc0CY3/EiL0w5E3zR0SPMinCJeO0rJ\n"
+	"91njgDPxJ5lPXC04Dlgt/a1WK6D/yQ2kpIiNBUIlGZtr+nD9GqPYiGTqND53TL5f\n"
+	"PJrr1PibL2l3fyhNDgNhgmY1CGpB6hNkqPOpit+XhGq6X0PlELcj7zYN3acW47jp\n"
+	"KVm2lT1AXhzqemTWqPQL1+3s8ix0nGVNlmzsOFHqCkmr7FZb76hD5YTtGkOU/Kn3\n"
+	"I5GqS5GHSCAVJnJWuFk2Y8qqg69mJREcoKThoYsuo8hw9JqZM34JIqqT029Nj35B\n"
+	"xau4hSXkmHuUCGpwbr0yvsz3ikRfM6y0cT3T6oBiWgfYktpX//89YbyYGcQX7tK0\n"
+	"aaHW2zvAfMyCWT0CxRen5GAyVeb+WFBdo+xD0HpQcRFtByiNNXmm4kJAoZujeHpe\n"
+	"ZWcu3xkVcTqWMixAYHcDv3L0EXUnVeWplovRh1+OSm7YvdaLL3cctHoW3a8Kzdc1\n"
+	"rtoGVI+f4xSEDheB5P4NX6UYbDLIGMPPuR0F5EliL+vmyJcEMuLY8KTPJ0uwf7Ns\n"
+	"-----END RSA PRIVATE KEY-----\n";
+
+LPCSTR g_c_lpszCAPemCert =
+	"-----BEGIN CERTIFICATE-----\n"
+	"MIID0TCCArmgAwIBAgIJALFGobpzN5MdMA0GCSqGSIb3DQEBCwUAMH8xCzAJBgNV\n"
+	"BAYTAkNOMQswCQYDVQQIDAJHRDELMAkGA1UEBwwCR1oxDDAKBgNVBAoMA1NTVDEP\n"
+	"MA0GA1UECwwGSmVzc01BMRcwFQYDVQQDDA53d3cuamVzc21hLm9yZzEeMBwGCSqG\n"
+	"SIb3DQEJARYPbGRjc2FhQDIxY24uY29tMB4XDTE2MDQwMTE1MDIwMFoXDTI0MDYx\n"
+	"ODE1MDIwMFowfzELMAkGA1UEBhMCQ04xCzAJBgNVBAgMAkdEMQswCQYDVQQHDAJH\n"
+	"WjEMMAoGA1UECgwDU1NUMQ8wDQYDVQQLDAZKZXNzTUExFzAVBgNVBAMMDnd3dy5q\n"
+	"ZXNzbWEub3JnMR4wHAYJKoZIhvcNAQkBFg9sZGNzYWFAMjFjbi5jb20wggEiMA0G\n"
+	"CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDht6llexLtFkV8ijjdJGaHXXQysWOJ\n"
+	"UM/YQFYP52nviurJSpMbWSXnuaDlfidk76B66Np5mlnN5BiHqbBj34GCVKz5VQtx\n"
+	"3kMY1y30YWyiHAEZiV3PLQc8/A9MnJM/q/mHaulmTuJi8A85TWadqUNXgiaIMkqz\n"
+	"bKaauR1/GCxXuEVroqtyR99RCWhfakTz04KfIbt83QR0imWC6uhmvD/DXJ03XFzd\n"
+	"XkK5aNp+ef1sBQgFKjeXV6EMuq+UgEDPXlCDUJAqsZt6W/ohrCAHWQYZ/RSvvaMJ\n"
+	"O7aWROGAC/lh6ATOIbFlGVppw6zUGdIDkB5FVF1MC7CyDndncFrY+OJzAgMBAAGj\n"
+	"UDBOMB0GA1UdDgQWBBT8fu6QFIfxlQvMWjl5pmfBjL6ciDAfBgNVHSMEGDAWgBT8\n"
+	"fu6QFIfxlQvMWjl5pmfBjL6ciDAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUA\n"
+	"A4IBAQDI+f6GMBJxRJNKrgbUYLD1U6LWEQJQ50g2NxGy0j+TL6oypoo/kyME3tOR\n"
+	"EmXEDzytGcSaQ78xYcg97UQd8OhXYQr0qwZ/JLarmhCVK/bfbGTIn4Mk4ZgDqcOU\n"
+	"46jsJeEZwUSrrq7svKO5d7+wV0VGPO+Ww4yzRCPwm2puXFY1+KpTxYX31+wwMB8p\n"
+	"7GuJEDgV08qzLfcBAfSFFYiOHL3tJ+XNKFNRqigjeYrWuAMphOhpYfYnU0d0upe8\n"
+	"wWx9Unm8qSkc7hiS/vvs1v7Pv1sqMFRBoaKOTqZ7Wz/5AySGPQjeMV/atmArDEkx\n"
+	"z58OEgTzg1J/Keztxwj7I2KnYHyH\n"
+	"-----END CERTIFICATE-----\n";
+
+LPCSTR g_s_lpszPemCert =
+	"-----BEGIN CERTIFICATE-----\n"
+	"MIID6TCCAtGgAwIBAgIDAIFoMA0GCSqGSIb3DQEBCwUAMH8xCzAJBgNVBAYTAkNO\n"
+	"MQswCQYDVQQIDAJHRDELMAkGA1UEBwwCR1oxDDAKBgNVBAoMA1NTVDEPMA0GA1UE\n"
+	"CwwGSmVzc01BMRcwFQYDVQQDDA53d3cuamVzc21hLm9yZzEeMBwGCSqGSIb3DQEJ\n"
+	"ARYPbGRjc2FhQDIxY24uY29tMB4XDTE2MDEwMTAwMDAwMFoXDTI2MDEwMTAwMDAw\n"
+	"MFowcjELMAkGA1UEBhMCQ04xCzAJBgNVBAgMAkdEMQwwCgYDVQQKDANTU1QxDzAN\n"
+	"BgNVBAsMBkplc3NNQTEXMBUGA1UEAwwOd3d3Lmplc3NtYS5vcmcxHjAcBgkqhkiG\n"
+	"9w0BCQEWD2xkY3NhYUAyMWNuLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC\n"
+	"AQoCggEBALEOPuYKEl/iN3ub/QNaaqo0Hynk62znTp5kXj0zQAqxLxwHU117xHBk\n"
+	"0LCZux0LnDFl9JAlilvqfeaXRWmQd6hrvV+1mNpnIe2xfyNWwa37QDNjXB7mEg3V\n"
+	"O/dN9KeVxq9RlH/dQJ7qZlYy4i7wznYMUlz38378wYoOvdAQBX1UrdjWA5T4q0Da\n"
+	"cRRAV0fIp45hBarp6T1nhDEvttU8yud2lIEV9jWblkyGIhU4FisGOIRRGhnKzCAh\n"
+	"CYSZ59mq8Wf4FawMyz/H4noHcWWJu4ID1oAE+VFGXKm78qjp/T71/myn5lcGquTx\n"
+	"oSoJrx7og+529eaJwgeJd2JF7OQ5NysCAwEAAaN7MHkwCQYDVR0TBAIwADAsBglg\n"
+	"hkgBhvhCAQ0EHxYdT3BlblNTTCBHZW5lcmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0O\n"
+	"BBYEFO0CmyFtrGLrkNkkA62QPzSp8vgJMB8GA1UdIwQYMBaAFPx+7pAUh/GVC8xa\n"
+	"OXmmZ8GMvpyIMA0GCSqGSIb3DQEBCwUAA4IBAQBT1JGXn7HMyNHZntM4kCp7kwN9\n"
+	"HSpcbQxbWFtk+l8ANP9SqCIEd4xc4rAaUDDDMdD2S0wF9iio1MA1KC5OoJ5Dqw6C\n"
+	"yTa08LRowlmnw+NNZC2xzaSRmzLGlPDHNauZ/G2ScdWsqR5v2+pKF7bYxAajRkk5\n"
+	"oqRRDI6X7vHsvX/kqTn9Prk0sFmU0EU64az2iUe/MG9v1WY8eOV+tTEq29GuYYjJ\n"
+	"E3H8vaeq1fTB0vYgT5xoCc36xVXju/3l17CE12n5of004u4eRi3/T0wbp9WgG2ns\n"
+	"wjetaYeIAWS/AJQzIK22tztGAbAk6kTgsO5YLx2h6GLGpytDXWvgzr2PdEu1\n"
+	"-----END CERTIFICATE-----\n";
+
+LPCSTR g_s_lpszPemKey =
+	"-----BEGIN RSA PRIVATE KEY-----\n"
+	"Proc-Type: 4,ENCRYPTED\n"
+	"DEK-Info: AES-256-CBC,107800C9B21513D8F642A394FAD9047E\n"
+	"\n"
+	"bmaTCBYAzKzpUrdaT6sb/dbH5o3JbFu2d8s1NfKhghYUG/RWgzx5H8QWSsh1Ll+8\n"
+	"701HwSwauwbKaBWzWP5bj4mjw9hXcva8l1QWeuW+Q0GsE7uWNZGFQZbCxER/9jOu\n"
+	"36KMlx0twcIEGs9PNwnY7d9oS/BMVpiUqhL8sPihMLCFK0fm6VGjMrfdIZJuZXEv\n"
+	"BKt+c0UPkkPmivZjSm6iTPKI6VpGeyg0sM/uZr+mRj7IOAD6vsSQnCfUOq00Rm14\n"
+	"ABrer8dCWJDKrx1iLq7tFojII+JcB7oBy+8KC/t0MlqmIP2jx93/MVW5lbZ3mj2v\n"
+	"BanVQvklHTLe/WHjoaltqBEKN0sIzfyed6qWudKHUa8yjAr0PS4rsTbO0S4fFz+A\n"
+	"KFWEs8fuXsanFHt5akWDTMiw1n4HaiioT4jjhWRRIKGEndztyGMklShYAdSTqsZO\n"
+	"vzPO+xqLlg6wOgCGZ3Kl/c243XyLMCI+lJlzu3ccqzQJbNfPADXUcxSTqaEByWG3\n"
+	"YIXttKY5WFBcNjf9B3c1qfJMt3nGY2QewnL+rNm/qpose/AsFS+2aqMeRw7fYh3R\n"
+	"O+H+G+0gxrSK0E3WiewMIvUqFI6W300MWx6O7d87OkbfwMLpLPumsfLKswOKaAIF\n"
+	"p0RxSABSe5ixqnErsoiYGNf3bln4tsQ+v5jYUY+Gn/9mVTPEYs6uwC78UW5Gj+Za\n"
+	"lB3V8aRxQjWBerhLhf3iCmkkOVaG5JvVJDmvwo6iBRZ4NNzkAqOJm/UvfWoKN91b\n"
+	"riHAWNayqvOfzaK6KYiJlOR9D779pK6xL+gZ0zo3rIA2yzs5MJAvJmaq6SQmQFl1\n"
+	"Vzhnf3hIGJFtJYQJhlr36pkPgG9jVdJPhZisY9EsIAHvDbbLlBNexSmZc2RZmsVL\n"
+	"VG6WqOm85DzuZxGULK/CnXCLpBMKWf9y5YPJrLkuwQILrr2btnAivPfUU80S3E0c\n"
+	"VslBodCkSGVx3iQoAVJv2+6ZNMRNLVzpLnlaVtHl/gvw+InJlXmzBlZQFKOCaOny\n"
+	"sz67qKmK1KWui2G3AzuvTEL9O++FVO+irpSNSLozxif/erLJl7R60pBkrWwd6jGB\n"
+	"8qQv7ni+xIeXDBLSu26zPunLR/2PhrrCv49KmqNmF7sSNx6xmcc3CfgEy+5+Tm97\n"
+	"KPE4JlaH/ZW61TlzXojbZMaiJltkFkpagFgm2bXrN1nMk2d6R+Yfe78lSvPKoB8k\n"
+	"1m7LY1lNXFZJh2hxQRhdV9oTokFahUSitQCg1S3eASuE2jFRRL4jrh4LcBWUHZnJ\n"
+	"OOAwBDOF4RfGyfiDs0IlrnLvK3a2KorlHfvUyj+cwkRmgI8sWgkJuNpz1mKDn5UZ\n"
+	"yGn2JczHY0CiInRGgwMnS1Z/WpJZYGNh7pP7Hm1RnzVslkWSJGaKJv9jDNUCyy8R\n"
+	"L+nwUSd6m6r8YWcs3zdBYsDHGOO5MgAU5Q8yuLbEgaK5NJSJgGkm+ya5oB88Y6T0\n"
+	"JcL/u5xKw4kJiKgiLr3zrWe5qV6+lpH7fGKy7fucJWltDkfQSD3Dp0b64TW4FuQq\n"
+	"VQhDR+KykLK6QxM2x3/maMfG578Ku1F6g4RboDR/6uCFu6hQuCoNYBk/QB0XpY13\n"
+	"-----END RSA PRIVATE KEY-----\n";
+
+LPCSTR g_s_lpszCAPemCert =
+	"-----BEGIN CERTIFICATE-----\n"
+	"MIID0TCCArmgAwIBAgIJALFGobpzN5MdMA0GCSqGSIb3DQEBCwUAMH8xCzAJBgNV\n"
+	"BAYTAkNOMQswCQYDVQQIDAJHRDELMAkGA1UEBwwCR1oxDDAKBgNVBAoMA1NTVDEP\n"
+	"MA0GA1UECwwGSmVzc01BMRcwFQYDVQQDDA53d3cuamVzc21hLm9yZzEeMBwGCSqG\n"
+	"SIb3DQEJARYPbGRjc2FhQDIxY24uY29tMB4XDTE2MDQwMTE1MDIwMFoXDTI0MDYx\n"
+	"ODE1MDIwMFowfzELMAkGA1UEBhMCQ04xCzAJBgNVBAgMAkdEMQswCQYDVQQHDAJH\n"
+	"WjEMMAoGA1UECgwDU1NUMQ8wDQYDVQQLDAZKZXNzTUExFzAVBgNVBAMMDnd3dy5q\n"
+	"ZXNzbWEub3JnMR4wHAYJKoZIhvcNAQkBFg9sZGNzYWFAMjFjbi5jb20wggEiMA0G\n"
+	"CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDht6llexLtFkV8ijjdJGaHXXQysWOJ\n"
+	"UM/YQFYP52nviurJSpMbWSXnuaDlfidk76B66Np5mlnN5BiHqbBj34GCVKz5VQtx\n"
+	"3kMY1y30YWyiHAEZiV3PLQc8/A9MnJM/q/mHaulmTuJi8A85TWadqUNXgiaIMkqz\n"
+	"bKaauR1/GCxXuEVroqtyR99RCWhfakTz04KfIbt83QR0imWC6uhmvD/DXJ03XFzd\n"
+	"XkK5aNp+ef1sBQgFKjeXV6EMuq+UgEDPXlCDUJAqsZt6W/ohrCAHWQYZ/RSvvaMJ\n"
+	"O7aWROGAC/lh6ATOIbFlGVppw6zUGdIDkB5FVF1MC7CyDndncFrY+OJzAgMBAAGj\n"
+	"UDBOMB0GA1UdDgQWBBT8fu6QFIfxlQvMWjl5pmfBjL6ciDAfBgNVHSMEGDAWgBT8\n"
+	"fu6QFIfxlQvMWjl5pmfBjL6ciDAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUA\n"
+	"A4IBAQDI+f6GMBJxRJNKrgbUYLD1U6LWEQJQ50g2NxGy0j+TL6oypoo/kyME3tOR\n"
+	"EmXEDzytGcSaQ78xYcg97UQd8OhXYQr0qwZ/JLarmhCVK/bfbGTIn4Mk4ZgDqcOU\n"
+	"46jsJeEZwUSrrq7svKO5d7+wV0VGPO+Ww4yzRCPwm2puXFY1+KpTxYX31+wwMB8p\n"
+	"7GuJEDgV08qzLfcBAfSFFYiOHL3tJ+XNKFNRqigjeYrWuAMphOhpYfYnU0d0upe8\n"
+	"wWx9Unm8qSkc7hiS/vvs1v7Pv1sqMFRBoaKOTqZ7Wz/5AySGPQjeMV/atmArDEkx\n"
+	"z58OEgTzg1J/Keztxwj7I2KnYHyH\n"
+	"-----END CERTIFICATE-----\n";
 
 CString g_c_strCAPemCertFileOrPath;
 CString g_c_strPemCertFile;
@@ -2056,15 +2335,9 @@ CString g_c_strCAPemCertFileOrPath2;
 CString g_c_strPemCertFile2;
 CString g_c_strPemKeyFile2;
 
-
 CString g_s_strCAPemCertFileOrPath2;
 CString g_s_strPemCertFile2;
 CString g_s_strPemKeyFile2;
-
-
-CString g_s_strCAPemCertFileOrPath3;
-CString g_s_strPemCertFile3;
-CString g_s_strPemKeyFile3;
 
 int g_c_iVerifyMode2					= SSL_VM_PEER;
 LPCTSTR g_c_lpszCAPemCertFileOrPath2	= _T("ca2.crt");
@@ -2078,11 +2351,6 @@ LPCTSTR g_s_lpszPemCertFile2			= _T("server2.cer");
 LPCTSTR g_s_lpszPemKeyFile2				= _T("server2.key");
 LPCTSTR g_s_lpszKeyPasswod2				= _T("ppmm");
 
-LPCTSTR g_s_lpszCAPemCertFileOrPath3	= _T("ca2.crt");
-LPCTSTR g_s_lpszPemCertFile3			= _T("server33.crt");
-LPCTSTR g_s_lpszPemKeyFile3				= _T("server33.key");
-LPCTSTR g_s_lpszKeyPasswod3				= _T("");
-
 BOOL InitSSLParams();
 BOOL g_SSLParams = InitSSLParams();
 
@@ -2091,7 +2359,6 @@ BOOL InitSSLParams()
 	::SetCurrentPathToModulePath();
 
 	CString strCur	= ::GetCurrentDirectory();
-	printf("current dirpath:%s\n", strCur.c_str());
 	CString strPath	= strCur + SSL_CERT_RELATIVE_PATH_1;
 
 	if(!CFile::IsDirectory(strPath))
@@ -2132,26 +2399,6 @@ BOOL InitSSLParams()
 		g_s_strCAPemCertFileOrPath	= strPath + g_s_lpszCAPemCertFileOrPath;
 		g_s_lpszCAPemCertFileOrPath	= g_s_strCAPemCertFileOrPath;
 	}
-///
-
-    if(g_s_lpszPemCertFile2)
-    {
-        g_s_strPemCertFile2	= strPath + g_s_lpszPemCertFile2;
-        g_s_lpszPemCertFile2 = g_s_strPemCertFile2;
-    }
-
-    if(g_s_lpszPemKeyFile2)
-    {
-        g_s_strPemKeyFile2	= strPath + g_s_lpszPemKeyFile2;
-        g_s_lpszPemKeyFile2	= g_s_strPemKeyFile2;
-    }
-
-    if(g_s_lpszCAPemCertFileOrPath2)
-    {
-        g_s_strCAPemCertFileOrPath2	= strPath + g_s_lpszCAPemCertFileOrPath2;
-        g_s_lpszCAPemCertFileOrPath2	= g_s_strCAPemCertFileOrPath2;
-    }
-
 
 	if(g_c_lpszPemCertFile2)
 	{
@@ -2171,22 +2418,22 @@ BOOL InitSSLParams()
 		g_c_lpszCAPemCertFileOrPath2 = g_c_strCAPemCertFileOrPath2;
 	}
 
-	if(g_s_lpszPemCertFile3)
+	if(g_s_lpszPemCertFile2)
 	{
-		g_s_strPemCertFile3  = strPath + g_s_lpszPemCertFile3;
-		g_s_lpszPemCertFile3 = g_s_strPemCertFile3;
+		g_s_strPemCertFile2  = strPath + g_s_lpszPemCertFile2;
+		g_s_lpszPemCertFile2 = g_s_strPemCertFile2;
 	}
 
-	if(g_s_lpszPemKeyFile3)
+	if(g_s_lpszPemKeyFile2)
 	{
-		g_s_strPemKeyFile3	= strPath + g_s_lpszPemKeyFile3;
-		g_s_lpszPemKeyFile3	= g_s_strPemKeyFile3;
+		g_s_strPemKeyFile2	= strPath + g_s_lpszPemKeyFile2;
+		g_s_lpszPemKeyFile2	= g_s_strPemKeyFile2;
 	}
 
-	if(g_s_lpszCAPemCertFileOrPath3)
+	if(g_s_lpszCAPemCertFileOrPath2)
 	{
-		g_s_strCAPemCertFileOrPath3  = strPath + g_s_lpszCAPemCertFileOrPath3;
-		g_s_lpszCAPemCertFileOrPath3 = g_s_strCAPemCertFileOrPath3;
+		g_s_strCAPemCertFileOrPath2  = strPath + g_s_lpszCAPemCertFileOrPath2;
+		g_s_lpszCAPemCertFileOrPath2 = g_s_strCAPemCertFileOrPath2;
 	}
 
 	return TRUE;

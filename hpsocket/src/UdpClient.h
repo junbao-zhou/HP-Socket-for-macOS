@@ -2,11 +2,11 @@
  * Copyright: JessMA Open Source (ldcsaa@gmail.com)
  *
  * Author	: Bruce Liang
- * Website	: http://www.jessma.org
- * Project	: https://github.com/ldcsaa
+ * Website	: https://github.com/ldcsaa
+ * Project	: https://github.com/ldcsaa/HP-Socket
  * Blog		: http://www.cnblogs.com/ldcsaa
  * Wiki		: http://www.oschina.net/p/hp-socket
- * QQ Group	: 75375912, 44636872
+ * QQ Group	: 44636872, 75375912
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ public:
 	virtual BOOL Send	(const BYTE* pBuffer, int iLength, int iOffset = 0)	{return DoSend(pBuffer, iLength, iOffset);}
 	virtual BOOL SendPackets	(const WSABUF pBuffers[], int iCount);
 	virtual BOOL PauseReceive	(BOOL bPause = TRUE);
+	virtual BOOL Wait			(DWORD dwMilliseconds = INFINITE) {return m_evWait.WaitFor(dwMilliseconds, CStopWaitingPredicate<IClient>(this));}
 	virtual BOOL			HasStarted			()	{return m_enState == SS_STARTED || m_enState == SS_STARTING;}
 	virtual EnServiceState	GetState			()	{return m_enState;}
 	virtual CONNID			GetConnectionID		()	{return m_dwConnID;};
@@ -53,13 +54,15 @@ public:
 public:
 	virtual BOOL IsSecure				() {return FALSE;}
 
-	virtual void SetMaxDatagramSize		(DWORD dwMaxDatagramSize)		{m_dwMaxDatagramSize	= dwMaxDatagramSize;}
-	virtual void SetDetectAttempts		(DWORD dwDetectAttempts)		{m_dwDetectAttempts		= dwDetectAttempts;}
-	virtual void SetDetectInterval		(DWORD dwDetectInterval)		{m_dwDetectInterval		= dwDetectInterval;}
-	virtual void SetFreeBufferPoolSize	(DWORD dwFreeBufferPoolSize)	{m_dwFreeBufferPoolSize = dwFreeBufferPoolSize;}
-	virtual void SetFreeBufferPoolHold	(DWORD dwFreeBufferPoolHold)	{m_dwFreeBufferPoolHold = dwFreeBufferPoolHold;}
-	virtual void SetExtra				(PVOID pExtra)					{m_pExtra				= pExtra;}						
+	virtual void SetReuseAddressPolicy	(EnReuseAddressPolicy enReusePolicy){ENSURE_HAS_STOPPED(); m_enReusePolicy			= enReusePolicy;}
+	virtual void SetMaxDatagramSize		(DWORD dwMaxDatagramSize)			{ENSURE_HAS_STOPPED(); m_dwMaxDatagramSize		= dwMaxDatagramSize;}
+	virtual void SetDetectAttempts		(DWORD dwDetectAttempts)			{ENSURE_HAS_STOPPED(); m_dwDetectAttempts		= dwDetectAttempts;}
+	virtual void SetDetectInterval		(DWORD dwDetectInterval)			{ENSURE_HAS_STOPPED(); m_dwDetectInterval		= dwDetectInterval;}
+	virtual void SetFreeBufferPoolSize	(DWORD dwFreeBufferPoolSize)		{ENSURE_HAS_STOPPED(); m_dwFreeBufferPoolSize	= dwFreeBufferPoolSize;}
+	virtual void SetFreeBufferPoolHold	(DWORD dwFreeBufferPoolHold)		{ENSURE_HAS_STOPPED(); m_dwFreeBufferPoolHold	= dwFreeBufferPoolHold;}
+	virtual void SetExtra				(PVOID pExtra)						{m_pExtra										= pExtra;}						
 
+	virtual EnReuseAddressPolicy GetReuseAddressPolicy	()	{return m_enReusePolicy;}
 	virtual DWORD GetMaxDatagramSize	()	{return m_dwMaxDatagramSize;}
 	virtual DWORD GetDetectAttempts		()	{return m_dwDetectAttempts;}
 	virtual DWORD GetDetectInterval		()	{return m_dwDetectInterval;}
@@ -136,7 +139,7 @@ private:
 	BOOL ProcessNetworkEvent(SHORT events);
 	BOOL ReadData();
 	BOOL SendData();
-	BOOL DoSendData(TItem* pItem);
+	BOOL DoSendData(TItem* pItem, BOOL& bBlocked);
 	int SendInternal(TItemPtr& itPtr);
 	void WaitForWorkerThreadEnd();
 	void CheckConnected();
@@ -167,6 +170,7 @@ public:
 	, m_dwDetectFails		(0)
 	, m_pExtra				(nullptr)
 	, m_pReserved			(nullptr)
+	, m_enReusePolicy		(RAP_ADDR_ONLY)
 	, m_dwMaxDatagramSize	(DEFAULT_UDP_MAX_DATAGRAM_SIZE)
 	, m_dwFreeBufferPoolSize(DEFAULT_CLIENT_FREE_BUFFER_POOL_SIZE)
 	, m_dwFreeBufferPoolHold(DEFAULT_CLIENT_FREE_BUFFER_POOL_HOLD)
@@ -183,6 +187,8 @@ public:
 	}
 
 private:
+	CSEM				m_evWait;
+
 	IUdpClientListener*	m_pListener;
 	TClientCloseContext m_ccContext;
 
@@ -190,6 +196,7 @@ private:
 	SHORT				m_nEvents;
 	CONNID				m_dwConnID;
 
+	EnReuseAddressPolicy m_enReusePolicy;
 	DWORD				m_dwMaxDatagramSize;
 	DWORD				m_dwFreeBufferPoolSize;
 	DWORD				m_dwFreeBufferPoolHold;

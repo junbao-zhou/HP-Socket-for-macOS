@@ -48,6 +48,8 @@ set(UDP_CAST test/client/test7.cpp)
 set(HTTP_SERVER test/server/test4.cpp)
 set(HTTP_CLIENT test/client/test8.cpp)
 
+set(UDP_NODE test/client/testB.cpp)
+
 add_executable(test_tcp_agent_pull
         ${TEST_HELPER_CPP}
         ${TEST_HELPER_H}
@@ -228,3 +230,13 @@ add_executable(test_server_4c
         ${HPSOCKET_SOURCE_COMMON_KCP_PATH}
         )
 
+add_executable(test_udp_node
+        ${TEST_HELPER_CPP}
+        ${TEST_HELPER_H}
+        ${UDP_NODE}
+        ${HPSOCKET_SOURCE_BASE_PATH}
+        ${HPSOCKET_SOURCE_COMMON_PATH}
+        ${HPSOCKET_SOURCE_COMMON_CRYPTO_PATH}
+        ${HPSOCKET_SOURCE_COMMON_HTTP_PATH}
+        ${HPSOCKET_SOURCE_COMMON_KCP_PATH}
+        )

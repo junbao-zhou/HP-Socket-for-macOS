@@ -2,11 +2,11 @@
  * Copyright: JessMA Open Source (ldcsaa@gmail.com)
  *
  * Author	: Bruce Liang
- * Website	: http://www.jessma.org
- * Project	: https://github.com/ldcsaa
+ * Website	: https://github.com/ldcsaa
+ * Project	: https://github.com/ldcsaa/HP-Socket
  * Blog		: http://www.cnblogs.com/ldcsaa
  * Wiki		: http://www.oschina.net/p/hp-socket
- * QQ Group	: 75375912, 44636872
+ * QQ Group	: 44636872, 75375912
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -110,9 +110,6 @@ BOOL CTcpServer::CheckStoping()
 			m_enState = SS_STOPPING;
 			return TRUE;
 		}
-
-		while(m_enState != SS_STOPPED)
-			::WaitFor(10);
 	}
 
 	SetLastError(SE_ILLEGAL_STATE, __FUNCTION__, ERROR_INVALID_STATE);
@@ -137,11 +134,9 @@ BOOL CTcpServer::CreateListenSocket(LPCTSTR lpszBindAddress, USHORT usPort)
 		{
             ::fcntl_SETFL(m_soListen, O_NONBLOCK | O_CLOEXEC);
 
-            BOOL bOnOff	= (m_dwKeepAliveTime > 0 && m_dwKeepAliveInterval > 0);
+			BOOL bOnOff	= (m_dwKeepAliveTime > 0 && m_dwKeepAliveInterval > 0);
 			VERIFY(IS_NO_ERROR(::SSO_KeepAliveVals(m_soListen, bOnOff, m_dwKeepAliveTime, m_dwKeepAliveInterval)));
-            VERIFY(IS_NO_ERROR(::SSO_ReuseAddress(m_soListen)));
-
-            
+			VERIFY(IS_NO_ERROR(::SSO_ReuseAddress(m_soListen, m_enReusePolicy)));
 
 			if(::bind(m_soListen, addr.Addr(), addr.AddrSize()) != SOCKET_ERROR)
 			{
@@ -262,6 +257,8 @@ void CTcpServer::Reset()
 	::ClearPtrMap(m_rcBufferMap);
 
 	m_enState = SS_STOPPED;
+
+	m_evWait.SyncNotifyAll();
 }
 
 TSocketObj* CTcpServer::GetFreeSocketObj(CONNID dwConnID, SOCKET soClient)
