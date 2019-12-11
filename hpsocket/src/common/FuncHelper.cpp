@@ -126,7 +126,6 @@ ULLONG GetTimeGap64(ULLONG ullOriginal, ULONGLONG ullCurrent)
 	return ullCurrent - ullOriginal;
 }
 
-
 LLONG TimevalToMillisecond(const timeval& tv)
 {
 	return tv.tv_sec * 1000 + tv.tv_usec / 1000;
