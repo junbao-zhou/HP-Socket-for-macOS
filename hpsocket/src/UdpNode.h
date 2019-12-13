@@ -121,7 +121,7 @@ private:
 private:
 	BOOL HandleReceive(int flag = 0);
 	BOOL HandleSend(int flag = 0, int rd = 0);
-	BOOL HandleClose();
+	BOOL HandleClose(TNodeBufferObj* pBufferObj, EnSocketOperation enOperation, int iErrorCode);
 
 	VOID HandleCmdReceive(int flag);
 	VOID HandleCmdSend(int flag);

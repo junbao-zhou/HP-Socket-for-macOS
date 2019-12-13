@@ -57,7 +57,7 @@ public:
 	SSIZE_T WriteV(const iovec* pVec, int iVecCount)
 		{return writev(m_fd, pVec, iVecCount);}
 	SSIZE_T Seek(SSIZE_T lOffset, int iWhence)
-        {return lseek(m_fd, lOffset, iWhence);}
+		{return lseek(m_fd, lOffset, iWhence);}
 
 	BOOL IsValid()	{return IS_VALID_FD(m_fd);}
 	operator FD ()	{return m_fd;}

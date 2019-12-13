@@ -77,7 +77,7 @@ using namespace std;
 #define PRINTLN(fmt, ...)				FPRINTLN(stdout, fmt, ##__VA_ARGS__)
 
 #if defined(DEBUG) && defined(DEBUG_TRACE)
-	#define TRACE(fmt, ...)				PRINTLN("> TRC (0x%8X, %d) " fmt, SELF_THREAD_ID, SELF_NATIVE_THREAD_ID, ##__VA_ARGS__)
+	#define TRACE(fmt, ...)				PRINTLN("> TRC (0x%zX, %d) " fmt, (SIZE_T)SELF_THREAD_ID, SELF_NATIVE_THREAD_ID, ##__VA_ARGS__)
 #else
 	#define TRACE(fmt, ...)
 #endif
@@ -90,7 +90,7 @@ using namespace std;
     _rc; })
 #endif //TEMP_FAILURE_RETRY
 #define ASSERT							assert
-#define VERIFY(expr)					((expr) ? TRUE : (ERROR_EXIT2(EXIT_CODE_SOFTWARE, ERROR_VERIFY_CHECK), FALSE))
+#define VERIFY(expr)					((expr) ? TRUE : (::PrintStackTrace(), ERROR_ABORT2(ERROR_VERIFY_CHECK), FALSE))
 #define ASSERT_IS_NO_ERROR(expr)		ASSERT(IS_NO_ERROR(expr))
 #define VERIFY_IS_NO_ERROR(expr)		VERIFY(IS_NO_ERROR(expr))
 #define	ENSURE(expr)					VERIFY(expr)
@@ -157,6 +157,7 @@ inline void PrintError(LPCSTR subject)	{perror(subject);}
 #define CreateLocalObjects(T, n)		((T*)alloca(sizeof(T) * (n)))
 #define CreateLocalObject(T)			CreateLocalObjects(T, 1)
 #define CallocObjects(T, n)				((T*)calloc((n), sizeof(T)))
+
 #define MALLOC(T, n)					((T*)malloc(sizeof(T) * (n)))
 #define REALLOC(p, T, n)				((T*)realloc((PVOID)(p), sizeof(T) * (n)))
 #define FREE(p)							free((PVOID)(p))
@@ -328,6 +329,7 @@ uint32_t	GenerateNextTimerIdent();
 
 BOOL fcntl_SETFL(FD fd, INT fl, BOOL bSet = TRUE);
 
+void PrintStackTrace();
 void EXIT(int iExitCode = 0, int iErrno = -1, LPCSTR lpszFile = nullptr, int iLine = 0, LPCSTR lpszFunc = nullptr, LPCSTR lpszTitle = nullptr);
 void _EXIT(int iExitCode = 0, int iErrno = -1, LPCSTR lpszFile = nullptr, int iLine = 0, LPCSTR lpszFunc = nullptr, LPCSTR lpszTitle = nullptr);
 void ABORT(int iErrno = -1, LPCSTR lpszFile = nullptr, int iLine = 0, LPCSTR lpszFunc = nullptr, LPCSTR lpszTitle = nullptr);

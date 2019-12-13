@@ -167,7 +167,7 @@ BOOL CSSLContext::Initialize(EnSSLSessionMode enSessionMode, int iVerifyMode, BO
 		m_sslCtx = GetContext(0);
 	else
 	{
-		Cleanup();
+		EXECUTE_RESTORE_ERROR(Cleanup());
 		return FALSE;
 	}
 

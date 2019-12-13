@@ -476,7 +476,6 @@ BOOL CUdpCast::PauseReceive(BOOL bPause)
 
 BOOL CUdpCast::SendData()
 {
-	BOOL isOK	  = TRUE;
 	BOOL bBlocked = FALSE;
 
 	while(m_lsSend.Length() > 0)
@@ -491,10 +490,8 @@ BOOL CUdpCast::SendData()
 		if(!itPtr.IsValid())
 			break;
 
-		isOK = DoSendData(itPtr, bBlocked);
-
-		if(!isOK)
-			break;
+		if(!DoSendData(itPtr, bBlocked))
+			return FALSE;
 
 		if(bBlocked)
 		{
@@ -504,7 +501,7 @@ BOOL CUdpCast::SendData()
 		}
 	}
 
-	return isOK;
+	return TRUE;
 }
 
 BOOL CUdpCast::DoSendData(TItem* pItem, BOOL& bBlocked)

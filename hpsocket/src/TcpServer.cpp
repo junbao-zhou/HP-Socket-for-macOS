@@ -867,7 +867,7 @@ BOOL CTcpServer::HandleReceive(TSocketObj* pSocketObj, int flag)
 		{
 			if(TRIGGER(FireReceive(pSocketObj, buffer.Ptr(), rc)) == HR_ERROR)
 			{
-				TRACE("<C-CNNID: %zu> OnReceive() event return 'HR_ERROR', connection will be closed !", pSocketObj->connID);
+				TRACE("<S-CNNID: %zu> OnReceive() event return 'HR_ERROR', connection will be closed !", pSocketObj->connID);
 
 				AddFreeSocketObj(pSocketObj, SCF_ERROR, SO_RECEIVE, ENSURE_ERROR_CANCELLED);
 				return FALSE;
@@ -902,41 +902,42 @@ BOOL CTcpServer::HandleSend(TSocketObj* pSocketObj, int flag)
 	if(!pSocketObj->IsPending())
 		return TRUE;
 
-	CReentrantCriSecLock locallock(pSocketObj->csSend);
+	BOOL bBlocked	= FALSE;
+	int writes		= flag ? -1 : MAX_CONTINUE_WRITES;
 
-	if(!pSocketObj->IsPending())
-		return TRUE;
-
-	BOOL isOK = TRUE;
-
-	int writes = flag ? -1 : MAX_CONTINUE_WRITES;
 	TBufferObjList& sndBuff = pSocketObj->sndBuff;
+	TItemPtr itPtr(sndBuff);
 
 	for(int i = 0; i < writes || writes < 0; i++)
 	{
-		TItemPtr itPtr(sndBuff, sndBuff.PopFront());
+		{
+			CReentrantCriSecLock locallock(pSocketObj->csSend);
+			itPtr = sndBuff.PopFront();
+		}
 
 		if(!itPtr.IsValid())
 			break;
 
 		ASSERT(!itPtr->IsEmpty());
 
-		isOK = SendItem(pSocketObj, itPtr);
+		if(!SendItem(pSocketObj, itPtr, bBlocked))
+			return FALSE;
 
-		if(!isOK)
-			break;
-
-		if(!itPtr->IsEmpty())
+		if(bBlocked)
 		{
+			ASSERT(!itPtr->IsEmpty());
+
+			CReentrantCriSecLock locallock(pSocketObj->csSend);
 			sndBuff.PushFront(itPtr.Detach());
+
 			break;
 		}
 	}
 
-	return isOK;
+	return TRUE;
 }
 
-BOOL CTcpServer::SendItem(TSocketObj* pSocketObj, TItem* pItem)
+BOOL CTcpServer::SendItem(TSocketObj* pSocketObj, TItem* pItem, BOOL& bBlocked)
 {
 	while(!pItem->IsEmpty())
 	{
@@ -946,7 +947,7 @@ BOOL CTcpServer::SendItem(TSocketObj* pSocketObj, TItem* pItem)
 		{
 			if(TRIGGER(FireSend(pSocketObj, pItem->Ptr(), rc)) == HR_ERROR)
 			{
-				TRACE("<C-CNNID: %zu> OnSend() event should not return 'HR_ERROR' !!", pSocketObj->connID);
+				TRACE("<S-CNNID: %zu> OnSend() event should not return 'HR_ERROR' !!", pSocketObj->connID);
 				ASSERT(FALSE);
 			}
 
@@ -957,10 +958,15 @@ BOOL CTcpServer::SendItem(TSocketObj* pSocketObj, TItem* pItem)
 			int code = ::WSAGetLastError();
 
 			if(code == ERROR_WOULDBLOCK)
+			{
+				bBlocked = TRUE;
 				break;
-
-			AddFreeSocketObj(pSocketObj, SCF_ERROR, SO_SEND, code);
-			return FALSE;
+			}
+			else
+			{
+				AddFreeSocketObj(pSocketObj, SCF_ERROR, SO_SEND, code);
+				return FALSE;
+			}
 		}
 		else
 			ASSERT(FALSE);

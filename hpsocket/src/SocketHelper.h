@@ -613,7 +613,8 @@ struct TUdpSocketObj : public TSocketObjBase
 	CBufferObjPool&		itPool;
 
 	CRWLock				lcIo;
-	CReentrantCriSec	csSend;
+	CRWLock				lcSend;
+	CCriSec				csSend;
 
 	TBufferObjList		sndBuff;
 	CRecvQueue			recvQueue;
@@ -669,7 +670,8 @@ struct TUdpSocketObj : public TSocketObjBase
 			pSocketObj->SetConnected(FALSE);
 
 			CReentrantWriteLock	 locallock(pSocketObj->lcIo);
-			CReentrantCriSecLock locallock2(pSocketObj->csSend);
+			CReentrantWriteLock	 locallock2(pSocketObj->lcSend);
+			CCriSecLock			 locallock3(pSocketObj->csSend);
 
 			if(TSocketObjBase::IsValid(pSocketObj))
 			{

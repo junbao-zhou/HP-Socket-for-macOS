@@ -507,7 +507,6 @@ BOOL CTcpClient::PauseReceive(BOOL bPause)
 
 BOOL CTcpClient::SendData()
 {
-	BOOL isOK	  = TRUE;
 	BOOL bBlocked = FALSE;
 
 	while(m_lsSend.Length() > 0)
@@ -524,10 +523,8 @@ BOOL CTcpClient::SendData()
 
 		ASSERT(!itPtr->IsEmpty());
 
-		isOK = DoSendData(itPtr, bBlocked);
-
-		if(!isOK)
-			break;
+		if(!DoSendData(itPtr, bBlocked))
+			return FALSE;
 
 		if(bBlocked)
 		{
@@ -539,7 +536,7 @@ BOOL CTcpClient::SendData()
 		}
 	}
 
-	return isOK;
+	return TRUE;
 }
 
 BOOL CTcpClient::DoSendData(TItem* pItem, BOOL& bBlocked)
@@ -625,6 +622,7 @@ BOOL CTcpClient::DoSendPackets(const WSABUF pBuffers[], int iCount)
 int CTcpClient::SendInternal(const WSABUF pBuffers[], int iCount)
 {
 	ASSERT(m_lsSend.Length() >= 0);
+
 	int iPending = m_lsSend.Length();
 
 	for(int i = 0; i < iCount; i++)

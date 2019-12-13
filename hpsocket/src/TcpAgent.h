@@ -220,7 +220,7 @@ private:
 	BOOL HandleClose		(TAgentSocketObj* pSocketObj, EnSocketCloseFlag enFlag, UINT events);
 
 	int SendInternal	(TAgentSocketObj* pSocketObj, const WSABUF pBuffers[], int iCount);
-	BOOL SendItem		(TAgentSocketObj* pSocketObj, TItem* pItem);
+	BOOL SendItem		(TAgentSocketObj* pSocketObj, TItem* pItem, BOOL& bBlocked);
 
 public:
 	CTcpAgent(ITcpAgentListener* pListener)

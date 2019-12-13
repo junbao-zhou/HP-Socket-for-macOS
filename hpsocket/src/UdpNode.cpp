@@ -478,12 +478,12 @@ BOOL CUdpNode::OnReadyWrite(PVOID pv, UINT events)
 
 BOOL CUdpNode::OnHungUp(PVOID pv, UINT events)
 {
-	return HandleClose();
+	return HandleClose(nullptr, SO_CLOSE, 0);
 }
 
 BOOL CUdpNode::OnError(PVOID pv, UINT events)
 {
-	return HandleClose();
+	return HandleClose(nullptr, SO_CLOSE, -1);
 }
 
 VOID CUdpNode::OnDispatchThreadStart(THR_ID tid)
@@ -496,13 +496,17 @@ VOID CUdpNode::OnDispatchThreadEnd(THR_ID tid)
 	OnWorkerThreadEnd(tid);
 }
 
-BOOL CUdpNode::HandleClose()
+BOOL CUdpNode::HandleClose(TNodeBufferObj* pBufferObj, EnSocketOperation enOperation, int iErrorCode)
 {
-	VERIFY(!HasStarted());
+	if(!HasStarted())
+		return FALSE;
 
-    m_ioDispatcher.CtlFD(m_soListen, EV_DELETE, EVFILT_WRITE | EVFILT_READ, &m_soListen);
+	if(iErrorCode == -1)
+		iErrorCode = ::SSO_GetError(m_soListen);
 
-	return FALSE;
+	TRIGGER(FireError(pBufferObj, enOperation, iErrorCode));
+
+	return TRUE;
 }
 
 BOOL CUdpNode::HandleReceive(int flag)
@@ -531,12 +535,18 @@ BOOL CUdpNode::HandleReceive(int flag)
 
 			VERIFY(m_ioDispatcher.SendCommand(DISP_CMD_RECEIVE, flag));
 		}
+		else if(rc == SOCKET_ERROR)
+		{
+			int code = ::WSAGetLastError();
+
+			if(code == ERROR_WOULDBLOCK)
+				break;
+			else if(!HandleClose(itPtr, SO_RECEIVE, code))
+				return FALSE;
+		}
 		else
 		{
-			BREAK_WOULDBLOCK_ERROR();
-
-			HandleClose();
-			return FALSE;
+			ASSERT(FALSE);
 		}
 	}
 
@@ -593,10 +603,7 @@ VOID CUdpNode::HandleCmdSend(int flag)
 			break;
 
 		if(!SendItem(bufPtr, bBlocked))
-		{
-			HandleClose();
 			return;
-		}
 
 		if(bBlocked)
 		{
@@ -637,15 +644,13 @@ BOOL CUdpNode::SendItem(TNodeBufferObj* pBufferObj, BOOL& bBlocked)
 
 		if(code == ERROR_WOULDBLOCK)
 			bBlocked = TRUE;
-		else
-		{
-			TRIGGER(FireError(pBufferObj, SO_SEND, code));
-
+		else if(!HandleClose(pBufferObj, SO_SEND, code))
 			return FALSE;
-		}
 	}
 	else
+	{
 		ASSERT(FALSE);
+	}
 
 	return TRUE;
 }
@@ -699,8 +704,13 @@ EnHandleResult CUdpNode::FireError(TNodeBufferObj* pBufferObj, EnSocketOperation
 	ADDRESS_FAMILY usFamily;
 	USHORT usPort;
 
-	::sockaddr_IN_2_A(pBufferObj->remoteAddr, usFamily, szAddress, iAddressLen, usPort);
+	if(pBufferObj == nullptr)
+	{
+		::sockaddr_IN_2_A(m_localAddr, usFamily, szAddress, iAddressLen, usPort);
+		return m_pListener->OnError(this, enOperation, iErrorCode, szAddress, usPort, nullptr, 0);
+	}
 
+	::sockaddr_IN_2_A(pBufferObj->remoteAddr, usFamily, szAddress, iAddressLen, usPort);
 	return m_pListener->OnError(this, enOperation, iErrorCode, szAddress, usPort, pBufferObj->Ptr(), pBufferObj->Size());
 }
 

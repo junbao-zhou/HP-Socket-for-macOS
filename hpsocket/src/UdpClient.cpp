@@ -602,7 +602,6 @@ BOOL CUdpClient::PauseReceive(BOOL bPause)
 
 BOOL CUdpClient::SendData()
 {
-	BOOL isOK	  = TRUE;
 	BOOL bBlocked = FALSE;
 
 	while(m_lsSend.Length() > 0)
@@ -619,10 +618,8 @@ BOOL CUdpClient::SendData()
 
 		ASSERT(!itPtr->IsEmpty());
 
-		isOK = DoSendData(itPtr, bBlocked);
-
-		if(!isOK)
-			break;
+		if(!DoSendData(itPtr, bBlocked))
+			return FALSE;
 
 		if(bBlocked)
 		{
@@ -632,7 +629,7 @@ BOOL CUdpClient::SendData()
 		}
 	}
 
-	return isOK;
+	return TRUE;
 }
 
 BOOL CUdpClient::DoSendData(TItem* pItem, BOOL& bBlocked)

@@ -209,7 +209,7 @@ private:
 	CONNID HandleAccept		(HP_SOCKADDR& addr);
 	BOOL HandleReceive		(int flag = 0);
 	BOOL HandleSend			(int flag = 0);
-	BOOL HandleClose		();
+	BOOL HandleClose		(TUdpSocketObj* pSocketObj, EnSocketOperation enOperation, int iErrorCode);
 	void HandleZeroBytes	(TUdpSocketObj* pSocketObj);
 
 	BOOL SendItem			(TUdpSocketObj* pSocketObj, TItem* pItem, BOOL& bBlocked);

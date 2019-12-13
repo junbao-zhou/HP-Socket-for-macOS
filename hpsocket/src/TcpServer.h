@@ -222,7 +222,7 @@ private:
 	BOOL HandleClose		(TSocketObj* pSocketObj, EnSocketCloseFlag enFlag, UINT events);
 
 	int SendInternal	(TSocketObj* pSocketObj, const WSABUF pBuffers[], int iCount);
-	BOOL SendItem		(TSocketObj* pSocketObj, TItem* pItem);
+	BOOL SendItem		(TSocketObj* pSocketObj, TItem* pItem, BOOL& bBlocked);
 
 public:
 	CTcpServer(ITcpServerListener* pListener)

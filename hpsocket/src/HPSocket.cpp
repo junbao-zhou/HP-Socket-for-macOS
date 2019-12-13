@@ -335,6 +335,21 @@ HPSOCKET_API ULONGLONG SYS_HToN64(ULONGLONG value)
 	return ::HToN64(value);
 }
 
+HPSOCKET_API USHORT SYS_SwapEndian16(USHORT value)
+{
+	return ENDIAN_SWAP_16(value);
+}
+
+HPSOCKET_API DWORD SYS_SwapEndian32(DWORD value)
+{
+	return ENDIAN_SWAP_32(value);
+}
+
+HPSOCKET_API BOOL SYS_IsLittleEndian()
+{
+	return ::IsLittleEndian();
+}
+
 HPSOCKET_API LPBYTE SYS_Malloc(int size)
 {
 	return MALLOC(BYTE, size);
