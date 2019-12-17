@@ -67,6 +67,8 @@ public:
 	virtual BOOL StartSSLHandShake	(CONNID dwConnID)		{return FALSE;}
 	virtual void SetSSLAutoHandShake(BOOL bAutoHandShake)	{}
 	virtual BOOL IsSSLAutoHandShake	()						{return FALSE;}
+	virtual void SetSSLCipherList	(LPCTSTR lpszCipherList){}
+	virtual LPCTSTR GetSSLCipherList()						{return nullptr;}
 	virtual BOOL GetSSLSessionInfo(CONNID dwConnID, EnSSLSessionInfo enInfo, LPVOID* lppInfo)	{return FALSE;}
 
 protected:

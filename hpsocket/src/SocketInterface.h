@@ -471,6 +471,11 @@ public:
 	/* 获取通信组件握手方式 */
 	virtual BOOL IsSSLAutoHandShake()									= 0;
 
+	/* 设置 SSL 加密算法列表 */
+	virtual void SetSSLCipherList(LPCTSTR lpszCipherList)				= 0;
+	/* 获取 SSL 加密算法列表 */
+	virtual LPCTSTR GetSSLCipherList()									= 0;
+
 	/*
 	* 名称：获取 SSL Session 信息
 	* 描述：获取指定类型的 SSL Session 信息（输出类型参考：EnSSLSessionInfo）
@@ -749,6 +754,11 @@ public:
 	/* 获取通信组件握手方式 */
 	virtual BOOL IsSSLAutoHandShake()									= 0;
 
+	/* 设置 SSL 加密算法列表 */
+	virtual void SetSSLCipherList(LPCTSTR lpszCipherList)				= 0;
+	/* 获取 SSL 加密算法列表 */
+	virtual LPCTSTR GetSSLCipherList()									= 0;
+
 	/*
 	* 名称：获取 SSL Session 信息
 	* 描述：获取指定类型的 SSL Session 信息（输出类型参考：EnSSLSessionInfo）
@@ -994,6 +1004,11 @@ public:
 	virtual void SetSSLAutoHandShake(BOOL bAutoHandShake)	= 0;
 	/* 获取通信组件握手方式 */
 	virtual BOOL IsSSLAutoHandShake()						= 0;
+
+	/* 设置 SSL 加密算法列表 */
+	virtual void SetSSLCipherList(LPCTSTR lpszCipherList)	= 0;
+	/* 获取 SSL 加密算法列表 */
+	virtual LPCTSTR GetSSLCipherList()						= 0;
 
 	/*
 	* 名称：获取 SSL Session 信息

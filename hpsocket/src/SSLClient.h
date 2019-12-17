@@ -49,7 +49,9 @@ public:
 
 public:
 	virtual void SetSSLAutoHandShake(BOOL bAutoHandShake)	{ENSURE_HAS_STOPPED(); m_bSSLAutoHandShake = bAutoHandShake;}
+	virtual void SetSSLCipherList	(LPCTSTR lpszCipherList){ENSURE_HAS_STOPPED(); m_sslCtx.SetCipherList(lpszCipherList);}
 	virtual BOOL IsSSLAutoHandShake	()						{return m_bSSLAutoHandShake;}
+	virtual LPCTSTR GetSSLCipherList()						{return m_sslCtx.GetCipherList();}
 
 	virtual BOOL GetSSLSessionInfo(EnSSLSessionInfo enInfo, LPVOID* lppInfo);
 

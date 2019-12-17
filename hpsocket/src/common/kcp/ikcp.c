@@ -441,7 +441,7 @@ int ikcp_recv(ikcpcb *kcp, char *buffer, int len)
 		fragment = seg->frg;
 
 		if (ikcp_canlog(kcp, IKCP_LOG_RECV)) {
-			ikcp_log(kcp, IKCP_LOG_RECV, "recv sn=%lu", seg->sn);
+			ikcp_log(kcp, IKCP_LOG_RECV, "recv sn=%lu", (unsigned long)seg->sn);
 		}
 
 		/*! 能过buffer的长度，进行判断是否将此分片移除 */
@@ -462,7 +462,7 @@ int ikcp_recv(ikcpcb *kcp, char *buffer, int len)
 	/*! 从接收buffer中copy数据到接收队列中 */
 	// move available data from rcv_buf -> rcv_queue
 	while (! iqueue_is_empty(&kcp->rcv_buf)) {
-		IKCPSEG *seg = iqueue_entry(kcp->rcv_buf.next, IKCPSEG, node);
+		seg = iqueue_entry(kcp->rcv_buf.next, IKCPSEG, node);
 		/*! 判断当前接收buf的段编号是否为需要的编号 */
 		/*! 且判断接收队列编号是否小于接收窗口 */
 		if (seg->sn == kcp->rcv_nxt && kcp->nrcv_que < kcp->rcv_wnd) {
@@ -910,7 +910,7 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
 	int flag = 0;
 
 	if (ikcp_canlog(kcp, IKCP_LOG_INPUT)) {
-		ikcp_log(kcp, IKCP_LOG_INPUT, "[RI] %d bytes", size);
+		ikcp_log(kcp, IKCP_LOG_INPUT, "[RI] %d bytes", (int)size);
 	}
 
 	/*! 数据和长度的初步校验 */
@@ -988,7 +988,7 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
 			}
 			if (ikcp_canlog(kcp, IKCP_LOG_IN_ACK)) {
 				ikcp_log(kcp, IKCP_LOG_IN_DATA, 
-					"input ack: sn=%lu rtt=%ld rto=%ld", sn, 
+					"input ack: sn=%lu rtt=%ld rto=%ld", (unsigned long)sn, 
 					(long)_itimediff(kcp->current, ts),
 					(long)kcp->rx_rto);
 			}
@@ -997,7 +997,7 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
 		else if (cmd == IKCP_CMD_PUSH) {
 			if (ikcp_canlog(kcp, IKCP_LOG_IN_DATA)) {
 				ikcp_log(kcp, IKCP_LOG_IN_DATA, 
-					"input psh: sn=%lu ts=%lu", sn, ts);
+					"input psh: sn=%lu ts=%lu", (unsigned long)sn, (unsigned long)ts);
 			}
 			/*! 判断接收的数据分片编号是否符合要求，即：在接收窗口（滑动窗口）范围之内 */
 			if (_itimediff(sn, kcp->rcv_nxt + kcp->rcv_wnd) < 0) {
@@ -1040,7 +1040,7 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
 			// do nothing
 			if (ikcp_canlog(kcp, IKCP_LOG_IN_WINS)) {
 				ikcp_log(kcp, IKCP_LOG_IN_WINS,
-					"input wins: %lu", (IUINT32)(wnd));
+					"input wins: %lu", (unsigned long)(wnd));
 			}
 		}
 		else {
@@ -1313,7 +1313,7 @@ void ikcp_flush(ikcpcb *kcp)
 		}
 
 		if (needsend) {
-			int size, need;
+			int need;
 			segment->ts = current; //发送时的时间戳
 			segment->wnd = seg.wnd; //窗口大小
 			segment->una = kcp->rcv_nxt; //该编号前的数据包都已经被ack确认
@@ -1338,7 +1338,7 @@ void ikcp_flush(ikcpcb *kcp)
 
 			//判断该分片重传次数是否大于最大重传次数
 			if (segment->xmit >= kcp->dead_link) {
-				kcp->state = -1; //连接状态 0xFFFFFFFF == -1 表示断开连接
+				kcp->state = (IUINT32)-1; //连接状态 0xFFFFFFFF == -1 表示断开连接
 			}
 		}
 	}
