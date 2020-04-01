@@ -8,15 +8,15 @@ on:
 
 jobs:
   build:
-    runs-on: macOS-latest
+    runs-on: windows-latest
     steps:
     - name: Run a one-line script
       working-directory: .
       run: |
         echo Hello, world!
         # cd ./hpsocket
-        cd ../../../../../..
-        ls -R
+        cd ../..
+        dir
         # cmake .
         # ls
         # make
