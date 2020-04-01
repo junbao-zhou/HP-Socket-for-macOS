@@ -16,7 +16,7 @@ jobs:
         echo Hello, world!
         # cd ./hpsocket
         cd ../../../../../..
-        ls
+        ls -R
         # cmake .
         # ls
         # make
