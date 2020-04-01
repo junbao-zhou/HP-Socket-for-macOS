@@ -11,6 +11,7 @@ jobs:
     runs-on: macOS-latest
     steps:
     - name: Run a one-line script
+      working-directory: .
       run: |
         echo Hello, world!
         # cd ./hpsocket
@@ -18,6 +19,4 @@ jobs:
         # cmake .
         # ls
         # make
-      working-directory: .
-
     - uses: actions/checkout@v2
