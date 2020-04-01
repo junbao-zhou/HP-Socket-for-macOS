@@ -13,11 +13,11 @@ jobs:
     - name: Run a one-line script
       run: |
         echo Hello, world!
-        cd ./hpsocket
+        # cd ./hpsocket
         ls
-        cmake .
-        ls
-        make
+        # cmake .
+        # ls
+        # make
       working-directory: .
 
     - uses: actions/checkout@v2
