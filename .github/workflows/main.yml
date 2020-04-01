@@ -11,5 +11,12 @@ jobs:
     runs-on: macOS-latest
     steps:
     - name: Run a one-line script
-      run: echo Hello, world!
+      run: |
+        echo Hello, world!
+        cd ./hpsocket
+        ls
+        cmake .
+        ls
+        make
+
     - uses: actions/checkout@v2
