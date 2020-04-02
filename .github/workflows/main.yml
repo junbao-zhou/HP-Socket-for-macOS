@@ -5,13 +5,16 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  edited:
+    branches: [ master ]
 
 jobs:
   build:
     runs-on: windows-latest
     steps:
     - name: Run a one-line script
-      working-directory: .
+      uses: actions/checkout@v2
+    - name: build
       run: |
         echo Hello, world!
         # cd ./hpsocket
@@ -20,4 +23,3 @@ jobs:
         # cmake .
         # ls
         # make
-    - uses: actions/checkout@v2
