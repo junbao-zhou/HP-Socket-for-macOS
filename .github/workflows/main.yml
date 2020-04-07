@@ -5,8 +5,6 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-  edited:
-    branches: [ master ]
 
 jobs:
   build:
@@ -18,7 +16,7 @@ jobs:
       run: |
         echo Hello, world!
         # cd ./hpsocket
-        cd ../../..
+        cd .
         ls -R
         # cmake .
         # ls
